@@ -1,12 +1,17 @@
 <template>
 	<view class="content">
 		<view style="padding: 20px;">
-
+			<button @click.stop="handleReal">
+				首页
+			</button>
 		</view>
 	</view>
 </template>
 
 <script>
+	import {
+		HandleRealName
+	} from "@/config/api/user.js";
 	export default {
 		data() {
 			return {
@@ -17,7 +22,16 @@
 
 		},
 		methods: {
-
+			handleReal() {
+				HandleRealName({
+					"actual_name": "侯先生",
+					"id_number": "123456789123456789"
+				}).then((res) => {
+					console.log(res)
+				}).catch((err) => {
+					console.log(err, 'err');
+				})
+			}
 		}
 	}
 </script>
