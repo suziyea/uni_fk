@@ -99,3 +99,57 @@ $mc-normal-font-color: #333333;
 	justify-content: flex-start;
 
 }
+
+.u-flex{
+	display: flex;
+}
+.u-flex-column {
+	flex-direction: column;
+}
+.u-flex-row {
+	flex-direction: row;
+}
+// 换行
+.u-flex-wrap {
+	flex-wrap: wrap;
+}
+
+// 反向换行
+.u-flex-wrap-reverse {
+	flex-wrap: wrap-reverse;
+}
+
+// 主轴起点对齐
+.u-flex-start {
+	justify-content: flex-start
+}
+
+// 主轴中间对齐
+.u-flex-center {
+	justify-content: center
+}
+
+// 主轴终点对齐
+.u-flex-end {
+	justify-content: flex-end
+}
+
+// 主轴等比间距
+.u-flex-between {
+	justify-content: space-between
+}
+
+// 主轴均分间距
+.u-flex-around {
+	justify-content: space-around
+}
+
+// 交叉轴起点对齐
+.u-flex-items-start {
+	align-items: flex-start
+}
+
+// 交叉轴中间对齐
+.u-flex-items-center {
+	align-items: center
+}
