@@ -1,14 +1,14 @@
 export default {
-    state: {
-        login: false,
+	state: {
+		login: false,
 		token: uni.getStorageSync('token') || '',
 		isRealNameStatus: '',
 		refresh_token: uni.getStorageSync('refresh_token') || '',
 		userInfo: {},
 		deviceId: uni.getStorageSync('deviceId') || '',
 		osType: uni.getStorageSync('osType') || '',
-    },
-    mutations: {
+	},
+	mutations: {
 		LOGIN(state, payload) {
 			uni.setStorageSync('userInfo', payload.userInfo)
 			state.userInfo = payload.userInfo
