@@ -3,7 +3,8 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "集享帮"
+				// "navigationBarTitleText": "集享帮"
+				"navigationStyle":"custom"
 			}
 		}, {
 			"path": "pages/404/404",
@@ -15,12 +16,40 @@
 		}, {
 			"path": "pages/mine/mine",
 			"style": {
-				"navigationBarTitleText": "",
+				// "navigationBarTitleText": "",
+				"navigationStyle":"custom",
 				"enablePullDownRefresh": false
 			}
 
 		}
-	],
+	    ,{
+            "path" : "pages/my/my",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/evaluation/real/real",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/evaluation/addBank/addBank",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	"subPackages": [{
 		"root": "subpages",
 		"pages": [{
@@ -65,7 +94,7 @@
 	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "集享帮",
+		// "navigationBarTitleText": "集享帮",
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
 	},
