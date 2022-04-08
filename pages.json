@@ -67,6 +67,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/product/evaluationResults/evaluationResults",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"subPackages": [{
 		"root": "subpages",
