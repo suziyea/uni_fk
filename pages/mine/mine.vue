@@ -5,13 +5,16 @@
 				<view class="avatar">
 					<image src="/static/icon/head.png" mode="aspectFill"></image>
 				</view>
-				<view class="userName" v-if="isLogin">
-					17701140105
+				<!-- {{getUserInfos}}-- -->
+				<view class="userName u-flex u-flex-column" v-if="isLogin">
+					<!-- 17701140105 -->
+					<text class="name">{{`HI，${getUserInfos.actual_name || ''}`}}</text>
+					<text class="phone">{{getUserInfos.phone}}</text>
 				</view>
 				<view class="userName" v-else>
 					登录
 				</view>
-				
+
 				<!-- <view class="right" v-if="isLogin">
 					<view class="nickname">
 						<view>{{realName}}</view>
@@ -27,12 +30,12 @@
 				<navigator v-else class="login" open-type="navigate" url="/pages/login/login">登录</navigator> -->
 			</view>
 		</view>
-		
-		
+
+
 		<view class="memberLegal">
 			<view class="memberEnjoy">
 				<u-row justify="space-between">
-					<u-col span="4" justify="center" v-for="(item,index) in memberNav">
+					<u-col span="4" justify="center" v-for="(item,index) in memberNav" :key="index">
 						<view class="demo-layout bg-purple iconList">
 							<image :src="item.icon" mode="aspectFill" @click="clickNav(item)"></image>
 							<view class="title">{{item.name}}</view>
@@ -41,67 +44,66 @@
 				</u-row>
 			</view>
 		</view>
-		
+
 		<view class="listView">
 			<u-cell-group>
-				<u-cell v-for="(item,index) in cellList"
-				    :title="item.name"
-					size="large"
-				    isLink
-				    :icon="item.icon"
-				></u-cell>
+				<u-cell v-for="(item,index) in cellList" :key="index" :title="item.name" size="large"
+					:name="item.enName" isLink :icon="item.icon" @click="handleListItem"></u-cell>
 			</u-cell-group>
 		</view>
-		
+
 	</view>
 </template>
 
 <script>
 	import {
 		mapState,
-		mapGetters
+		mapGetters,
+		mapMutations
 	} from 'vuex'
 	export default {
 		data() {
 			return {
-				isLogin: true,
 				memberNav: [{
-						icon: '/static/icon/memberLegal.png',
-						path: '',
-						name: '会员权益'
-					}, {
-						icon: '/static/icon/myLegal.png',
-						path: '',
-						name: '我的权益'
-					}, {
-						icon: '/static/icon/kefu.png',
-						path: '',
-						name: '客服中心'
-					}
-				],
-				// cellList 
+					icon: '/static/icon/memberLegal.png',
+					path: '',
+					name: '会员权益'
+				}, {
+					icon: '/static/icon/myLegal.png',
+					path: '',
+					name: '我的权益'
+				}, {
+					icon: '/static/icon/kefu.png',
+					path: '',
+					name: '客服中心'
+				}],
 				cellList: [{
 						icon: '/static/icon/look_agreement.png',
 						path: '',
-						name: '查看协议'
+						name: '查看协议',
+						enName: 'look'
 					}, {
 						icon: '/static/icon/about_us.png',
 						path: '',
-						name: '关于我们'
+						name: '关于我们',
+						enName: 'about'
 					}, {
 						icon: '/static/icon/logoff.png',
 						path: '',
-						name: '注销账户'
+						name: '注销账户',
+						enName: 'logoff'
 					},
 					{
 						icon: '/static/icon/logout.png',
 						path: '',
-						name: '退出登录'
+						name: '退出登录',
+						enName: 'logout'
 					}
 				]
 			};
 		},
 		methods: {
+			...mapMutations(['LOGOUT']),
 			orderPage(item) {
 				uni.navigateTo({
 					url: item.path
@@ -115,8 +117,15 @@
 				})
 			},
 			clickNav(item) {
-				
+
 			},
+			handleListItem(item) {
+				console.log(item, 'niyade');
+				if (item.name === 'logout') {
+					this.LOGOUT()
+					uni.$u.route('/pages/login/login/login');
+				}
+			}
 		},
 		onLoad() {
 			uni.showLoading({
@@ -136,7 +145,7 @@
 		},
 		computed: {
 			...mapState(['realName', 'account', 'isMember']),
-			...mapGetters(['isLogin'])
+			...mapGetters(['isLogin', 'getUserInfos'])
 		}
 	}
 </script>
@@ -147,12 +156,14 @@
 		height: 100vh;
 		background-color: #f7f7f7;
 	}
+
 	.bgBox {
 		width: 100%;
 		height: 200px;
 		background: url(../../static/img/my_bg.png) no-repeat;
 		background-size: cover;
 		position: relative;
+
 		.userInfo {
 			position: absolute;
 			top: 82px;
@@ -160,14 +171,17 @@
 			display: flex;
 			justify-content: center;
 			align-items: center;
+
 			.avatar {
 				width: 50px;
 				height: 50px;
+
 				image {
 					width: 100%;
 					height: 100%;
 				}
 			}
+
 			.userName {
 				font-size: 14px;
 				font-family: PingFangSC-Regular, PingFang SC;
@@ -175,13 +189,31 @@
 				color: #FFFFFF;
 				line-height: 20px;
 				margin: 0 13px;
+
+				.name {
+					font-size: 14px;
+					font-family: PingFangSC-Regular, PingFang SC;
+					font-weight: 400;
+					color: #FFFFFF;
+					line-height: 20px;
+				}
+
+				.phone {
+
+					font-size: 12px;
+					font-family: PingFangSC-Regular, PingFang SC;
+					font-weight: 400;
+					color: #FFFFFF;
+					line-height: 17px;
+				}
 			}
 		}
-		
+
 	}
-	
+
 	.memberLegal {
 		padding: 0 16px;
+
 		.memberEnjoy {
 			width: 343px;
 			height: 84px;
@@ -192,15 +224,18 @@
 			position: relative;
 			z-index: 21;
 			display: flex;
+
 			.iconList {
 				display: flex;
 				flex-direction: column;
 				align-items: center;
 				justify-content: center;
+
 				image {
 					width: 36px;
 					height: 36px;
 				}
+
 				.title {
 					font-size: 12px;
 					font-family: PingFangSC-Regular, PingFang SC;
@@ -210,9 +245,9 @@
 				}
 			}
 		}
-		.listView {
-		}
-		
+
+		.listView {}
+
 	}
 
 	.top {
@@ -358,9 +393,11 @@
 			}
 		}
 	}
+
 	::v-deep .u-row {
 		width: 100%;
 	}
+
 	/deep/ .u-cell-group {
 		margin: 0 16px;
 		background: #FFFFFF;

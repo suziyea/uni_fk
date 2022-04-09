@@ -54,7 +54,7 @@
 
 		<!-- 消息轮播 -->
 		<view class="tipsBox">
-			<u-notice-bar :text="messageArr" icon="volume" direction="column"  speed="250" url=""></u-notice-bar>
+			<u-notice-bar :text="messageArr" icon="volume" direction="column" speed="250" url=""></u-notice-bar>
 		</view>
 
 		<!-- list  -->
@@ -92,6 +92,14 @@
 				<!-- <u--image :showLoading="true" class="imageE" src="/static/img/evaluation.png" width="343px" height="112px" @click="clickEvaluation"></u--image> -->
 			</view>
 		</view>
+
+		<!-- 弹窗 -->
+		<view>
+			<u-modal :show="showModal" :title="title" :confirmText="confirmText" @confirm="confirm"
+				:showCancelButton="true" @cancel=" showModal = false" :content='content'></u-modal>
+			<!-- <u-button @click="show = true">打开</u-button> -->
+		</view>
+
 	</view>
 </template>
 
@@ -103,13 +111,22 @@
 		data() {
 			return {
 				title: 'Hello',
-				messageArr: ['凯文罗', '小罗', '二流子']
+				messageArr: ['凯文罗', '小罗', '二流子'],
+				showModal: true,
+				title: '实名认证',
+				content: '您好，请先完成实名认证信息补全!',
+				content: '您好，为了方便的贷款，请绑定银行卡！',
+				confirmText: '去绑卡',
 			}
 		},
 		onLoad() {
 
 		},
 		methods: {
+			confirm() {
+				uni.$u.route('/pages/evaluation/addBank/addBank');
+				this.showModal = false;
+			},
 			handleReal() {
 				HandleRealName({
 					"actual_name": "侯先生",

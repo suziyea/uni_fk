@@ -4,7 +4,7 @@ export default {
 		token: uni.getStorageSync('token') || '',
 		isRealNameStatus: '',
 		refresh_token: uni.getStorageSync('refresh_token') || '',
-		userInfo: {},
+		userInfo: uni.getStorageSync('userInfo') || {},
 		deviceId: uni.getStorageSync('deviceId') || '',
 		osType: uni.getStorageSync('osType') || '',
 	},
@@ -28,6 +28,7 @@ export default {
 			uni.setStorageSync('token', payload.token)
 			uni.setStorageSync('refresh_token', payload.refresh_token)
 			state.token = payload.token;
+			state.login = true;
 			state.refresh_token = payload.refresh_token;
 
 		},
@@ -38,7 +39,10 @@ export default {
 		},
 		isRegisterRealName(state) {
 			return state.login && state.isRealNameStatus;
-		}
+		},
+		getUserInfos(state) {
+			return state.userInfo;
+		},
 	},
 	actions: {
 		setLogin({

@@ -26,7 +26,7 @@
 							prefixIconStyle="font-size: 22px;color: #909399">>
 							<!-- #endif -->
 							<template slot="suffix">
-								<u-code ref="uCode" @change="codeChange" seconds="20" changeText="秒重新获取"></u-code>
+								<u-code ref="uCode" @change="codeChange" seconds="60" changeText="X秒重新获取"></u-code>
 								<u-button @tap="getCode" :text="tips" type="success" size="mini"></u-button>
 							</template>
 							<!-- #ifndef APP-NVUE -->
@@ -58,9 +58,17 @@
 </template>
 
 <script>
+	import {
+		login,
+		sendSMS
+	} from "@/config/api/user.js";
+	import {
+		mapMutations
+	} from "vuex";
 	export default {
 		data() {
 			return {
+				seconds: 60,
 				formContent: {
 					smsCode: '',
 					phone: ''
@@ -104,8 +112,11 @@
 			}
 		},
 		methods: {
+			...mapMutations(['SETDEVICE', 'LOGIN', 'SET_TOKEN']),
 			codeChange(text) {
 				this.tips = text;
+				console.log('change', text);
+
 			},
 			getCode() {
 				if (this.$refs.uCode.canGetCode) {
@@ -113,13 +124,35 @@
 					uni.showLoading({
 						title: '正在获取验证码'
 					})
-					setTimeout(() => {
-						uni.hideLoading();
-						// 这里此提示会被this.start()方法中的提示覆盖
-						uni.$u.toast('验证码已发送');
-						// 通知验证码组件内部开始倒计时
-						this.$refs.uCode.start();
-					}, 2000);
+					// setTimeout(() => {
+					// 	uni.hideLoading();
+					// 	// 这里此提示会被this.start()方法中的提示覆盖
+					// 	uni.$u.toast('验证码已发送');
+					// 	// 通知验证码组件内部开始倒计时
+					// 	this.$refs.uCode.start();
+					// }, 2000);
+					sendSMS({
+							"phone": this.formContent.phone
+						})
+						.then((res) => {
+							if (res.code === 100000) {
+								uni.hideLoading();
+								// 这里此提示会被this.start()方法中的提示覆盖
+								uni.$u.toast('验证码已发送');
+								// 通知验证码组件内部开始倒计时
+								this.$refs.uCode.start();
+								this.formContent.smsCodecode = "";
+							}
+
+						})
+						.catch((err) => {
+							uni.hideLoading();
+							uni.showToast({
+								icon: "none",
+								title: err.msg || "获取验证码失败，请稍后再试",
+							});
+							this.iscode = true;
+						});
 				} else {
 					uni.$u.toast('倒计时结束后再发送');
 				}
@@ -130,10 +163,73 @@
 			clickSubmit() {
 				uni.$u.debounce(this.submit, 500)
 			},
+			end() {
+				uni.$u.toast('倒计时结束');
+			},
+			start() {
+				uni.$u.toast('倒计时开始');
+			},
 			submit() {
-				console.log('你好')
 				this.$refs.uForm.validate().then(res => {
-					uni.$u.toast('校验通过')
+					let {
+						phone,
+						smsCode
+					} = this.formContent
+					console.log('res', res);
+
+					// uni.$u.toast('校验通过')
+					uni.showLoading({
+						title: "加载中",
+					});
+					let loginHeaderObj = {
+						osType: uni.$u.os(),
+						deviceId: uni.$u.sys().deviceId,
+
+					}
+					this.SETDEVICE(loginHeaderObj)
+					login({
+							phone: phone,
+							code: smsCode,
+						}, {
+							header: {
+								'device-type': uni.$u.os() || '',
+								'device-token': uni.$u.sys().deviceId || ''
+							}
+						})
+						.then((res) => {
+							uni.hideLoading();
+							if (res.code === 100000) {
+								console.log('陈工了', res);
+								let handleBaseInfo = {
+									token: res.data.access_token,
+									userInfo: res.data
+								}
+								this.LOGIN(handleBaseInfo)
+								this.SET_TOKEN({
+									token: res.data.access_token,
+									refresh_token: res.data.refresh_token
+								})
+								// userInfo: {
+								// 		...res.data
+								// 	}
+								uni.switchTab({
+									url: '/pages/index/index'
+								})
+
+							}
+							//   return this.$request.getShowBorrowButton();
+
+						})
+						.catch((err) => {
+							console.log('res哈哈哈哈是比啊了', err);
+
+							uni.hideLoading();
+							uni.showToast({
+								icon: "none",
+								title: err.msg || "登录失败，请稍后重试",
+							});
+						});
+
 				}).catch(errors => {
 					uni.$u.toast('校验失败')
 				})
