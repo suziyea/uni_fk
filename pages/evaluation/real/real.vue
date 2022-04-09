@@ -13,20 +13,20 @@
 		<view class="formList">
 			<view class="formItem">
 				<text class="realName">真实姓名</text>
-				<u--input placeholder="请输入真实姓名" border="bottom" placeholderStyle='font-size: 14px;
+				<u--input placeholder="请输入真实姓名" border="bottom" placeholderStyle='font-size: 28rpx;
 font-family: PingFangSC-Regular, PingFang SC;
 font-weight: 400;
 color: #CBCBCB;
-line-height: 20px;' clearable></u--input>
+line-height: 40rpx;' clearable></u--input>
 			</view>
 
 			<view class="formItem">
 				<text class="realName">身份证号</text>
-				<u--input placeholder="请输入身份证号" border="bottom" placeholderStyle='font-size: 14px;
+				<u--input placeholder="请输入身份证号" border="bottom" placeholderStyle='font-size: 28rpx;
 font-family: PingFangSC-Regular, PingFang SC;
 font-weight: 400;
 color: #CBCBCB;
-line-height: 20px;' clearable></u--input>
+line-height: 40rpx;' clearable></u--input>
 			</view>
 		</view>
 		<view class="btn">
@@ -56,78 +56,83 @@ line-height: 20px;' clearable></u--input>
 
 		.bgBox {
 			width: 100%;
-			height: 220px;
+			height: 440rpx;
 			background: url(../../../static/img/real_bg.png) no-repeat;
 			background-size: cover;
 			position: relative;
-			margin-bottom: 44px;
+			margin-bottom: 88rpx;
 
 			.realImg {
-				width: 100px;
-				height: 100px;
+				width: 200rpx;
+				height: 200rpx;
 				position: absolute;
-				top: 83px;
-				right: 16px;
+				top: 166rpx;
+				right: 32rpx;
 
 				image {
 					width: 100%;
 					height: 100%;
 				}
 			}
+
 			.titleBox {
-				width: 230px;
-				height: 100px;
+				width: 460rpx;
+				height: 200rpx;
 				position: absolute;
-				top: 104px;
-				left: 28px;
+				top: 208rpx;
+				left: 56rpx;
 				display: flex;
 				flex-direction: column;
+
 				.title {
-					font-size: 21px;
+					font-size: 42rpx;
 					font-family: PingFangSC-Medium, PingFang SC;
 					font-weight: 500;
 					color: #FFFFFF;
-					line-height: 29px;
-					margin-bottom: 4px;
+					line-height: 58rpx;
+					margin-bottom: 8rpx;
 				}
+
 				.desc {
-					font-size: 12px;
+					font-size: 24rpx;
 					font-family: PingFangSC-Regular, PingFang SC;
 					font-weight: 400;
 					color: #FFFFFF;
-					line-height: 17px;
+					line-height: 34rpx;
 				}
 			}
 
 		}
 
 		.formList {
-			padding: 0 28px;
+			padding: 0 56rpx;
 
 			.formItem {
-				margin-bottom: 26px;
+				margin-bottom: 52rpx;
 
 				.realName {
-					font-size: 18px;
+					font-size: 36rpx;
 					font-family: PingFangSC-Regular, PingFang SC;
 					font-weight: 400;
 					color: #414141;
-					line-height: 25px;
+					line-height: 50rpx;
 				}
 			}
 		}
+
 		.btn {
-			padding: 0 26px;
-			margin-top: 82px;
+			padding: 0 52rpx;
+			margin-top: 164rpx;
+
 			.custom-style {
-					background: #4579E6;
-					border-radius: 4px;
-					font-size: 16px;
-					font-family: PingFangSC-Regular, PingFang SC;
-					font-weight: 400;
-					color: #FFFFFF;
-					line-height: 22px;
-				}
+				background: #4579E6;
+				border-radius: 8rpx;
+				font-size: 32rpx;
+				font-family: PingFangSC-Regular, PingFang SC;
+				font-weight: 400;
+				color: #FFFFFF;
+				line-height: 44rpx;
+			}
 		}
 	}
 </style>

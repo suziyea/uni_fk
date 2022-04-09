@@ -65,12 +65,12 @@
 		width: 100%;
 		height: 100vh;
 		background: #F7F7F7;
-		padding: 0 16px;
+		padding: 0 32rpx;
 		box-sizing: border-box;
 
 		.swiperBox {
-			width: 344px;
-			height: 86px;
+			width: 688rpx;
+			height: 172rpx;
 			.swiperPage {
 				width: 100%;
 				height: 100%;
@@ -79,7 +79,7 @@
 
 		.products {
 			box-sizing: border-box;
-			margin-top: 29px;
+			margin-top: 58rpx;
 
 			.titlebox {
 				display: flex;
@@ -87,11 +87,11 @@
 				align-items: center;
 
 				.title {
-					font-size: 18px;
+					font-size: 36rpx;
 					font-family: PingFangSC-Regular, PingFang SC;
 					font-weight: 400;
 					color: #333333;
-					line-height: 25px;
+					line-height: 50rpx;
 				}
 
 				.icon {
@@ -99,16 +99,16 @@
 					margin-left: auto;
 
 					.right_title {
-						font-size: 12px;
+						font-size: 24rpx;
 						font-family: PingFangSC-Regular, PingFang SC;
 						font-weight: 400;
 						color: #666666;
-						line-height: 17px;
+						line-height: 34rpx;
 					}
 
 					image {
-						width: 16px;
-						height: 16px;
+						width: 32rpx;
+						height: 32rpx;
 					}
 				}
 			}
@@ -117,45 +117,45 @@
 				.product-item {
 					box-sizing: border-box;
 					width: 100%;
-					height: 88px;
+					height: 176rpx;
 					background: #FFFFFF;
-					box-shadow: 0px 5px 6px 0px rgba(0, 0, 0, 0.04);
-					border-radius: 4px;
+					box-shadow: 0rpx 10rpx 12rpx 0rpx rgba(0, 0, 0, 0.04);
+					border-radius: 8rpx;
 					display: flex;
 					justify-content: center;
 					align-items: center;
-					margin-top: 12px;
+					margin-top: 24rpx;
 					.left {
 						display: flex;
 						flex-direction: column;
 						justify-content: center;
 						// align-items: center;
 						height: 100%;
-						margin: 0 16px;
+						margin: 0 32rpx;
 
 						.top_title {
-							font-size: 12px;
+							font-size: 24rpx;
 							font-family: PingFangSC-Semibold, PingFang SC;
 							font-weight: 600;
 							color: #282626;
-							line-height: 17px;
+							line-height: 34rpx;
 						}
 
 						.mid_title {
-							font-size: 18px;
+							font-size: 36rpx;
 							font-family: DINAlternate-Bold, DINAlternate;
 							font-weight: bold;
 							color: #F0384A;
-							line-height: 21px;
-							padding: 6px 0;
+							line-height: 42rpx;
+							padding: 12rpx 0;
 						}
 
 						.bottom_title {
-							font-size: 12px;
+							font-size: 24rpx;
 							font-family: PingFangSC-Regular, PingFang SC;
 							font-weight: 400;
 							color: #666666;
-							line-height: 17px;
+							line-height: 34rpx;
 						}
 					}
 
@@ -164,23 +164,23 @@
 						display: flex;
 						flex-direction: column;
 						justify-content: center;
-						margin-top: 5px;
+						margin-top: 10rpx;
 
 						.top_title {
-							font-size: 10px;
+							font-size: 20rpx;
 							font-family: PingFangSC-Regular, PingFang SC;
 							font-weight: 400;
 							color: #FF9C4A;
-							line-height: 14px;
+							line-height: 28rpx;
 						}
 
 						.mid_title {
-							font-size: 12px;
+							font-size: 24rpx;
 							font-family: PingFangSC-Regular, PingFang SC;
 							font-weight: 400;
 							color: #282626;
-							padding: 6px 0;
-							line-height: 17px;
+							padding: 12rpx 0;
+							line-height: 34rpx;
 						}
 						
 						.tags {
@@ -193,16 +193,16 @@
 								display: flex;
 								justify-content: center;
 								align-items: center;
-								width: 44px;
-								height: 19px;
+								width: 88rpx;
+								height: 38rpx;
 								background: #FFE6CF;
-								border-radius: 4px;
-								border: 1px solid #FFC794;
-								font-size: 12px;
+								border-radius: 8rpx;
+								border: 2rpx solid #FFC794;
+								font-size: 24rpx;
 								font-family: PingFangSC-Regular, PingFang SC;
 								font-weight: 400;
 								color: #FFA34F;
-								margin-right: 12px;
+								margin-right: 24rpx;
 							}
 						}
 					}
@@ -210,18 +210,18 @@
 					.right {
 						// height: 100%;
 						margin-left: auto;
-						margin-right: 16px;
+						margin-right: 32rpx;
 
 						.custom-style {
-							width: 76px;
-							height: 25px;
+							width: 152rpx;
+							height: 50rpx;
 							background: #FF9C4A;
-							border-radius: 15px;
-							font-size: 12px;
+							border-radius: 30rpx;
+							font-size: 24rpx;
 							font-family: PingFangSC-Regular, PingFang SC;
 							font-weight: 400;
 							color: #FFFFFF;
-							line-height: 17px;
+							line-height: 34rpx;
 						}
 					}
 				}
@@ -230,6 +230,6 @@
 
 	}
 	/deep/ .u-swiper {
-		height: 86px !important;
+		height: 172rpx !important;
 	}
 </style>

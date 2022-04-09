@@ -12,7 +12,7 @@
 
 		<view class="formList">
 			<u--form :model="formContent" :rules="rules" ref="uForm" labelWidth="auto">
-				<u-form-item label="姓名" prop="name" borderBottom ref="item1" style="margin-top: 6px;">
+				<u-form-item label="姓名" prop="name" borderBottom ref="item1" style="margin-top: 12rpx;">
 					<u--input inputAlign="right" v-model="formContent.name" border="none" suffixIcon="/static/icon/my_name.png"></u--input>
 				</u-form-item>
 				<u-form-item label="身份证号" prop="idCardNo" borderBottom ref="item1">
@@ -136,16 +136,16 @@
 
 		.bgBox {
 			width: 100%;
-			height: 220px;
+			height: 440rpx;
 			background: url(../../../static/img/real_bg.png) no-repeat;
 			background-size: cover;
 			position: relative;
 			.realImg {
-				width: 100px;
-				height: 100px;
+				width: 200rpx;
+				height: 200rpx;
 				position: absolute;
-				top: 83px;
-				right: 16px;
+				top: 166rpx;
+				right: 32rpx;
 
 				image {
 					width: 100%;
@@ -154,29 +154,29 @@
 			}
 
 			.titleBox {
-				width: 230px;
-				height: 100px;
+				width: 460rpx;
+				height: 200rpx;
 				position: absolute;
-				top: 104px;
-				left: 28px;
+				top: 208rpx;
+				left: 56rpx;
 				display: flex;
 				flex-direction: column;
 
 				.title {
-					font-size: 21px;
+					font-size: 42rpx;
 					font-family: PingFangSC-Medium, PingFang SC;
 					font-weight: 500;
 					color: #FFFFFF;
-					line-height: 29px;
-					margin-bottom: 4px;
+					line-height: 58rpx;
+					margin-bottom: 8rpx;
 				}
 
 				.desc {
-					font-size: 12px;
+					font-size: 24rpx;
 					font-family: PingFangSC-Regular, PingFang SC;
 					font-weight: 400;
 					color: #FFFFFF;
-					line-height: 17px;
+					line-height: 34rpx;
 				}
 			}
 
@@ -186,22 +186,22 @@
 			-webkit-box-sizing: border-box;
 			-moz-box-sizing: border-box;
 			box-sizing: border-box;
-			padding: 0 28px;
+			padding: 0 56rpx;
 			background: #FFFFFF;
 		}
 
 		.btn {
-			padding: 0 26px;
-			margin-top: 40px;
+			padding: 0 52rpx;
+			margin-top: 80rpx;
 
 			.custom-style {
 				background: #4579E6;
-				border-radius: 4px;
-				font-size: 16px;
+				border-radius: 8rpx;
+				font-size: 32rpx;
 				font-family: PingFangSC-Regular, PingFang SC;
 				font-weight: 400;
 				color: #FFFFFF;
-				line-height: 22px;
+				line-height: 44rpx;
 			}
 		}
 	}
