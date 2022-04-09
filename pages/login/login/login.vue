@@ -240,6 +240,7 @@
 
 <style lang="scss" scoped>
 	.container {
+		height: 100vh;
 		.login_bg {
 			width: 100%;
 			height: calc(2 * 282rpx);
@@ -266,7 +267,7 @@
 			background: #FFFFFF;
 			box-shadow: 4rpx 4rpx 24rpx 0rpx rgba(47, 92, 247, 0.27);
 			border-radius: 16rpx;
-			margin: -76rpx 32rpx 182rpx 32rpx;
+			margin: -120rpx 32rpx 58rpx 32rpx;
 			padding: 88rpx 20rpx 0 20rpx;
 			box-sizing: border-box;
 
@@ -325,7 +326,6 @@
 				font-weight: 400;
 				color: #666565;
 				line-height: 34rpx;
-				margin: 32rpx 0 130rpx 0;
 			}
 		}
 	}
