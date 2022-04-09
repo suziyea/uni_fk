@@ -4,7 +4,7 @@ module.exports = (vm) => {
 	// 初始化请求配置
 	uni.$u.http.setConfig((config) => {
 		/* config 为默认全局配置*/
-		config.baseURL = 'http://47.103.96.51'; /* 根域名 */
+		config.baseURL = 'https://api.shcwwl.cn'; /* 根域名 */
 		// config.header ={
 		// 	...config.header,
 		// 	// 'device-type': vm.$store.state.osType || '',
