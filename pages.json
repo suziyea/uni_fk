@@ -76,6 +76,16 @@
             }
             
         }
+        ,{
+            "path" : "pages/login/login/login",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+				"navigationStyle":"custom",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"subPackages": [{
 		"root": "subpages",
@@ -90,7 +100,9 @@
 			"path": "login/login",
 			"style": {
 				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": false,
+				"navigationStyle":"custom"
+
 			}
 
 		}]
