@@ -59,12 +59,14 @@
 
 <style lang="scss" scoped>
 	.container {
-		width: 375px;
+		width: 100%;
 		height: 100vh;
 		background: #F7F7F7;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		padding: 0 16px;
+		box-sizing: border-box;
 
 		.content {
 			width: 343px;
@@ -132,9 +134,10 @@
 				}
 		}
 		.read {
-			margin-top: 24px;
+			margin: 24px 0px;
+			align-self: flex-start;
+			padding-left: 16px;
 			.read_tip {
-				
 				font-size: 12px;
 				font-family: PingFangSC-Regular, PingFang SC;
 				font-weight: 400;

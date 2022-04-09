@@ -108,8 +108,8 @@
 		}]
 	}],
 	"tabBar": {
-		"color": "#B4B4B4",
-		"selectedColor": "#FF7610",
+		"color": "#999999",
+		"selectedColor": "#4579E6",
 		"backgroundColor": "#FFFFFF",
 		// #ifdef APP-PLUS
 		"borderStyle": "#eeeeee",
@@ -117,17 +117,30 @@
 		// #ifdef H5
 		"borderStyle": "white",
 		// #endif
-		"list": [{
+		"list": [
+			// {
+			// 	"pagePath": "pages/index/index",
+			// 	"text": "首页",
+			// 	"iconPath": "static/tabBarIcons/index.png",
+			// 	"selectedIconPath": "static/tabBarIcons/index-active.png"
+			// },
+			// {
+			// 	"pagePath": "pages/mine/mine",
+			// 	"text": "我的",
+			// 	"iconPath": "static/tabBarIcons/mine.png",
+			// 	"selectedIconPath": "static/tabBarIcons/mine-active.png"
+			// }
+			{
 				"pagePath": "pages/index/index",
 				"text": "首页",
-				"iconPath": "static/tabBarIcons/index.png",
-				"selectedIconPath": "static/tabBarIcons/index-active.png"
+				"iconPath": "static/tabIcon/home.png",
+				"selectedIconPath": "static/tabIcon/home_select.png"
 			},
 			{
 				"pagePath": "pages/mine/mine",
 				"text": "我的",
-				"iconPath": "static/tabBarIcons/mine.png",
-				"selectedIconPath": "static/tabBarIcons/mine-active.png"
+				"iconPath": "static/tabIcon/center.png",
+				"selectedIconPath": "static/tabIcon/center_select.png"
 			}
 		]
 	},

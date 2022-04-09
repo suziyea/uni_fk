@@ -116,7 +116,7 @@
 			.productList {
 				.product-item {
 					box-sizing: border-box;
-					width: 344px;
+					width: 100%;
 					height: 88px;
 					background: #FFFFFF;
 					box-shadow: 0px 5px 6px 0px rgba(0, 0, 0, 0.04);
@@ -230,6 +230,6 @@
 
 	}
 	/deep/ .u-swiper {
-		height: 86px;
+		height: 86px !important;
 	}
 </style>
