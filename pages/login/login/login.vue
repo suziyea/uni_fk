@@ -10,7 +10,7 @@
 			<u--form :model="formContent" :rules="rules" ref="uForm">
 				<u-form-item label="" prop="phone">
 					<u--input v-model="formContent.phone" prefixIcon="phone" ref="item1"
-						prefixIconStyle="font-size: 22px;color: #909399">
+						prefixIconStyle="font-size: 44rpx;color: #909399">
 					</u--input>
 				</u-form-item>
 
@@ -19,11 +19,11 @@
 					<!-- 注意：由于兼容性差异，如果需要使用前后插槽，nvue下需使用u--input，非nvue下需使用u-input -->
 					<!-- #ifndef APP-NVUE -->
 					<u-input v-model="formContent.smsCode" prefixIcon="lock"
-						prefixIconStyle="font-size: 22px;color: #909399">>
+						prefixIconStyle="font-size: 44rpx;color: #909399">>
 						<!-- #endif -->
 						<!-- #ifdef APP-NVUE -->
 						<u--input v-model="formContent.smsCode" prefixIcon="lock"
-							prefixIconStyle="font-size: 22px;color: #909399">>
+							prefixIconStyle="font-size: 44rpx;color: #909399">>
 							<!-- #endif -->
 							<template slot="suffix">
 								<u-code ref="uCode" @change="codeChange" seconds="60" changeText="X秒重新获取"></u-code>
@@ -242,47 +242,47 @@
 	.container {
 		.login_bg {
 			width: 100%;
-			height: 282px;
+			height: calc(2 * 282rpx);
 			background: url(../../../static/img/login_bg.png) no-repeat;
 			background-size: cover;
 
 			.header {
-				width: 84px;
-				height: 84px;
+				width: calc(2 * 84rpx);
+				height: calc(2 * 84rpx);
 				background: #FFFFFF;
-				border: 4px solid #C0D4FF;
-				border-radius: 84px;
+				border: calc(2 * 4rpx) solid #C0D4FF;
+				border-radius: calc(2 * 84rpx);
 
 				image {
-					width: 60px;
-					height: 60px;
+					width: calc(2 * 60rpx);
+					height: calc(2 * 60rpx);
 				}
 			}
 
 		}
 
 		.formList {
-			height: 279px;
+			height: calc(2 * 279rpx);
 			background: #FFFFFF;
-			box-shadow: 2px 2px 12px 0px rgba(47, 92, 247, 0.27);
-			border-radius: 8px;
-			margin: -38px 16px 91px 16px;
-			padding: 44px 10px 0 10px;
+			box-shadow: 4rpx 4rpx 24rpx 0rpx rgba(47, 92, 247, 0.27);
+			border-radius: 16rpx;
+			margin: -76rpx 32rpx 182rpx 32rpx;
+			padding: 88rpx 20rpx 0 20rpx;
 			box-sizing: border-box;
 
 
 
 			.remarkForm {
-				margin-top: 20px;
+				margin-top: 40rpx;
 
 				.read_tip {
-					width: 300px;
-					height: 17px;
-					font-size: 12px;
+					width: 600rpx;
+					height: 34rpx;
+					font-size: 24rpx;
 					font-family: PingFangSC-Regular, PingFang SC;
 					font-weight: 400;
 					color: #414141;
-					line-height: 17px;
+					line-height: 34rpx;
 
 					.blue {
 						color: #4579E6;
@@ -292,21 +292,21 @@
 
 			/deep/ .u-button--success {
 				border: none;
-				font-size: 12px;
+				font-size: 24rpx;
 				font-family: PingFangSC-Regular, PingFang SC;
 				font-weight: 400;
 				color: #4579E6;
-				line-height: 17px;
+				line-height: 34rpx;
 				background: none;
 			}
 
 			.custom-style {
-				border-radius: 4px;
-				font-size: 16px;
+				border-radius: 8rpx;
+				font-size: 32rpx;
 				font-family: PingFangSC-Regular, PingFang SC;
 				font-weight: 400;
-				line-height: 22px;
-				margin-top: 18px;
+				line-height: 44rpx;
+				margin-top: 36rpx;
 				background: #4579E6;
 				color: #FFFFFF;
 			}
@@ -315,17 +315,17 @@
 
 		.iconbox {
 			image {
-				width: 100px;
-				height: 100px;
+				width: 200rpx;
+				height: 200rpx;
 			}
 
 			.company {
-				font-size: 12px;
+				font-size: 24rpx;
 				font-family: PingFangSC-Regular, PingFang SC;
 				font-weight: 400;
 				color: #666565;
-				line-height: 17px;
-				margin: 16px 0 65px 0;
+				line-height: 34rpx;
+				margin: 32rpx 0 130rpx 0;
 			}
 		}
 	}

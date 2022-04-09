@@ -159,22 +159,22 @@
 
 	.bgBox {
 		width: 100%;
-		height: 200px;
+		height: 400rpx;
 		background: url(../../static/img/my_bg.png) no-repeat;
 		background-size: cover;
 		position: relative;
 
 		.userInfo {
 			position: absolute;
-			top: 82px;
-			left: 30px;
+			top: 164rpx;
+			left: 60rpx;
 			display: flex;
 			justify-content: center;
 			align-items: center;
 
 			.avatar {
-				width: 50px;
-				height: 50px;
+				width: 100rpx;
+				height: 100rpx;
 
 				image {
 					width: 100%;
@@ -183,28 +183,28 @@
 			}
 
 			.userName {
-				font-size: 14px;
+				font-size: 28rpx;
 				font-family: PingFangSC-Regular, PingFang SC;
 				font-weight: 400;
 				color: #FFFFFF;
-				line-height: 20px;
-				margin: 0 13px;
+				line-height: 40rpx;
+				margin: 0 26rpx;
 
 				.name {
-					font-size: 14px;
+					font-size: 28rpx;
 					font-family: PingFangSC-Regular, PingFang SC;
 					font-weight: 400;
 					color: #FFFFFF;
-					line-height: 20px;
+					line-height: 40rpx;
 				}
 
 				.phone {
 
-					font-size: 12px;
+					font-size: 24rpx;
 					font-family: PingFangSC-Regular, PingFang SC;
 					font-weight: 400;
 					color: #FFFFFF;
-					line-height: 17px;
+					line-height: 34rpx;
 				}
 			}
 		}
@@ -212,15 +212,15 @@
 	}
 
 	.memberLegal {
-		padding: 0 16px;
+		padding: 0 32rpx;
 
 		.memberEnjoy {
-			width: 343px;
-			height: 84px;
+			width: 686rpx;
+			height: 168rpx;
 			background: #FFFFFF;
-			box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.07);
-			border-radius: 4px;
-			margin-top: -47px;
+			box-shadow: 0rpx 2rpx 8rpx 0rpx rgba(0, 0, 0, 0.07);
+			border-radius: 8rpx;
+			margin-top: -94rpx;
 			position: relative;
 			z-index: 21;
 			display: flex;
@@ -232,16 +232,16 @@
 				justify-content: center;
 
 				image {
-					width: 36px;
-					height: 36px;
+					width: 72rpx;
+					height: 72rpx;
 				}
 
 				.title {
-					font-size: 12px;
+					font-size: 24rpx;
 					font-family: PingFangSC-Regular, PingFang SC;
 					font-weight: 400;
 					color: #656565;
-					line-height: 17px;
+					line-height: 34rpx;
 				}
 			}
 		}
@@ -250,157 +250,13 @@
 
 	}
 
-	.top {
-		width: 100%;
-		height: 200px;
-		background: url(../../static/img/my_bg.png) no-repeat;
-		background-size: cover;
-
-		.user {
-			position: absolute;
-			@extend %flex-layout-row;
-			justify-content: flex-start;
-			top: 119upx;
-			left: 50upx;
-
-			.avatar {
-				flex: 0 0 96upx;
-				width: 96upx;
-				height: 96upx;
-
-				image {
-					width: 100%;
-					height: 100%;
-				}
-			}
-
-			.right {
-				flex: 1;
-				margin-left: 24upx;
-
-				.nickname {
-					font-size: 32upx;
-					color: #FFFFFF;
-					@extend %flex-layout-row;
-					justify-content: flex-start;
-					align-items: baseline;
-
-					.star {
-						width: 23upx;
-						height: 21upx;
-						margin-left: 8upx;
-
-						image {
-							width: 100%;
-							height: 100%;
-						}
-					}
-				}
-
-				.account {
-					font-size: 24upx;
-					color: #FFFFFF;
-				}
-			}
-
-			.login {
-				font-size: 32upx;
-				color: #FFFFFF;
-				margin-left: 24upx;
-			}
-		}
-	}
-
-	.order {
-		width: 699upx;
-		height: 250upx;
-		background-color: #FFFFFF;
-		margin: -160upx auto 0 auto;
-		border-radius: 14upx;
-
-		.title {
-			height: 30upx;
-			font-size: 30upx;
-			color: #FFFFFF;
-		}
-
-		.nav {
-			@extend %flex-layout-row;
-			justify-content: space-between;
-
-			.items {
-				width: 32%;
-				text-align: center;
-
-				.icon {
-					width: 112upx;
-					height: 112upx;
-					margin: 0 auto;
-
-					image {
-						width: 100%;
-						height: 100%;
-					}
-				}
-
-				.name {
-					padding-top: 5upx;
-					font-size: 26upx;
-					color: $mc-normal-font-color;
-				}
-			}
-		}
-	}
-
-	.list {
-		background-color: #FFFFFF;
-		border-radius: 14upx;
-		margin: 32upx 26upx 0 26upx;
-
-		.item {
-			@extend %flex-layout-row;
-			justify-content: space-between;
-			padding: 29upx 26upx;
-			align-items: center;
-
-			.item_icon {
-				flex: 0 0 54upx;
-				width: 54upx;
-				height: 54upx;
-
-				image {
-					width: 100%;
-					height: 100%;
-				}
-			}
-
-			.title {
-				flex: 1;
-				margin-left: 19upx;
-				font-size: $mc-normal-font-size;
-				color: $mc-normal-font-color;
-			}
-
-			.arrow {
-				flex: 0 0 54upx;
-				width: 54upx;
-				height: 54upx;
-
-				image {
-					width: 100%;
-					height: 100%;
-				}
-			}
-		}
-	}
-
 	::v-deep .u-row {
 		width: 100%;
 	}
 
 	/deep/ .u-cell-group {
-		margin: 0 16px;
+		margin: 0 16rpx;
 		background: #FFFFFF;
-		margin-top: 12px !important;
+		margin-top: 12rpx !important;
 	}
 </style>
