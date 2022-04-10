@@ -196,10 +196,10 @@
 			},
 			confirm() {
 				this.showModal = false;
-				if (this.userStatus === 2) {
+				if (this.userStatus === 1) {
 					uni.$u.route('/pages/evaluation/real/real');
 				}
-				if (this.userStatus === 3) {
+				if (this.userStatus === 2) {
 					uni.$u.route('/pages/evaluation/addBank/addBank');
 				}
 			},
