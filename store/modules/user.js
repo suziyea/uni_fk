@@ -1,3 +1,6 @@
+import {
+	getUserInfo
+} from "@/config/api/user.js";
 export default {
 	state: {
 		login: false,
@@ -30,7 +33,6 @@ export default {
 			state.token = payload.token;
 			state.login = true;
 			state.refresh_token = payload.refresh_token;
-
 		},
 	},
 	getters: {
@@ -50,6 +52,20 @@ export default {
 		}, data) {
 			console.log('payload-----data', data);
 			commit("LOGIN", data);
+		},
+		async setCurrentUserInfo (context) {
+			let currentUser =  await getUserInfo();
+			let params = {
+				userInfo: {}
+			}
+			if (currentUser.code === 100000) {
+				// this.loan_amount = res?.data?.value?.value || '****'
+				// commit("LOGIN", data);
+				params.userInfo = currentUser.data
+				context.commit('LOGIN', params)
+
+			}
+			console.log('currentUser',params);
 		},
 	},
 }

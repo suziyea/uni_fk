@@ -90,7 +90,7 @@
 		</view>
 
 		<!-- 我要测评 -->
-		<view class="assessBox">
+		<view class="assessBox" @click="test">
 			<view class="title">我要测评</view>
 			<view class="assessimg">
 				<image src="/static/img/evaluation.png" mode="aspectFill" @click="clickEvaluation"></image>
@@ -110,8 +110,12 @@
 
 <script>
 	import {
-		HandleRealName,getEdu
+		HandleRealName,
+		getEdu
 	} from "@/config/api/user.js";
+	import {
+		mapGetters,
+	} from 'vuex'
 	export default {
 		props: {
 			// 检测类型 + 其他验证
@@ -145,29 +149,45 @@
 			this.setModalText()
 			this.getEdus()
 		},
-		
+		watch: {
+			getUserInfos: {
+				deep: true,
+				handler(n, old) {
+					console.log(n, '999999', old)
+					this.setModalText()
+				}
+			}
+		},
+		computed: {
+			...mapGetters(['isLogin', 'getUserInfos'])
+		},
+
 		methods: {
+			test() {
+				this.$store.dispatch('setCurrentUserInfo')
+			},
+
 			getEdus() {
 				getEdu({
-					"code":"loan_amount"
+					"code": "loan_amount"
 				}).then((res) => {
 					if (res.code === 100000) {
-							this.loan_amount = res?.data?.value?.value || '****'
-							}
-					console.log(res,'nihao')
+						this.loan_amount = res?.data?.value?.value || '****'
+					}
+					console.log(res, 'nihao')
 				}).catch((err) => {
 					console.log(err, 'err');
 				})
 			},
 			setModalText() {
-				if (this.userStatus === 2) {
+				if (this.userStatus === 1) {
 					this.showModal = true;
 					this.title = '实名认证';
 					this.content = '您好，请先完成实名认证信息补全!';
 					this.confirmText = '去实名'
 				}
 
-				if (this.userStatus === 3) {
+				if (this.userStatus === 2) {
 					this.showModal = true;
 					this.title = '绑定银行卡';
 					this.content = '您好，为了方便的贷款，请绑定银行卡！';
@@ -249,6 +269,7 @@
 				padding: 0 14rpx;
 				box-sizing: border-box;
 				align-items: center;
+
 				.title {
 					height: 34rpx;
 					font-size: 24rpx;
