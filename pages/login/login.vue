@@ -244,7 +244,7 @@
 		.login_bg {
 			width: 100%;
 			height: calc(2 * 282rpx);
-			background: url(../../../static/img/login_bg.png) no-repeat;
+			background: url(/static/img/login_bg.png) no-repeat;
 			background-size: cover;
 
 			.header {

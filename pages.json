@@ -75,7 +75,7 @@
 			}
 
 		}, {
-			"path": "pages/login/login/login",
+			"path": "pages/login/login",
 			"style": {
 				"navigationBarTitleText": "登录",
 				"navigationStyle": "custom",

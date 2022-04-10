@@ -123,7 +123,7 @@
 				console.log(item, 'niyade');
 				if (item.name === 'logout') {
 					this.LOGOUT()
-					uni.$u.route('/pages/login/login/login');
+					uni.$u.route('/pages/login/login');
 				}
 			}
 		},

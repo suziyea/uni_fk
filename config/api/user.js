@@ -17,7 +17,7 @@ export const sendSMS = (params, config = {}) => http.post('/api/public/sms/send'
 // 获取额度
 export const getEdu = (params, config = {
 	
-}) => http.post('/api/fk/other-set/get', params, config)
+}) => http.post('/api/public/other-set/get', params, config)
 
 // 添加银行卡
 export const addBankCard = (params, config = {

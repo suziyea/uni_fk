@@ -11,7 +11,7 @@
 				<!-- <u-count-to :endVal="1542" separator="," class="countStyle"></u-count-to> -->
 				<view class="countStyle u-flex u-flex-column u-row-centeru-flex-items-center ">
 					<text class="title">最高可借额度(元)</text>
-					<u-count-to :endVal="55000" separator="," class="count"></u-count-to>
+					<u-count-to :endVal="loan_amount" separator="," class="count"></u-count-to>
 				</view>
 			</view>
 
@@ -134,6 +134,7 @@
 				content: '您好，请先完成实名认证信息补全!',
 				content: '您好，为了方便的贷款，请绑定银行卡！',
 				confirmText: '去绑卡',
+				loan_amount: '',
 			}
 		},
 		onLoad(option) {
@@ -148,8 +149,11 @@
 		methods: {
 			getEdus() {
 				getEdu({
-					"code":"protocol"
+					"code":"loan_amount"
 				}).then((res) => {
+					if (res.code === 100000) {
+							this.loan_amount = res?.data?.value?.value || '****'
+							}
 					console.log(res,'nihao')
 				}).catch((err) => {
 					console.log(err, 'err');

@@ -19,8 +19,10 @@ module.exports = (vm) => {
 		config.data = config.data || {}
 		// 根据custom参数中配置的是否需要token，添加对应的请求头
 		if (config?.custom?.auth) {
+			console.log('config-----',config,store);
+			
 			// 可以在此通过vm引用vuex中的变量，具体值在vm.$store.state中
-			config.header.Authorization = `Bearer ${vm.$store.state.token}`
+			config.header.Authorization = `Bearer ${store.state.user.token}`
 		}
 		return config
 	}, config => { // 可使用async await 做异步操作
