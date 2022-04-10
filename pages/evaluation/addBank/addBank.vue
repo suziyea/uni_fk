@@ -12,27 +12,56 @@
 
 		<view class="formList">
 			<u--form :model="formContent" :rules="rules" ref="uForm" labelWidth="auto">
-				<u-form-item label="姓名" prop="name" borderBottom ref="item1" style="margin-top: 12rpx;">
-					<u--input inputAlign="right" v-model="formContent.name" border="none" suffixIcon="/static/icon/my_name.png"></u--input>
+				<u-form-item label="姓名" prop="actual_name" borderBottom ref="item1" style="margin-top: 12rpx;">
+					<u--input inputAlign="right" v-model="formContent.actual_name" border="none"
+						suffixIcon="/static/icon/my_name.png"></u--input>
 				</u-form-item>
-				<u-form-item label="身份证号" prop="idCardNo" borderBottom ref="item1">
-					<u--input inputAlign="right" v-model="formContent.idCardNo" border="none" suffixIcon="/static/icon/my_idcard.png"></u--input>
+				<u-form-item label="身份证号" prop="id_number" borderBottom ref="item1">
+					<u--input inputAlign="right" v-model="formContent.id_number" border="none"
+						suffixIcon="/static/icon/my_idcard.png"></u--input>
 				</u-form-item>
-				<u-form-item label="所属银行" prop="bankName" borderBottom ref="item1">
-					<u--input inputAlign="right" v-model="formContent.bankName" border="none" suffixIcon="/static/icon/right.png"></u--input>
+				<u-form-item label="所属银行" @click="showBankListStatus = true;" prop="bank_name" borderBottom ref="item1">
+					<u--input readonly inputAlign="right" v-model="formContent.bank_name" border="none"
+						suffixIcon="/static/icon/right.png"></u--input>
 				</u-form-item>
-				<u-form-item label="银行卡号" prop="bankNo" borderBottom ref="item1">
-					<u--input inputAlign="right" v-model="formContent.bankNo" border="none" suffixIcon="/static/icon/my_bank.png"></u--input>
+				<u-form-item label="银行卡号" prop="card_number" borderBottom ref="item1">
+					<u--input inputAlign="right" v-model="formContent.card_number" border="none"
+						suffixIcon="/static/icon/my_bank.png"></u--input>
 				</u-form-item>
 
-				<u-form-item label="预留手机号" prop="phone" borderBottom ref="item1">
-					<u--input inputAlign="right" v-model="formContent.phone" border="none" suffixIcon="/static/icon/my_phone.png"></u--input>
+				<u-form-item label="预留手机号" prop="reserve_phone" borderBottom ref="item1">
+					<u--input inputAlign="right" v-model="formContent.reserve_phone" border="none"
+						suffixIcon="/static/icon/my_phone.png"></u--input>
+				</u-form-item>
+
+				<u-form-item label="验证码" prop="code" ref="item1">
+					<!-- <u--input  v-model="phone" border suffixIcon="/static/icon/my_phone.png"></u--input> -->
+					<!-- 注意：由于兼容性差异，如果需要使用前后插槽，nvue下需使用u--input，非nvue下需使用u-input -->
+					<!-- #ifndef APP-NVUE -->
+					<u-input v-model="formContent.code" inputAlign="right" type="number" border="none">
+						<!-- #endif -->
+						<!-- #ifdef APP-NVUE -->
+						<u--input v-model="formContent.code" inputAlign="right" border="none" type="number">
+							<!-- #endif -->
+							<template slot="suffix">
+								<u-code ref="uCode" @change="codeChange" seconds="60" changeText="X秒重新获取"></u-code>
+								<u-button @tap="getCode" :text="tips" type="success" size="mini"></u-button>
+							</template>
+							<!-- #ifndef APP-NVUE -->
+					</u-input>
+					<!-- #endif -->
+					<!-- #ifdef APP-NVUE -->
+					</u--input>
+					<!-- #endif -->
 				</u-form-item>
 
 			</u--form>
 
 
 		</view>
+		<u-action-sheet :show="showBankListStatus" :actions="bankList" title="请选择银行" description="请选择银行"
+			@close="showBankListStatus = false" @select="bankSelect">
+		</u-action-sheet>
 
 		<view class="btn">
 			<u-button type="primary" :plain="true" class="custom-style" @click="submit" :hairline="true" text="完成">
@@ -43,16 +72,21 @@
 
 <script>
 	import {
-		addBankCard
-	} from "@/config/api/user.js";
+		getBank,
+		addBankInfo
+	} from "@/config/api/product.js";
 	export default {
 		data() {
 			return {
+				showBankListStatus: false,
+				tips: '获取验证码',
+				seconds: 60,
 				formContent: {
-					phone: ''
+					code: 1234,
 				},
+				bankList: [],
 				rules: {
-					name: [{
+					actual_name: [{
 							required: true,
 							message: '请输入姓名',
 							trigger: ['blur', 'change']
@@ -69,7 +103,7 @@
 							trigger: ['change', 'blur'],
 						}
 					],
-					idCardNo: [{
+					id_number: [{
 							required: true,
 							message: '请输入身份证号',
 							trigger: ['change', 'blur'],
@@ -86,17 +120,17 @@
 							trigger: ['change', 'blur'],
 						}
 					],
-					bankName: [{
+					bank_name: [{
 						required: true,
 						message: '请输入所属银行',
 						trigger: ['blur', 'change']
 					}],
-					bankNo: [{
+					card_number: [{
 						required: true,
 						message: '请输银行卡号',
 						trigger: ['blur', 'change']
 					}],
-					phone: [{
+					reserve_phone: [{
 							required: true,
 							message: '请输入手机号',
 							trigger: ['change', 'blur'],
@@ -112,18 +146,114 @@
 							// 触发器可以同时用blur和change
 							trigger: ['change', 'blur'],
 						}
+					],
+					smsCode: [{
+							required: false,
+							message: '请输入手机验证码',
+							trigger: ['blur', 'change']
+						},
+						{
+							// 自定义验证函数，见上说明
+							validator: (rule, value, callback) => {
+								// 上面有说，返回true表示校验通过，返回false表示不通过
+								return uni.$u.test.code(value, 4)
+							},
+							message: '手机验证码不正确',
+							// 触发器可以同时用blur和change
+							trigger: ['change', 'blur'],
+						}
 					]
 				}
 
 			}
 		},
+		created() {
+			this.getBankList()
+		},
 		methods: {
+			bankSelect(e) {
+				console.log(e, '哈哈哈哈')
+				this.formContent.bank_id = e.id;
+				this.formContent.bank_name = e.name
+				this.$refs.uForm.validateField('formContent.bank_id')
+			},
+			getBankList() {
+				getBank({}).then((res) => {
+					if (res.code === 100000) {
+						this.bankList = res?.data || []
+					}
+					console.log(res, 'nihao')
+				}).catch((err) => {
+					console.log(err, 'err');
+				})
+			},
 			submit() {
 				this.$refs.uForm.validate().then(res => {
-					uni.$u.toast('校验通过')
+					addBankInfo({
+						...this.formContent
+					}).then((res) => {
+						if (res.code === 100000) {
+							this.$store.dispatch('setCurrentUserInfo')
+							uni.$u.route({
+								type: 'switchTab',
+								url: 'pages/index/index'
+							})
+						}
+
+					}).catch((err) => {
+						console.log(err, 'err');
+					})
+
 				}).catch(errors => {
 					uni.$u.toast('校验失败')
 				})
+			},
+			codeChange(text) {
+				this.tips = text;
+				console.log('change', text);
+
+			},
+			getCode() {
+				if (this.$refs.uCode.canGetCode) {
+					// 模拟向后端请求验证码
+					uni.showLoading({
+						title: '正在获取验证码'
+					})
+					// setTimeout(() => {
+					// 	uni.hideLoading();
+					// 	// 这里此提示会被this.start()方法中的提示覆盖
+					// 	uni.$u.toast('验证码已发送');
+					// 	// 通知验证码组件内部开始倒计时
+					// 	this.$refs.uCode.start();
+					// }, 2000);
+					sendSMS({
+							"phone": this.formContent.phone
+						})
+						.then((res) => {
+							if (res.code === 100000) {
+								uni.hideLoading();
+								// 这里此提示会被this.start()方法中的提示覆盖
+								uni.$u.toast('验证码已发送');
+								// 通知验证码组件内部开始倒计时
+								this.$refs.uCode.start();
+								this.formContent.smsCodecode = "";
+							}
+
+						})
+						.catch((err) => {
+							uni.hideLoading();
+							uni.showToast({
+								icon: "none",
+								title: err.msg || "获取验证码失败，请稍后再试",
+							});
+							this.iscode = true;
+						});
+				} else {
+					uni.$u.toast('倒计时结束后再发送');
+				}
+			},
+			clickSubmit() {
+				uni.$u.debounce(this.submit, 500)
 			},
 
 
@@ -143,6 +273,7 @@
 			background: url(../../../static/img/real_bg.png) no-repeat;
 			background-size: cover;
 			position: relative;
+
 			.realImg {
 				width: 200rpx;
 				height: 200rpx;
@@ -206,6 +337,16 @@
 				color: #FFFFFF;
 				line-height: 44rpx;
 			}
+		}
+
+		/deep/ .u-button--success {
+			border: none;
+			font-size: 24rpx;
+			font-family: PingFangSC-Regular, PingFang SC;
+			font-weight: 400;
+			color: #4579E6;
+			line-height: 34rpx;
+			background: none;
 		}
 	}
 </style>
