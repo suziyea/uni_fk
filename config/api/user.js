@@ -16,7 +16,7 @@ export const sendSMS = (params, config = {}) => http.post('/api/public/sms/send'
 
 // 获取额度
 export const getEdu = (params, config = {
-	
+
 }) => http.post('/api/public/other-set/get', params, config)
 
 // 添加银行卡
@@ -26,5 +26,11 @@ export const addBankCard = (params, config = {
 	}
 }) => http.post('/api/fk/user-bank-card/save', params, config)
 
+// 获取用户信息
+export const getUserInfo = (params, config = {
+	custom: {
+		auth: true
+	}
+}) => http.post('/api/user/data/get', params, config)
 // get请求
 export const getMenu = (data) => http.get('url', data)

@@ -15,11 +15,15 @@
 				<u-form-item label="" prop="name">
 					<text class="form__title">真实姓名</text>
 
-					<u-input v-model="formContent.name" placeholder="请输入内容" border="bottom" placeholderStyle='font-size: 28rpx;font-family: PingFangSC-Regular, PingFang SC;font-weight: 400;color: #CBCBCB;line-height: 40rpx;' clearable />
+					<u-input v-model="formContent.name" placeholder="请输入内容" border="bottom"
+						placeholderStyle='font-size: 28rpx;font-family: PingFangSC-Regular, PingFang SC;font-weight: 400;color: #CBCBCB;line-height: 40rpx;'
+						clearable />
 				</u-form-item>
 				<u-form-item label="" prop="idcard">
 					<text class="form__title">身份证号</text>
-					<u--input v-model="formContent.idcard" type="idcard" placeholder="请输入内容" border="bottom" placeholderStyle='font-size: 28rpx;font-family: PingFangSC-Regular, PingFang SC;font-weight: 400;color: #CBCBCB;line-height: 40rpx;' clearable>
+					<u--input v-model="formContent.idcard" type="idcard" placeholder="请输入内容" border="bottom"
+						placeholderStyle='font-size: 28rpx;font-family: PingFangSC-Regular, PingFang SC;font-weight: 400;color: #CBCBCB;line-height: 40rpx;'
+						clearable>
 					</u--input>
 				</u-form-item>
 			</u--form>
@@ -94,7 +98,11 @@
 						"actual_name": name,
 						"id_number": idcard
 					}).then((res) => {
-						console.log(res)
+						if (res.code === 100000) {
+							this.$store.dispatch('setCurrentUserInfo')
+							uni.$u.route('/pages/evaluation/addBank/addBank');
+						}
+
 					}).catch((err) => {
 						console.log(err, 'err');
 					})
