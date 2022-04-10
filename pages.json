@@ -49,7 +49,7 @@
 		}, {
 			"path": "pages/evaluation/addBank/addBank",
 			"style": {
-				"navigationBarTitleText": "",
+				"navigationBarTitleText": "绑定银行卡",
 				"enablePullDownRefresh": false
 			}
 
