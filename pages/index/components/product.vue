@@ -1,49 +1,58 @@
 <template>
 	<view class="container">
-		<view class="swiperBox">
-			<u-swiper :list="list3" previousMargin="30" nextMargin="30"  circular :autoplay="true" radius="5"
-				bgColor="#ffffff"></u-swiper>
-		</view>
-
-		<view class="products">
-			<view class="titlebox">
-				<text class="title">产品</text>
-				<view class="icon">
-					<text class="right_title">更多</text>
-					<image src="/static/icon/right.png" mode="aspectFill"></image>
-				</view>
+		<u-list @scrolltolower="scrolltolower">
+			<view class="swiperBox">
+				<u-swiper :list="bannerList" keyName="url" @click="swiperClick" previousMargin="30" nextMargin="30"
+					circular :autoplay="true" radius="5" bgColor="#ffffff"></u-swiper>
 			</view>
 
-			<view class="productList">
-				<view class="product-item">
-					<view class="left">
-						<text class="top_title">汇聚白卡</text>
-						<text class="mid_title">0.3~2.0万</text>
-						<text class="bottom_title">额度（元）</text>
+			<view class="products">
+				<view class="titlebox">
+					<text class="title">产品</text>
+					<view class="icon">
+						<text class="right_title">更多</text>
+						<image src="/static/icon/right.png" mode="aspectFill"></image>
 					</view>
-					<view class="center">
-						<text class="top_title">汇聚白卡</text>
-						<text class="mid_title">0.3~2.0万</text>
-						<!-- <text class="bottom_title">额度（元）</text> -->
-						<view class="tags">
-							<!-- <u-tag text="标签" plain size="mini" type="warning"></u-tag>
-							<u-tag text="标签" plain size="mini" type="warning"></u-tag> -->
+				</view>
+				<u-list-item v-for="(item,i) in productList" :key="i">
+					<navigator :url="'/pages/webview/webview?urlPath='+ encodeURIComponent(item.link)">
+						<view class="productList">
+							<view class="product-item">
+								<view class="left">
+									<text class="top_title u-line-1">{{item.name}}</text>
+									<text class="mid_title u-line-1">{{item.amount}}</text>
+									<text class="bottom_title u-line-1">额度（元）</text>
+								</view>
+								<view class="center">
+									<text class="top_title u-line-1">{{item.remark}}</text>
+									<text
+										class="u-line-1 centermid_title">{{`${item.term} (${item.fastest_term})`}}</text>
+									<!-- <view class="tags">
+									<u-tag text="标签" plain size="mini" type="warning"></u-tag>
+							<u-tag text="标签" plain size="mini" type="warning"></u-tag>
+									<view class="tagItem">拒就赔</view>
 							<view class="tagItem">拒就赔</view>
-							<view class="tagItem">拒就赔</view>
+								</view> -->
+								</view>
+								<view class="right">
+									<u-button :plain="true" class="custom-style" :hairline="true" text="一键申请">
+									</u-button>
+								</view>
+							</view>
 						</view>
-					</view>
-					<view class="right">
-						<u-button type="primary" :plain="true" class="custom-style" :hairline="true" text="一键申请">
-						</u-button>
-					</view>
-				</view>
+					</navigator>
+				</u-list-item>
 			</view>
-		</view>
+		</u-list>
 
 	</view>
 </template>
 
 <script>
+	import {
+		getProducts,
+		getBanner
+	} from "@/config/api/product.js";
 	export default {
 		data() {
 			return {
@@ -52,10 +61,62 @@
 					'https://cdn.uviewui.com/uview/swiper/swiper2.png',
 					'https://cdn.uviewui.com/uview/swiper/swiper1.png',
 				],
+				productList: [],
+				pageSize: 10,
+				page: 1,
+				bannerList: []
 			}
 		},
+		onLoad() {
+			console.log('---===你丫的')
+			this.loadmore()
+		},
+		created() {
+			this.getEdus();
+			this.getBannerImg()
+		},
 		methods: {
-
+			swiperClick(i) {
+				let url = this.bannerList[i]?.link || ''
+				uni.navigateTo({
+					url: `/pages/webview/webview?urlPath=${encodeURIComponent(url)}`
+				});
+			},
+			getBannerImg() {
+				getBanner({}).then((res) => {
+					if (res.code === 100000) {
+						this.bannerList = res?.data?.list || []
+					}
+					console.log(res, 'nihao')
+				}).catch((err) => {
+					console.log(err, 'err');
+				})
+			},
+			getEdus() {
+				getProducts({
+					"limit": this.pageSize,
+					"page": this.page
+				}).then((res) => {
+					if (res.code === 100000) {
+						this.productList.push(...res?.data?.list)
+					}
+					console.log(res, 'nihao')
+				}).catch((err) => {
+					console.log(err, 'err');
+				})
+			},
+			scrolltolower() {
+				this.loadmore()
+			},
+			loadmore() {
+				// for (let i = 0; i < 30; i++) {
+				// 	this.indexList.push({
+				// 		url: this.urls[uni.$u.random(0, this.urls.length - 1)]
+				// 	})
+				// }
+				this.page += 1
+				this.getEdus()
+			}
 		}
 	}
 </script>
@@ -71,6 +132,8 @@
 		.swiperBox {
 			width: 688rpx;
 			height: 172rpx;
+			margin: 12rpx 0;
+
 			.swiperPage {
 				width: 100%;
 				height: 100%;
@@ -125,8 +188,10 @@
 					justify-content: center;
 					align-items: center;
 					margin-top: 24rpx;
+
 					.left {
 						display: flex;
+						width: 144rpx;
 						flex-direction: column;
 						justify-content: center;
 						// align-items: center;
@@ -147,7 +212,16 @@
 							font-weight: bold;
 							color: #F0384A;
 							line-height: 42rpx;
-							padding: 12rpx 0;
+							margin: 12rpx 0;
+						}
+
+						.centermid_title {
+							height: 17px;
+							font-size: 12px;
+							font-family: PingFangSC-Regular, PingFang SC;
+							font-weight: 400;
+							color: #282626;
+							line-height: 17px;
 						}
 
 						.bottom_title {
@@ -160,6 +234,7 @@
 					}
 
 					.center {
+						width: 212rpx;
 						height: 100%;
 						display: flex;
 						flex-direction: column;
@@ -182,7 +257,7 @@
 							padding: 12rpx 0;
 							line-height: 34rpx;
 						}
-						
+
 						.tags {
 							display: flex;
 							flex-direction: row;
@@ -229,6 +304,7 @@
 		}
 
 	}
+
 	/deep/ .u-swiper {
 		height: 172rpx !important;
 	}
