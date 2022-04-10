@@ -42,6 +42,9 @@
 </template>
 
 <script>
+	import {
+		addBankCard
+	} from "@/config/api/user.js";
 	export default {
 		data() {
 			return {
@@ -61,7 +64,7 @@
 								// uni.$u.test.mobile()就是返回true或者false的
 								return uni.$u.test.chinese(value);
 							},
-							message: '只能输入汉子',
+							message: '只能输入汉字',
 							// 触发器可以同时用blur和change
 							trigger: ['change', 'blur'],
 						}
