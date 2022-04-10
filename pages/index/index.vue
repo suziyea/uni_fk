@@ -153,46 +153,40 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		padding: 0 16px;
+		padding: 0 32rpx;
 		background: #F7F7F7;
 	}
 
 	.topBox {
-		/* width: 375px; */
-		width: calc(100% + 32px);
-		height: 220px;
+		width: calc(100% + 64rpx);
+		height: 440rpx;
 		background: linear-gradient(180deg, #1B5BE2 0%, rgba(81, 135, 249, 0.51) 63%, rgba(62, 121, 250, 0) 100%);
 	}
 
 	.quotaBox {
-		width: 343px;
-		height: 303px;
+		width: 686rpx;
+		height: 606rpx;
 		box-sizing: border-box;
 		display: flex;
 		flex-direction: column;
-		align-items: center;
-		// justify-content: center;
 		background: #FFFFFF;
-		box-shadow: 2px 2px 12px 0px rgba(47, 92, 247, 0.27);
-		border-radius: 8px;
-		margin-top: -156px;
+		box-shadow: 4rpx 4rpx 24rpx 0rpx rgba(47, 92, 247, 0.27);
+		border-radius: 16rpx;
+		margin-top: -312rpx;
 
 		.circleimg {
-
-			margin-top: 32px;
-			margin-bottom: 17px;
+			margin-top: 64rpx;
+			margin-bottom: 34rpx;
+			align-self: center;
 
 			image {
-				// width: 100%;
-				// height: 100%;
-				width: 248px;
-				height: 129px;
+				width: 496rpx;
+				height: 258rpx;
 			}
 		}
 
 		.tiplist {
-			padding: 0 30px;
-			// width: 100%;
+			padding: 0 60rpx;
 			height: 100%;
 
 			.icontip {
@@ -207,114 +201,108 @@
 					justify-content: center;
 
 					image {
-						width: 12px;
-						height: 12px;
-						margin-left: 4px;
+						width: 24rpx;
+						height: 24rpx;
 					}
 
 					.tiptext {
-						font-size: 12px;
+						font-size: 24rpx;
 						font-family: PingFangSC-Regular, PingFang SC;
 						font-weight: 400;
 						color: #666565;
-						line-height: 17px;
+						line-height: 34rpx;
+						margin-left: 8rpx;
 					}
 				}
 
 				.title {
-					font-size: 10px;
+					font-size: 20rpx;
 					font-family: PingFangSC-Regular, PingFang SC;
 					font-weight: 400;
 					color: #666565;
-					line-height: 14px;
+					line-height: 28rpx;
 				}
-
-
 			}
 
 		}
 
 		.btnBox {
-			margin: 25px 0;
-			padding: 0 10px;
+			margin: 50rpx 0;
+			padding: 0 20rpx;
 
 			.btn {
-				width: 323px;
-				height: 44px;
+				width: 646rpx;
+				height: 88rpx;
 				display: flex;
 				align-items: center;
 				justify-content: center;
 				background: #4579E6;
-				border-radius: 4px;
-				font-size: 18px;
+				border-radius: 8rpx;
+				font-size: 36rpx;
 				font-family: PingFangSC-Medium, PingFang SC;
 				font-weight: 500;
 				color: #FFFFFF;
-				line-height: 25px;
+				line-height: 50rpx;
 			}
 		}
 	}
 
 	.tipsBox {
-		width: 343px;
-		height: 32px;
+		width: 686rpx;
+		height: 64rpx;
 		background: #FFFFFF;
-		border-radius: 4px;
-		margin: 12px 0;
+		border-radius: 8rpx;
+		margin: 24rpx 0;
 	}
 
 	.listBox {
-		width: 342px;
-		height: 96px;
+		width: 684rpx;
+		height: 192rpx;
 		background: #FFFFFF;
-		border-radius: 4px;
-		margin-bottom: 18px;
-
+		border-radius: 8rpx;
+		margin-bottom: 36rpx;
 		display: flex;
 		align-items: center;
-
-		// justify-content: center;
 		.iconList {
 			display: flex;
 			flex-direction: column;
 			align-items: center;
 			justify-content: center;
 
-
 			.title {
-				font-size: 14px;
+				font-size: 28rpx;
 				font-family: PingFangSC-Regular, PingFang SC;
 				font-weight: 400;
 				color: #282626;
-				line-height: 20px;
+				line-height: 40rpx;
 			}
 
 			image {
-				width: 36px;
-				height: 36px;
+				width: 72rpx;
+				height: 72rpx;
 			}
 		}
 	}
 
 	.assessBox {
 		height: 100%;
-		margin-bottom: 13px;
+		margin-bottom: 26rpx;
 
 		.title {
-			width: 64px;
-			height: 22px;
-			font-size: 16px;
+			width: 128rpx;
+			height: 44rpx;
+			font-size: 32rpx;
 			font-family: PingFangSC-Regular, PingFang SC;
 			font-weight: 400;
 			color: #000000;
-			line-height: 22px;
-			margin-bottom: 13px !important;
+			line-height: 44rpx;
+			margin-bottom: 26rpx !important;
 		}
 
 		.assessimg {
-			width: 343px;
-			height: 112px;
-			margin-bottom: 43px !important;
+			width: 686rpx;
+			height: 224rpx;
+			margin-bottom: 86rpx !important;
 
 			image {
 				width: 100%;
