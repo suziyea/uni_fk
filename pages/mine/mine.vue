@@ -32,7 +32,7 @@
 			</view>
 		</view>
 
-		<view class="listView">
+		<view class="listView" v-if="isLogin">
 			<u-cell-group>
 				<u-cell v-for="(item,index) in cellList" :key="index" :title="item.name" size="large"
 					:name="item.enName" isLink :icon="item.icon" @click="handleListItem"></u-cell>
@@ -109,10 +109,8 @@
 				if (item.path) {
 					uni.$u.route(item.path);
 				}
-				console.log(item,'你好啊')
 			},
 			handleListItem(item) {
-				console.log(item, 'niyade');
 				if (item.name === 'logout') {
 					this.LOGOUT()
 					uni.$u.route('/pages/login/login');

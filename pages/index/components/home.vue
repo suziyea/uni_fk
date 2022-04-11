@@ -17,70 +17,36 @@
 
 			<view class="tiplist">
 				<u-row justify="space-between">
-					<u-col span="4" justify="center">
+					<u-col span="4" justify="center" v-for="(item,index) in productDelsNav" :key="index">
 						<view class="demo-layout bg-purple icontip">
 							<view class="productBox">
 								<image src="/static/icon/zan.png" mode="aspectFill" @click="clickEvaluation"></image>
-								<view class="tiptext">利息最低</view>
+								<view class="tiptext">{{item.tips}}</view>
 							</view>
-							<view class="title">0.02%</view>
-						</view>
-					</u-col>
-					<u-col span="4" justify="center">
-						<view class="demo-layout bg-purple-light icontip">
-							<view class="productBox">
-								<image src="/static/icon/zan.png" mode="aspectFill" @click="clickEvaluation"></image>
-								<view class="tiptext">分期灵活</view>
-							</view>
-							<view class="title">12-36期</view>
-						</view>
-					</u-col>
-					<u-col span="4" justify="center">
-						<view class="demo-layout bg-purple icontip">
-							<view class="productBox">
-								<image src="/static/icon/zan.png" mode="aspectFill" @click="clickEvaluation"></image>
-								<view class="tiptext">极速放款</view>
-							</view>
-							<view class="title">10分钟</view>
+							<view class="title">{{item.name}}</view>
 						</view>
 					</u-col>
 				</u-row>
-
-
-
 			</view>
 
 			<view class="btnBox">
-				<view class="btn">我要借钱</view>
-
+				<view class="btn" @click="confirm">我要借钱</view>
 			</view>
 
 		</view>
 
 		<!-- 消息轮播 -->
-		<view class="tipsBox">
+		<view class="tipsBox" @click="confirm">
 			<u-notice-bar :text="messageArr" icon="volume" direction="column" speed="250" url=""></u-notice-bar>
 		</view>
 
 		<!-- list  -->
 		<view class="listBox">
 			<u-row justify="space-between">
-				<u-col span="4" justify="center">
-					<view class="demo-layout bg-purple iconList">
-						<image src="/static/icon/money.png" mode="aspectFill" @click="clickEvaluation"></image>
-						<view class="title">随时可还</view>
-					</view>
-				</u-col>
-				<u-col span="4" justify="center">
-					<view class="demo-layout bg-purple-light iconList">
-						<image src="/static/icon/apply.png" mode="aspectFill" @click="clickEvaluation"></image>
-						<view class="title">极简申请</view>
-					</view>
-				</u-col>
-				<u-col span="4" justify="center">
-					<view class="demo-layout bg-purple iconList">
-						<image src="/static/icon/organ.png" mode="aspectFill" @click="clickEvaluation"></image>
-						<view class="title">合法机构</view>
+				<u-col span="4" justify="center" v-for="(item,index) in memberNav" :key="index">
+					<view class="demo-layout bg-purple iconList" @click="confirm">
+						<image :src="item.icon" mode="aspectFill"></image>
+						<view class="title">{{item.name}}</view>
 					</view>
 				</u-col>
 			</u-row>
@@ -110,7 +76,6 @@
 
 <script>
 	import {
-		HandleRealName,
 		getEdu
 	} from "@/config/api/user.js";
 	import {
@@ -139,6 +104,32 @@
 				content: '您好，为了方便的贷款，请绑定银行卡！',
 				confirmText: '去绑卡',
 				loan_amount: '',
+				memberNav: [{
+					icon: '/static/icon/money.png',
+					path: '',
+					name: '随时可还'
+				}, {
+					icon: '/static/icon/apply.png',
+					path: '',
+					name: '极简申请'
+				}, {
+					icon: '/static/icon/organ.png',
+					path: '',
+					name: '合法机构'
+				}],
+				productDelsNav: [{
+					icon: '/static/icon/zan.png',
+					tips: '利息最低',
+					name: '0.02%'
+				}, {
+					icon: '/static/icon/zan.png',
+					tips: '分期灵活',
+					name: '12-36期'
+				}, {
+					icon: '/static/icon/zan.png',
+					tips: '极速放款',
+					name: '10分钟'
+				}],
 			}
 		},
 		onLoad(option) {
@@ -153,7 +144,6 @@
 			getUserInfos: {
 				deep: true,
 				handler(n, old) {
-					console.log(n, '999999', old)
 					this.setModalText()
 				}
 			}
@@ -174,12 +164,18 @@
 					if (res.code === 100000) {
 						this.loan_amount = res?.data?.value?.value || '****'
 					}
-					console.log(res, 'nihao')
 				}).catch((err) => {
 					console.log(err, 'err');
 				})
 			},
 			setModalText() {
+				if (!this.isLogin) {
+					this.showModal = true;
+					this.title = '登录';
+					this.content = '您好，请先完成登录！';
+					this.confirmText = '去登录'
+				}
+
 				if (this.userStatus === 1) {
 					this.showModal = true;
 					this.title = '实名认证';
@@ -196,6 +192,10 @@
 			},
 			confirm() {
 				this.showModal = false;
+				if (!this.isLogin) {
+					uni.$u.route('/pages/login/login');
+					return;
+				}
 				if (this.userStatus === 1) {
 					uni.$u.route('/pages/evaluation/real/real');
 				}
@@ -203,21 +203,8 @@
 					uni.$u.route('/pages/evaluation/addBank/addBank');
 				}
 			},
-			handleReal() {
-				HandleRealName({
-					"actual_name": "侯先生",
-					"id_number": "123456789123456789"
-				}).then((res) => {
-					console.log(res)
-				}).catch((err) => {
-					console.log(err, 'err');
-				})
-			},
-			clickHandler() {
-				console.log('点击了')
-			},
 			clickEvaluation() {
-				console.log('---')
+				this.confirm()
 			}
 		},
 	}
