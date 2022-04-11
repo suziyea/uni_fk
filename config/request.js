@@ -37,7 +37,7 @@ module.exports = (vm) => {
 		// 刷新令牌
 		if (data.code === 110401) {
 			uni.$u.http.post('/api/security/user/refresh-token', {
-				refresh_token: store.state.refresh_token
+				refresh_token: store.state.user.refresh_token
 			}).then((res) => {
 				if (res.code === 100000) {
 					store.commit('SET_TOKEN', {
@@ -57,7 +57,7 @@ module.exports = (vm) => {
 
 			return data
 		}
-		if (data.code === 400) {
+		if (data.code === 141000) {
 			store.commit('LOGOUT')
 			uni.$u.route({
 				type: 'reLaunch',
