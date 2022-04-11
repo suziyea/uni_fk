@@ -1,9 +1,5 @@
 <template>
 	<view class="page-frame">
-		<!-- top -->
-		<view class="titlebox flex align_center justify_center">
-			<text class="tips">隐私用户协议</text>
-		</view>
 		<view class="notices">
 			<view>尊敬的会员：</view>
 			<view style="text-indent: 2em">
@@ -378,25 +374,6 @@
 	.page-frame {
 		box-sizing: border-box;
 		height: 100%;
-	}
-
-	.titlebox {
-		height: 154rpx;
-
-		.icon_me_yy {
-			width: 60rpx;
-			height: 24rpx;
-			background-size: cover;
-		}
-
-		.tips {
-			font-size: 32rpx;
-			font-family: PingFangSC-Medium, PingFang SC;
-			font-weight: 500;
-			color: #28334a;
-			line-height: 44rpx;
-			margin: 0 22rpx;
-		}
 	}
 
 	.notices {
