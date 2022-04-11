@@ -1,8 +1,13 @@
 <template>
 	<view class="container">
 		<view class="content">
-			<view class="bg">
-				<image src="/static/img/reflect_bg.png" mode="aspectFill"></image>
+			<view class="bg u-flex u-flex-column u-row-center u-flex-items-center ">
+				<!-- <image src="/static/img/reflect_bg.png" mode="aspectFill"></image> -->
+
+				<view class="countStyle u-flex u-flex-column u-row-centeru-flex-items-center ">
+					<text class="title">最高可借额度(元)</text>
+					<u-count-to :endVal="userAssessInfo.loan_amount" separator="," class="count"></u-count-to>
+				</view>
 			</view>
 			<!-- 消息轮播 -->
 			<view class="tipsBox">
@@ -14,7 +19,7 @@
 						<view class="demo-layout title">预计服务费</view>
 					</u-col>
 					<u-col span="6">
-						<view class="demo-layout right_title">299元</view>
+						<view class="demo-layout right_title">{{userAssessInfo.second_debit_amount}}元</view>
 					</u-col>
 				</u-row>
 
@@ -23,7 +28,8 @@
 						<view class="demo-layout title">提现到您的</view>
 					</u-col>
 					<u-col span="6">
-						<view class="demo-layout right_title">银行尾号 <text class="num">{{` 1277`}}</text></view>
+						<view class="demo-layout right_title">银行尾号 <text
+								class="num">{{` ${userAssessInfo.user.card_number.slice(-4)}`}}</text></view>
 					</u-col>
 				</u-row>
 
@@ -45,15 +51,31 @@
 </template>
 
 <script>
+	import {
+		getAssessResult,
+	} from "@/config/api/user.js";
 	export default {
 		data() {
 			return {
 				messageArr: ['凯文罗', '小罗', '二流子'],
-				selectRadio: false
+				selectRadio: false,
+				userAssessInfo: {}
 			}
 		},
+		created() {
+			this.getAssessInfo()
+		},
 		methods: {
-
+			getAssessInfo() {
+				getAssessResult({}).then((res) => {
+					if (res.code === 100000) {
+						this.userAssessInfo = res?.data || {}
+					}
+					console.log(res, 'nihao')
+				}).catch((err) => {
+					console.log(err, 'err');
+				})
+			},
 		}
 	}
 </script>
@@ -86,10 +108,42 @@
 				position: absolute;
 				top: 128rpx;
 				left: 178rpx;
+				// position: relative;
+				background: url(../../../static/img/reflect_bg.png) no-repeat;
+				background-size: cover;
 
 				image {
 					width: 100%;
 					height: 100%
+				}
+
+				.countStyle {
+					align-items: center;
+					justify-content: center;
+					width: 256rpx;
+					height: 100%;
+					padding: 0 14rpx;
+					box-sizing: border-box;
+					align-items: center;
+
+					.title {
+						height: 34rpx;
+						font-size: 24rpx;
+						font-family: PingFangSC-Regular, PingFang SC;
+						font-weight: 400;
+						color: #666565;
+						line-height: 34rpx;
+					}
+
+					.count {
+						height: 82rpx;
+						font-size: 74rpx;
+						font-family: Arial-BoldMT, Arial;
+						font-weight: normal;
+						color: #020F2B;
+						line-height: 84rpx;
+					}
+
 				}
 			}
 

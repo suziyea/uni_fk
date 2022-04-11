@@ -39,5 +39,19 @@ export const addFeedback = (params, config = {
 		auth: true
 	}
 }) => http.post('/api/fk/feedback/save', params, config)
+
+// 评估结果页
+export const assessResult = (params, config = {
+	custom: {
+		auth: true
+	}
+}) => http.post('/api/fk/home/evaluation-result', params, config)
+
+// 评估结果页 二级
+export const getAssessResult = (params, config = {
+	custom: {
+		auth: true
+	}
+}) => http.post('/api/fk/home/evaluation-result-second', params, config)
 // get请求
 export const getMenu = (data) => http.get('url', data)

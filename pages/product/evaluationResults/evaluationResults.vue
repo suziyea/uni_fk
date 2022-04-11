@@ -2,7 +2,7 @@
 	<view class="container">
 		<view class="loan u-flex u-flex-column">
 			<text class="title">预计放款额度</text>
-			<text class="money">50000</text>
+			<text class="money">{{userAssessInfo.loan_amount}}</text>
 			<text class="desc u-line-1">*此额度根据您的日常行为记录评估额度</text>
 			<text class="desc u-line-1">最终可下款额度以资金方最终审核情况为准</text>
 		</view>
@@ -32,20 +32,20 @@
 
 		<view class="formData">
 			<u--form :model="formContent" :borderBottom='noneBorder' ref="uForm" labelWidth="auto">
-				<u-form-item label="申请用途" prop="" :borderBottom="noneBorder" @click="showSex = true; hideKeyboard()"
+				<u-form-item label="申请用途" prop="" :borderBottom="noneBorder" @click="showAssessSheet = true; hideKeyboard()"
 					ref="item1">
 					<u--input v-model="purpose" disabled inputAlign="right" disabledColor="#ffffff" border="none">
 					</u--input>
 					<u-icon slot="right" name="arrow-right"></u-icon>
 				</u-form-item>
 				<u-form-item label="银行卡号" prop="bankNo" :borderBottom="noneBorder" ref="item1">
-					<u--input inputAlign="right" v-model="formContent.bankNo" border="none"
+					<u--input inputAlign="right" v-model="cardIdNum" border="none"
 						suffixIcon="/static/icon/my_bank.png">
 							</u--input>
 				</u-form-item>
 
 				<u-form-item label="预留手机号" prop="phone" :borderBottom="noneBorder" ref="item1">
-					<u--input inputAlign="right" v-model="phone" border="none" suffixIcon="/static/icon/my_phone.png">
+					<u--input inputAlign="right" v-model="userMobile" border="none" suffixIcon="/static/icon/my_phone.png">
 					</u--input>
 				</u-form-item>
 
@@ -92,14 +92,14 @@
 
 			</u--form>
 
-			<u-action-sheet :show="showSex" :actions="actions" title="请选择申请用途" description="请选择申请用途"
-				@close="showSex = false" @select="sexSelect">
+			<u-action-sheet :show="showAssessSheet" :actions="assessReasonList" title="请选择申请用途" description="请选择申请用途"
+				@close="showAssessSheet = false" @select="selectRreason">
 			</u-action-sheet>
 
 		</view>
 
 		<view class="btn">
-			<u-button type="primary" :plain="true" class="custom-style" :hairline="true" text="确认">
+			<u-button type="primary" :plain="true" class="custom-style" @click="submit" :hairline="true" text="确认">
 			</u-button>
 		</view>
 
@@ -109,6 +109,9 @@
 </template>
 
 <script>
+	import {
+		assessResult,
+	} from "@/config/api/user.js";
 	export default {
 		data() {
 			return {
@@ -143,23 +146,57 @@
 						name: '保密',
 					},
 				],
-				showSex: false,
+				showAssessSheet: false,
 				purpose: '',
 				phone: '',
 				formContent: {},
 				selectRadio: false,
-
+				assessReasonList: [],
 				tips: '获取验证码',
 				noneBorder: false,
+				userAssessInfo: {
+					
+				},
+				cardIdNum: ''
 			};
+		},
+		created() {
+			this.getAssessInfo()
 		},
 		onLoad() {},
 		methods: {
-			sexSelect(e) {
+			clickSubmit() {
+				uni.$u.debounce(this.submit, 500)
+			},
+			submit() {
+				uni.$u.toast('评估成功')
+				uni.$u.route('/pages/product/reflect/reflect');
+			},
+			selectRreason(e) {
+				console.log(e,'选择啊')
 				this.purpose = e.name
 			},
 			codeChange(text) {
 				this.tips = text;
+			},
+			getAssessInfo() {
+				assessResult({}).then((res) => {
+					if (res.code === 100000) {
+						this.userAssessInfo = res?.data || {}
+						this.cardIdNum = res?.data?.user?.card_number
+						this.userMobile = res?.data?.user?.reserve_phone
+						this.assessReasonList = res?.data?.application_reason.map((item,i) => {
+							return {
+								name: item,
+								id: i
+							}
+							console.log(item,'你还爱和')
+						})
+					}
+					console.log(res, 'nihao')
+				}).catch((err) => {
+					console.log(err, 'err');
+				})
 			},
 			getCode() {
 				if (this.$refs.uCode.canGetCode) {
@@ -188,95 +225,95 @@
 
 <style lang="scss" scoped>
 	.container {
-		width: 375px;
-		height: 812px;
+		width: 100%;
+		height: 100%;
 		background: #ffffff;
-
+		margin-bottom: 60rpx;
 		.loan {
-			margin-top: 8px;
-			padding: 0px 32px 0 32px;
+			margin-top: 16rpx;
+			padding: 0px 64rpx 0 64rpx;
 
 			.title {
-				font-size: 16px;
+				font-size: 32rpx;
 				font-family: PingFangSC-Medium, PingFang SC;
 				font-weight: 500;
 				color: #414141;
-				line-height: 22px;
+				line-height: 44rpx;
 			}
 
 			.money {
-				font-size: 37px;
+				font-size: 74rpx;
 				font-family: Arial-BoldMT, Arial;
 				font-weight: normal;
 				color: #020f2b;
-				line-height: 42px;
+				line-height: 84rpx;
 			}
 
 			.desc {
-				font-size: 10px;
+				font-size: 20rpx;
 				font-family: PingFangSC-Regular, PingFang SC;
 				font-weight: 400;
 				color: #414141;
-				line-height: 14px;
+				line-height: 28rpx;
 			}
 		}
 
 		.advert {
-			width: 343px;
-			height: 171px;
+			width: 686rpx;
+			height: 342rpx;
 			background: linear-gradient(180deg, #9EBEFF 0%, #FFFFFF 100%);
-			box-shadow: 2px 5px 6px 0px rgba(0, 0, 0, 0.04);
-			border-radius: 4px;
-			margin: 12px 16px;
+			box-shadow: 4rpx 10rpx 12rpx 0px rgba(0, 0, 0, 0.04);
+			border-radius: 8rpx;
+			margin: 24rpx 32rpx;
 
 			.top {
-				padding: 9px 12px 0 12px;
+				padding: 18rpx 24rpx 0 24rpx;
 
 				.title {
-					font-size: 14px;
+					font-size: 28rpx;
 					font-family: PingFangSC-Semibold, PingFang SC;
 					font-weight: 600;
 					color: #333333;
-					line-height: 20px;
-					margin-left: 8px;
+					line-height: 40rpx;
+					margin-left: 16rpx;
 				}
 
 				image {
-					width: 16px;
-					height: 16px;
+					width: 32rpx;
+					height: 32rpx;
 				}
 			}
 		}
 
 		.advList {
 			position: relative;
-			padding: 12px 12px;
+			padding: 24rpx 24rpx;
 
 			.list {
-				margin-bottom: 12px;
+				margin-bottom: 24rpx;
 
 				image {
-					width: 28px;
-					height: 28px;
+					width: 56rpx;
+					height: 56rpx;
 				}
 
 				.content {
-					margin-left: 8px;
+					margin-left: 16rpx;
 
 					.title {
-						width: 48px;
-						height: 17px;
-						font-size: 12px;
+						width: 96rpx;
+						height: 34rpx;
+						font-size: 24rpx;
 						font-family: PingFangSC-Medium, PingFang SC;
 						font-weight: 500;
 						color: #282626;
-						line-height: 17px;
+						line-height: 34rpx;
 					}
 
 					.desc1 {
-						width: 115px;
-						height: 22px;
-						font-size: 8px;
+						width: 230rpx;
+						height: 44rpx;
+						font-size: 16rpx;
 						font-family: PingFangSC-Regular, PingFang SC;
 						font-weight: 400;
 						color: #282626;
@@ -287,42 +324,42 @@
 		}
 
 		.remark {
-			width: 343px;
-			height: 34px;
-			font-size: 12px;
+			width: 686rpx;
+			height: 68rpx;
+			font-size: 24rpx;
 			font-family: PingFangSC-Regular, PingFang SC;
 			font-weight: 400;
 			color: #414141;
-			line-height: 17px;
-			margin: 12px 16px;
+			line-height: 34rpx;
+			margin: 24rpx 32rpx;
 
 		}
 
 		.formData {
-			margin: 12px 14px;
-			padding: 0 16px;
+			margin: 24rpx 28rpx;
+			padding: 0 32rpx;
 
 			.remarkForm {
-				width: 311px;
-				height: 28px;
-				font-size: 10px;
+				width: 622rpx;
+				height: 56rpx;
+				font-size: 20rpx;
 				font-family: PingFangSC-Regular, PingFang SC;
 				font-weight: 400;
 				color: #414141;
-				line-height: 14px;
-				padding: 14px;
+				line-height: 28rpx;
+				padding: 28rpx;
 			}
 
 			.read {
-				margin-top: 24px;
+				margin-top: 48rpx;
 
 				.read_tip {
 
-					font-size: 12px;
+					font-size: 24rpx;
 					font-family: PingFangSC-Regular, PingFang SC;
 					font-weight: 400;
 					color: #414141;
-					line-height: 17px;
+					line-height: 34rpx;
 
 					.blue {
 						color: #4579E6;
@@ -331,8 +368,8 @@
 			}
 
 			.setImgbox {
-				width: 18px;
-				height: 18px;
+				width: 36rpx;
+				height: 36rpx;
 				image {
 					width:100%;
 					height: 100%;
@@ -342,21 +379,21 @@
 		}
 
 		.btn {
-			padding: 0 26px;
-			margin-top: 28px;
-			width: 323px;
-			height: 44px;
+			padding: 0 52rpx;
+			margin-top: 56rpx;
+			width: 646rpx;
+			height: 88rpx;
 			position: fixed;
 			bottom: 0;
 
 			.custom-style {
 				background: #4579E6;
-				border-radius: 4px;
-				font-size: 16px;
+				border-radius: 8rpx;
+				font-size: 32rpx;
 				font-family: PingFangSC-Regular, PingFang SC;
 				font-weight: 400;
 				color: #FFFFFF;
-				line-height: 22px;
+				line-height: 44rpx;
 			}
 		}
 	}
