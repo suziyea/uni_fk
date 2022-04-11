@@ -372,6 +372,7 @@
 	.bigtitle {
 		font-size: 32rpx;
 		font-weight: 500;
+		margin-top: 24rpx;
 	}
 
 	.page-frame {
