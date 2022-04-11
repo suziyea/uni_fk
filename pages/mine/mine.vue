@@ -3,31 +3,18 @@
 		<view class="bgBox">
 			<view class="userInfo">
 				<view class="avatar">
-					<image src="/static/icon/head.png" mode="aspectFill"></image>
+					<!-- <image src="/static/icon/head.png" mode="aspectFill"></image> -->
+					<image :src="'/static/icon/'+headStr+'.png'" mode="aspectFill"></image>
 				</view>
-				<!-- {{getUserInfos}}-- -->
 				<view class="userName u-flex u-flex-column" v-if="isLogin">
-					<!-- 17701140105 -->
 					<text class="name">{{`HI，${getUserInfos.actual_name || ''}`}}</text>
 					<text class="phone">{{getUserInfos.phone}}</text>
 				</view>
 				<view class="userName" v-else>
-					登录
+					<navigator open-type="navigate" url="/pages/login/login">
+						登录
+					</navigator>
 				</view>
-
-				<!-- <view class="right" v-if="isLogin">
-					<view class="nickname">
-						<view>{{realName}}</view>
-						<view class="star" v-if="isMember">
-							<image src="/static/icons/star.png" mode="aspectFill"></image>
-						</view>
-						<view class="star" v-else>
-							<image src="/static/icons/star2.png" mode="aspectFill"></image>
-						</view>
-					</view>
-					<view class="account">账号：{{account}}</view>
-				</view>
-				<navigator v-else class="login" open-type="navigate" url="/pages/login/login">登录</navigator> -->
 			</view>
 		</view>
 
@@ -61,6 +48,8 @@
 		mapGetters,
 		mapMutations
 	} from 'vuex'
+	import common from '@/utils/common'
+
 	export default {
 		data() {
 			return {
@@ -74,7 +63,7 @@
 					name: '我的权益'
 				}, {
 					icon: '/static/icon/kefu.png',
-					path: '',
+					path: '/pages/mine/service/service',
 					name: '客服中心'
 				}],
 				cellList: [{
@@ -95,7 +84,7 @@
 					},
 					{
 						icon: '/static/icon/logout.png',
-						path: '',
+						path: '/pages/login/login',
 						name: '退出登录',
 						enName: 'logout'
 					}
@@ -117,13 +106,25 @@
 				})
 			},
 			clickNav(item) {
-
+				if (item.path) {
+					uni.$u.route(item.path);
+				}
+				console.log(item,'你好啊')
 			},
 			handleListItem(item) {
 				console.log(item, 'niyade');
 				if (item.name === 'logout') {
 					this.LOGOUT()
 					uni.$u.route('/pages/login/login');
+					return;
+				}
+				if (item.name === 'about') {
+					uni.$u.route('/pages/mine/about/about')
+					return;
+				}
+				if (item.name === 'look') {
+					uni.$u.route('/pages/mine/agreement/agreement')
+					return;
 				}
 			}
 		},
@@ -144,8 +145,24 @@
 			uni.hideLoading()
 		},
 		computed: {
-			...mapState(['realName', 'account', 'isMember']),
-			...mapGetters(['isLogin', 'getUserInfos'])
+			...mapGetters(['isLogin', 'getUserInfos']),
+			headStr() {
+				/**	getSexByBirthday
+				 * @param idCard
+				 * '0' 男
+				 * '1' 女
+				 */
+				let sexNum = this.getUserInfos?.idNumber ? common.getSexByBirthday(this.getUserInfos.idNumber) : 2
+				if (sexNum === '0') {
+					return 'headman'
+				}
+				if (sexNum === '1') {
+					return 'headwomen'
+				}
+				return 'head'
+			},
+
+
 		}
 	}
 </script>

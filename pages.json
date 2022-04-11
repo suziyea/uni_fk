@@ -106,7 +106,25 @@
             "path" : "pages/mine/service/service",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
+                "navigationBarTitleText": "客服中心",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/mine/about/about",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "关于我们",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/mine/agreement/agreement",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "用户协议",
                 "enablePullDownRefresh": false
             }
             
