@@ -5,13 +5,13 @@
 				<image src="/static/icons/logo.png" mode="aspectFill"></image>
 			</view>
 			<view class="group">
-				<view class="item">
+				<view class="item" @click="telPhone">
 					<view class="icon">
 						<image src="/static/icons/tel_icon.png" mode="aspectFill"></image>
 					</view>
 					<view class="title">客服电话</view>
 					<view class="tel">
-						<u--text mode="phone" @click="telPhone" :text="servecPhone"></u--text>
+						<u--text mode="phone" :text="servecPhone"></u--text>
 					</view>
 				</view>
 				<view class="item">
