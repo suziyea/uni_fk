@@ -8,12 +8,12 @@
 			</view>
 			<view class="item">
 				<view class="title">联系电话</view>
-				<view class="input"><input type="number" v-model="mobile" placeholder="请输入您的电话"
+				<view class="input"><input type="number" v-model="contact_phone" placeholder="请输入您的手机号码"
 						placeholder-class="myholder" /></view>
 			</view>
 			<view class="item">
 				<view class="title">联系邮箱</view>
-				<view class="input"><input type="text" v-model="email" placeholder="请输入您的邮箱"
+				<view class="input"><input type="text" v-model="contact_email" placeholder="请输入您的邮箱"
 						placeholder-class="myholder" /></view>
 			</view>
 		</view>
@@ -35,46 +35,63 @@
 </template>
 
 <script>
+	import {
+		addFeedback
+	} from "@/config/api/user.js";
 	export default {
 		data() {
 			return {
 				contact: '',
-				mobile: '',
-				email: '',
+				contact_phone: '',
+				contact_email: '',
 				content: ''
 			};
 		},
 		methods: {
-			submiting() {
+			clickSubmit() {
+				uni.$u.debounce(this.submit, 500)
+			},
+
+			submit() {
 				if (!this.contact) {
-					this.showNoneIconToast('请输入您的姓名')
+					this.showNoneIconToast('请输入您的姓名！')
 					return
 				}
-				if (!this.mobile) {
-					this.showNoneIconToast('请输入您的电话')
+				if (!this.contact_phone) {
+					this.showNoneIconToast('请输入您的手机号码！')
 					return
 				}
 				if (!this.content) {
-					this.showNoneIconToast('请填写反馈内容')
+					this.showNoneIconToast('请填写反馈内容！')
 					return
 				}
-				this.$request.POST('/add_feedback', {
-						contacts: this.contact,
-						contact_number: this.mobile,
-						contact_email: this.email,
-						feedback_content: this.content
-					}, true,
-					(res) => {
-						this.showNoneIconToast('我们已经收到您的反馈，谢谢')
-						setTimeout(() => {
-							uni.navigateBack({
-								delta: 2
-							})
-						}, 1000)
-					},
-					(err) => {
-						this.showNoneIconToast(err.data || '反馈失败，请稍后再试')
-					})
+				if (!uni.$u.test.mobile(this.contact_phone)) {
+					this.showNoneIconToast('请输入正确的手机号！')
+					return
+				}
+				if (this.contact_email) {
+					if (!uni.$u.test.email(this.contact_email)) {
+						this.showNoneIconToast('请输入正确的邮箱格式！')
+						return
+					}
+				}
+
+				addFeedback({
+					"contact": this.contact,
+					"contact_phone": this.contact_phone,
+					"contact_email": this.contact_email,
+					"content": this.content
+				}).then((res) => {
+					if (res.code === 100000) {
+						this.showNoneIconToast('我们已收到反馈内容，会尽快处理')
+						uni.switchTab({
+							url: '/pages/mine/mine'
+						})
+					}
+
+				}).catch((err) => {
+					console.log(err, 'err');
+				})
 			},
 			showNoneIconToast(title) {
 				uni.showToast({
