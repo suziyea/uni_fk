@@ -7,8 +7,6 @@
 		<view class="quotaBox u-flex u-row-center">
 			<view class="circleimg">
 				<image src="/static/img/circle.png" mode="aspectFill" @click="clickEvaluation"></image>
-				<!-- <u--image :showLoading="true" class="imageE" src="/static/img/evaluation.png" width="343px" height="112px" @click="clickEvaluation"></u--image> -->
-				<!-- <u-count-to :endVal="1542" separator="," class="countStyle"></u-count-to> -->
 				<view class="countStyle u-flex u-flex-column u-row-centeru-flex-items-center ">
 					<text class="title">最高可借额度(元)</text>
 					<u-count-to :endVal="loan_amount" separator="," class="count"></u-count-to>
@@ -50,9 +48,6 @@
 					</view>
 				</u-col>
 			</u-row>
-
-
-
 		</view>
 
 		<!-- 我要测评 -->
@@ -60,7 +55,6 @@
 			<view class="title">我要测评</view>
 			<view class="assessimg">
 				<image src="/static/img/evaluation.png" mode="aspectFill" @click="clickEvaluation"></image>
-				<!-- <u--image :showLoading="true" class="imageE" src="/static/img/evaluation.png" width="343px" height="112px" @click="clickEvaluation"></u--image> -->
 			</view>
 		</view>
 
@@ -68,7 +62,6 @@
 		<view>
 			<u-modal :show="showModal" :title="title" :confirmText="confirmText" @confirm="confirm"
 				:showCancelButton="true" @cancel=" showModal = false" :content='content'></u-modal>
-			<!-- <u-button @click="show = true">打开</u-button> -->
 		</view>
 
 	</view>
@@ -93,7 +86,6 @@
 				}
 			}
 		},
-		// props: ['userStatus'],
 		data() {
 			return {
 				title: 'Hello',
@@ -101,7 +93,6 @@
 				showModal: false,
 				title: '实名认证',
 				content: '您好，请先完成实名认证信息补全!',
-				content: '您好，为了方便的贷款，请绑定银行卡！',
 				confirmText: '去绑卡',
 				loan_amount: '',
 				memberNav: [{

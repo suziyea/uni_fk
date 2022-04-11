@@ -39,7 +39,15 @@
 			</u-cell-group>
 		</view>
 
+
+		<!-- 弹窗 -->
+		<view>
+			<u-modal :show="showModal" :title="title" :confirmText="confirmText" @confirm="confirm"
+				:showCancelButton="true" @cancel=" showModal = false" :content='content'></u-modal>
+			<!-- <u-button @click="show = true">打开</u-button> -->
+		</view>
 	</view>
+
 </template>
 
 <script>
@@ -88,7 +96,11 @@
 						name: '退出登录',
 						enName: 'logout'
 					}
-				]
+				],
+				showModal: false,
+				title: '登录',
+				content: '您好，请先完成登录！',
+				confirmText: '去登录',
 			};
 		},
 		methods: {
@@ -106,8 +118,10 @@
 				})
 			},
 			clickNav(item) {
-				if (item.path) {
-					uni.$u.route(item.path);
+				if (!this.isLogin) {
+					if (item.path) {
+						uni.$u.route(item.path);
+					}
 				}
 			},
 			handleListItem(item) {
@@ -124,7 +138,14 @@
 					uni.$u.route('/pages/mine/agreement/agreement')
 					return;
 				}
-			}
+			},
+			confirm() {
+				this.showModal = false;
+				if (!this.isLogin) {
+					uni.$u.route('/pages/login/login');
+					return;
+				}
+			},
 		},
 		onLoad() {
 			uni.showLoading({
