@@ -32,5 +32,12 @@ export const getUserInfo = (params, config = {
 		auth: true
 	}
 }) => http.post('/api/user/data/get', params, config)
+
+// 添加反馈
+export const addFeedback = (params, config = {
+	custom: {
+		auth: true
+	}
+}) => http.post('/api/fk/feedback/save', params, config)
 // get请求
 export const getMenu = (data) => http.get('url', data)
