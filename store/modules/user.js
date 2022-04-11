@@ -19,6 +19,9 @@ export default {
 		LOGOUT(state) {
 			state.login = false
 			state.token = ''
+			state.refresh_token = ''
+			state.isRealNameStatus = ''
+			state.userInfo = {}
 			uni.clearStorageSync()
 		},
 		SETDEVICE(state, payload) {

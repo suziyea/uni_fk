@@ -5,11 +5,6 @@ module.exports = (vm) => {
 	uni.$u.http.setConfig((config) => {
 		/* config 为默认全局配置*/
 		config.baseURL = 'https://api.shcwwl.cn'; /* 根域名 */
-		// config.header ={
-		// 	...config.header,
-		// 	// 'device-type': vm.$store.state.osType || '',
-		// 	// 'device-token': vm.$store.state.deviceId || ''
-		// }
 		return config
 	})
 
@@ -19,8 +14,8 @@ module.exports = (vm) => {
 		config.data = config.data || {}
 		// 根据custom参数中配置的是否需要token，添加对应的请求头
 		if (config?.custom?.auth) {
-			console.log('config-----',config,store);
-			
+			console.log('config-----', config, store);
+
 			// 可以在此通过vm引用vuex中的变量，具体值在vm.$store.state中
 			config.header.Authorization = `Bearer ${store.state.user.token}`
 		}
@@ -62,6 +57,10 @@ module.exports = (vm) => {
 
 			return data
 		}
+		if (data.code === 400) {
+			store.commit('LOGOUT')
+			uni.$u.route('/pages/index/index');
+		}
 		if (data.code !== 200) {
 			// 如果没有显式定义custom的toast参数为false的话，默认对报错进行toast弹出提示
 			if (custom.toast !== false) {
@@ -76,15 +75,6 @@ module.exports = (vm) => {
 				return new Promise(() => {})
 			}
 		}
-		uni.$u.http.post('/common/menu', {
-			custom: {
-				auth: true
-			}
-		}).then(() => {
-
-		}).catch(() => {
-
-		})
 		return data.data === undefined ? {} : data.data
 	}, (response) => {
 		// 对响应错误做点什么 （statusCode !== 200）
