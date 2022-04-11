@@ -59,7 +59,11 @@ module.exports = (vm) => {
 		}
 		if (data.code === 400) {
 			store.commit('LOGOUT')
-			uni.$u.route('/pages/index/index');
+			uni.$u.route({
+				type: 'reLaunch',
+				url: 'pages/login/login',
+			})
+			return;
 		}
 		if (data.code !== 200) {
 			// 如果没有显式定义custom的toast参数为false的话，默认对报错进行toast弹出提示
