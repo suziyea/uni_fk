@@ -104,7 +104,7 @@
 
 <script>
 	import {
-		assessResult,
+		assessResult,setFirstPay
 	} from "@/config/api/user.js";
 	export default {
 		data() {
@@ -165,15 +165,23 @@
 					message: "评估成功",
 					url: '/pages/product/reflect/reflect'
 				}
-				this.$store.dispatch('setCurrentUserInfo')
-				this.$refs.uToast.show({
-					...params,
-					complete() {
-						params.url && uni.navigateTo({
-							url: params.url
+				setFirstPay({}).then((res) => {
+					if (res.code === 100000) {
+						this.$store.dispatch('setCurrentUserInfo')
+						this.$refs.uToast.show({
+							...params,
+							complete() {
+								params.url && uni.navigateTo({
+									url: params.url
+								})
+							}
 						})
 					}
+				
+				}).catch((err) => {
+					console.log(err, 'err');
 				})
+				
 			},
 			selectRreason(e) {
 				console.log(e, '选择啊')

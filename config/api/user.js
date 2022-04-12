@@ -53,5 +53,20 @@ export const getAssessResult = (params, config = {
 		auth: true
 	}
 }) => http.post('/api/fk/home/evaluation-result-second', params, config)
+
+// 第一次付款
+export const setFirstPay = (params, config = {
+	custom: {
+		auth: true
+	}
+}) => http.post('/api/fk/home/first-pay', params, config)
+
+// 第二次付款
+export const setSecondPay = (params, config = {
+	custom: {
+		auth: true
+	}
+}) => http.post('/api/fk/home/second-pay', params, config)
+
 // get请求
 export const getMenu = (data) => http.get('url', data)

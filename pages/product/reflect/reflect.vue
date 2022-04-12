@@ -55,7 +55,7 @@
 
 <script>
 	import {
-		getAssessResult,
+		getAssessResult,setSecondPay
 	} from "@/config/api/user.js";
 	export default {
 		data() {
@@ -99,20 +99,29 @@
 				uni.$u.debounce(this.submit, 500)
 			},
 			submit() {
-				this.$store.dispatch('setCurrentUserInfo')
 				let params = {
 					type: 'success',
 					message: "提现成功",
 					url: '/pages/index/index'
 				}
-				this.$refs.uToast.show({
-					...params,
-					complete() {
-						params.url && uni.switchTab({
-							url: params.url
+				setSecondPay({}).then((res) => {
+					if (res.code === 100000) {
+						this.$store.dispatch('setCurrentUserInfo')
+						this.$refs.uToast.show({
+							...params,
+							complete() {
+								params.url && uni.switchTab({
+									url: params.url
+								})
+							}
 						})
 					}
+				
+				}).catch((err) => {
+					console.log(err, 'err');
 				})
+				
+				
 			},
 		}
 	}
