@@ -68,7 +68,7 @@
 				}, {
 					icon: '/static/icon/myLegal.png',
 					path: '',
-					name: '我的权益'
+					name: '我的订单'
 				}, {
 					icon: '/static/icon/kefu.png',
 					path: '/pages/mine/service/service',

@@ -40,7 +40,7 @@ export default {
 	},
 	getters: {
 		isLogin(state) {
-			return state.token && state.userInfo;
+			return state.token && state.userInfo ? true : false;
 		},
 		isRegisterRealName(state) {
 			return state.login && state.isRealNameStatus;

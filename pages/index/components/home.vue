@@ -68,6 +68,7 @@
 </template>
 
 <script>
+import store from "@/store"
 	import {
 		getEdu
 	} from "@/config/api/user.js";
@@ -125,10 +126,10 @@
 		},
 		onLoad(option) {
 			console.log('option', option);
+			this.setModalText()
 
 		},
 		created() {
-			this.setModalText()
 			this.getEdus()
 		},
 		watch: {
@@ -163,7 +164,7 @@
 				this.setModalText()
 			},
 			setModalText() {
-				if (!this.isLogin) {
+				if (!(store.state.user.token)) {
 					this.showModal = true;
 					this.title = '登录';
 					this.content = '您好，请先完成登录！';
@@ -184,7 +185,7 @@
 					this.confirmText = '去绑卡'
 				}
 
-				if (this.userStatus === 2) {
+				if (this.userStatus === 3) {
 					this.showModal = true;
 					this.title = '评估';
 					this.content = '您好，为了方便的贷款，请完成评估！';
@@ -200,7 +201,7 @@
 			},
 			confirm() {
 				this.showModal = false;
-				if (!this.isLogin) {
+				if (!store.state.user.token) {
 					uni.$u.route('/pages/login/login');
 					return;
 				}
