@@ -71,7 +71,7 @@
 			this.loadmore()
 		},
 		created() {
-			this.getEdus();
+			// this.getEdus();
 			this.getBannerImg()
 		},
 		methods: {
