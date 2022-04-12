@@ -40,22 +40,17 @@
 					<u-icon slot="right" name="arrow-right"></u-icon>
 				</u-form-item>
 
-				<u-form-item label="银行卡号" labelWidth="auto">
-					<!-- <view class="bankbox"> -->
+				<u-form-item label="银行卡号" labelWidth="auto" class="bankForm">
 					<u--input inputAlign="right" v-model="cardIdNum" border="none"
 						suffixIcon="/static/icon/my_bank.png">
 					</u--input>
-					<!-- <view >
-						
-					</view> -->
-					<!-- <text slot="right" class="restBank">
-						侯阿康
-					</text> -->
-					<!-- </view> -->
+					<text slot="right" class="restBank" @click="restAddBank">
+						重新绑卡
+					</text>
 				</u-form-item>
 
 				<u-form-item label="预留手机号" labelWidth="auto">
-					<u--input inputAlign="right" v-model="purpose" border="none" suffixIcon="/static/icon/my_phone.png">
+					<u--input inputAlign="right" v-model="userMobile" border="none" suffixIcon="/static/icon/my_phone.png">
 					</u--input>
 				</u-form-item>
 
@@ -63,10 +58,10 @@
 					<!-- <u--input inputAlign="right" v-model="phone" border="none" suffixIcon="/static/icon/my_phone.png"></u--input> -->
 					<!-- 注意：由于兼容性差异，如果需要使用前后插槽，nvue下需使用u--input，非nvue下需使用u-input -->
 					<!-- #ifndef APP-NVUE -->
-					<u-input inputAlign="right" v-model="formContent.smsCode" border="none">
+					<u-input inputAlign="right" v-model="code" border="none">
 						<!-- #endif -->
 						<!-- #ifdef APP-NVUE -->
-						<u--input inputAlign="right" v-model="formContent.smsCode" border="none">
+						<u--input inputAlign="right" v-model="code" border="none">
 							<!-- #endif -->
 							<template slot="suffix">
 								<u-code ref="uCode" @change="codeChange" seconds="20" changeText="X秒重新获取哈哈哈"></u-code>
@@ -134,16 +129,6 @@
 						desc: "24小时专属客服，为用户提供贴心服务。",
 					},
 				],
-				actions: [{
-						name: '男',
-					},
-					{
-						name: '女',
-					},
-					{
-						name: '保密',
-					},
-				],
 				showAssessSheet: false,
 				purpose: '',
 				phone: '',
@@ -172,7 +157,6 @@
 				uni.$u.debounce(this.submit, 500)
 			},
 			submit() {
-				// uni.$u.toast('评估成功')
 				let params = {
 					type: 'success',
 					message: "评估成功",
@@ -237,6 +221,13 @@
 					uni.$u.route('/pages/mine/agreement/agreement')
 					return;
 				}
+			},
+			restAddBank() {
+				uni.$u.route({
+					// type: 'reLaunch',
+					url: 'pages/evaluation/addBank/addBank',
+				})
+				return;
 			}
 
 		},
@@ -250,7 +241,6 @@
 		.info {
 			margin: 16rpx 64rpx 24rpx 64rpx;
 			box-sizing: border-box;
-			border: 1px solid skyblue;
 
 			.title {
 				font-size: 32rpx;
@@ -358,8 +348,23 @@
 		.formList {
 			margin: 0 32rpx;
 
+			.bankForm {
+				height: 150rpx;
+				position: relative;
+			}
+
 			.restBank {
 				position: absolute;
+				right: 0;
+				top: 100rpx;
+				width: 56px;
+				height: 20px;
+				font-size: 14px;
+				font-family: PingFangSC-Regular, PingFang SC;
+				font-weight: 400;
+				color: #4579E6;
+				line-height: 20px;
+				cursor: pointer;
 			}
 
 			// .bankbox {

@@ -68,7 +68,6 @@
 			}
 		},
 		onLoad() {
-			console.log('---===你丫的')
 			this.loadmore()
 		},
 		created() {
@@ -77,7 +76,7 @@
 		},
 		methods: {
 			swiperClick(i) {
-				let url = this.bannerList[i]?.url || ''
+				let url = this.bannerList[i]?.link || ''
 				uni.navigateTo({
 					url: `/pages/webview/webview?urlPath=${encodeURIComponent(url)}`
 				});
@@ -100,7 +99,6 @@
 					if (res.code === 100000) {
 						this.productList.push(...res?.data?.list)
 					}
-					console.log(res, 'nihao')
 				}).catch((err) => {
 					console.log(err, 'err');
 				})
@@ -109,11 +107,6 @@
 				this.loadmore()
 			},
 			loadmore() {
-				// for (let i = 0; i < 30; i++) {
-				// 	this.indexList.push({
-				// 		url: this.urls[uni.$u.random(0, this.urls.length - 1)]
-				// 	})
-				// }
 				this.page += 1
 				this.getEdus()
 			}

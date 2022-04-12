@@ -37,7 +37,7 @@
 		</view>
 
 		<view class="btn">
-			<u-button type="primary" :plain="true" class="custom-style" :hairline="true" text="立即体现">
+			<u-button type="primary" @click="clickSubmit" :plain="true" class="custom-style" :hairline="true" text="立即体现">
 			</u-button>
 		</view>
 		<view class="read">
@@ -86,7 +86,31 @@
 					uni.$u.route('/pages/mine/agreement/agreement')
 					return;
 				}
-			}
+			},
+			clickSubmit() {
+				// if (!this.selectRadio) {
+				// 	uni.$u.toast('请勾选同意')
+				// 	return;
+				// }
+			
+				uni.$u.debounce(this.submit, 500)
+			},
+			submit() {
+				this.$store.dispatch('setCurrentUserInfo')
+				let params = {
+					type: 'success',
+					message: "提现成功",
+					url: '/pages/index/index'
+				}
+				this.$refs.uToast.show({
+					...params,
+					complete() {
+						params.url && uni.navigateTo({
+							url: params.url
+						})
+					}
+				})
+			},
 		}
 	}
 </script>
