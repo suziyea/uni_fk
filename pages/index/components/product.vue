@@ -77,7 +77,7 @@
 		},
 		methods: {
 			swiperClick(i) {
-				let url = this.bannerList[i]?.link || ''
+				let url = this.bannerList[i]?.url || ''
 				uni.navigateTo({
 					url: `/pages/webview/webview?urlPath=${encodeURIComponent(url)}`
 				});

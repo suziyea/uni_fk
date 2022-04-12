@@ -43,8 +43,8 @@
 		<view class="read">
 			<u-radio-group v-model="selectRadio">
 				<u-radio shape="square"></u-radio>
-				<text class="read_tip">我已经同意 <text class="blue">{{` 《注册协议》 `}}</text>和<text
-						class="blue">{{` 《隐私协议》 `}}</text></text>
+				<text class="read_tip">我已经同意 <text class="blue" @click="jumpContent('register')">{{` 《注册协议》 `}}</text>和<text
+						class="blue" @click="jumpContent('hide')">{{` 《隐私协议》 `}}</text></text>
 			</u-radio-group>
 		</view>
 	</view>
@@ -76,6 +76,17 @@
 					console.log(err, 'err');
 				})
 			},
+			jumpContent(val) {
+				if (val === 'register') {
+					uni.$u.route('/pages/mine/agreement/agreement')
+					return;
+				}
+				
+				if (val === 'hide') {
+					uni.$u.route('/pages/mine/agreement/agreement')
+					return;
+				}
+			}
 		}
 	}
 </script>

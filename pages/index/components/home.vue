@@ -6,7 +6,7 @@
 
 		<view class="quotaBox u-flex u-row-center">
 			<view class="circleimg">
-				<image src="/static/img/circle.png" mode="aspectFill" @click="clickEvaluation"></image>
+				<image src="/static/img/circle.png" mode="aspectFill" @click="setModalText"></image>
 				<view class="countStyle u-flex u-flex-column u-row-centeru-flex-items-center ">
 					<text class="title">最高可借额度(元)</text>
 					<u-count-to :endVal="loan_amount" separator="," class="count"></u-count-to>
@@ -18,7 +18,7 @@
 					<u-col span="4" justify="center" v-for="(item,index) in productDelsNav" :key="index">
 						<view class="demo-layout bg-purple icontip">
 							<view class="productBox">
-								<image src="/static/icon/zan.png" mode="aspectFill" @click="clickEvaluation"></image>
+								<image src="/static/icon/zan.png" mode="aspectFill" @click="setModalText"></image>
 								<view class="tiptext">{{item.tips}}</view>
 							</view>
 							<view class="title">{{item.name}}</view>
@@ -28,13 +28,13 @@
 			</view>
 
 			<view class="btnBox">
-				<view class="btn" @click="confirm">我要借钱</view>
+				<view class="btn" @click="setModalText">我要借钱</view>
 			</view>
 
 		</view>
 
 		<!-- 消息轮播 -->
-		<view class="tipsBox" @click="confirm">
+		<view class="tipsBox" @click="setModalText">
 			<u-notice-bar :text="messageArr" icon="volume" direction="column" speed="250" url=""></u-notice-bar>
 		</view>
 
@@ -42,7 +42,7 @@
 		<view class="listBox">
 			<u-row justify="space-between">
 				<u-col span="4" justify="center" v-for="(item,index) in memberNav" :key="index">
-					<view class="demo-layout bg-purple iconList" @click="confirm">
+					<view class="demo-layout bg-purple iconList" @click="setModalText">
 						<image :src="item.icon" mode="aspectFill"></image>
 						<view class="title">{{item.name}}</view>
 					</view>
@@ -54,7 +54,7 @@
 		<view class="assessBox" @click="test">
 			<view class="title">我要测评</view>
 			<view class="assessimg">
-				<image src="/static/img/evaluation.png" mode="aspectFill" @click="clickEvaluation"></image>
+				<image src="/static/img/evaluation.png" mode="aspectFill" @click="setModalText"></image>
 			</view>
 		</view>
 
@@ -145,7 +145,7 @@
 
 		methods: {
 			test() {
-				this.$store.dispatch('setCurrentUserInfo')
+				// this.$store.dispatch('setCurrentUserInfo')
 			},
 
 			getEdus() {
@@ -195,7 +195,7 @@
 				}
 			},
 			clickEvaluation() {
-				this.confirm()
+				this.setModalText()
 			}
 		},
 	}

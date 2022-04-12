@@ -1,13 +1,15 @@
 <template>
-	<view class="container">
-		<view class="loan u-flex u-flex-column">
-			<text class="title">预计放款额度</text>
-			<text class="money">{{userAssessInfo.loan_amount}}</text>
-			<text class="desc u-line-1">*此额度根据您的日常行为记录评估额度</text>
-			<text class="desc u-line-1">最终可下款额度以资金方最终审核情况为准</text>
+	<view class="resultContainer u-flex u-flex-column u-flex-center u-row-center">
+		<view class="info u-flex u-flex-column u-flex-center u-row-center">
+			<text class="title">
+				预计放款额度
+			</text>
+			<text class="price">50000</text>
+			<text class="desc">*此额度根据您的日常行为记录评估额度</text>
+			<text class="desc">最终可下款额度以资金方最终审核情况为准</text>
 		</view>
 
-		<view class="advert">
+		<view class="advantage u-flex u-flex-column">
 			<view class="top u-flex u-flex-items-center">
 				<image src="/static/icon/result_zan.png" mode="aspectFill"></image>
 				<text class="title">四大优势</text>
@@ -26,30 +28,38 @@
 			</view>
 		</view>
 
-		<view class="remark">
+		<view class="jieshaoText">
 			工商银行金融服务全面介绍，投资理财信息丰富全面，在线交易方便快捷，满足客户金融服务需求。
 		</view>
 
-		<view class="formData">
-			<u--form :model="formContent" :borderBottom='noneBorder' ref="uForm" labelWidth="auto">
-				<u-form-item label="申请用途" prop="" :borderBottom="noneBorder" @click="showAssessSheet = true; hideKeyboard()"
-					ref="item1">
+		<view class="formList">
+			<u--form labelWidth="auto">
+				<u-form-item label="申请用途" labelWidth="auto">
 					<u--input v-model="purpose" disabled inputAlign="right" disabledColor="#ffffff" border="none">
 					</u--input>
 					<u-icon slot="right" name="arrow-right"></u-icon>
 				</u-form-item>
-				<u-form-item label="银行卡号" prop="bankNo" :borderBottom="noneBorder" ref="item1">
+
+				<u-form-item label="银行卡号" labelWidth="auto">
+					<!-- <view class="bankbox"> -->
 					<u--input inputAlign="right" v-model="cardIdNum" border="none"
 						suffixIcon="/static/icon/my_bank.png">
-							</u--input>
+					</u--input>
+					<!-- <view >
+						
+					</view> -->
+					<!-- <text slot="right" class="restBank">
+						侯阿康
+					</text> -->
+					<!-- </view> -->
 				</u-form-item>
 
-				<u-form-item label="预留手机号" prop="phone" :borderBottom="noneBorder" ref="item1">
-					<u--input inputAlign="right" v-model="userMobile" border="none" suffixIcon="/static/icon/my_phone.png">
+				<u-form-item label="预留手机号" labelWidth="auto">
+					<u--input inputAlign="right" v-model="purpose" border="none" suffixIcon="/static/icon/my_phone.png">
 					</u--input>
 				</u-form-item>
 
-				<u-form-item label="验证码" prop="phone" borderBottom ref="item1">
+				<u-form-item label="验证码" prop="phone">
 					<!-- <u--input inputAlign="right" v-model="phone" border="none" suffixIcon="/static/icon/my_phone.png"></u--input> -->
 					<!-- 注意：由于兼容性差异，如果需要使用前后插槽，nvue下需使用u--input，非nvue下需使用u-input -->
 					<!-- #ifndef APP-NVUE -->
@@ -69,42 +79,30 @@
 					</u--input>
 					<!-- #endif -->
 				</u-form-item>
-
-				<!-- <u-line></u-line> -->
-
-				<view class="remarkForm">
-					工商银行金融服务全面介绍，投资理财信息丰富全面，在线交易方便快捷，满足客户金融服务需求。
-				</view>
-
-				<view class="read">
-					<u-radio-group v-model="selectRadio">
-						<u-radio shape="square"></u-radio>
-						<text class="read_tip">我已阅读并同意同意<text class="blue">{{` 《会员协议》 `}}</text></text>
-					</u-radio-group>
-				</view>
-
-				<!-- <u-form-item label="银行卡号" prop="bankNo" borderBottom ref="item1">
-<u-radio-group v-model="formContent.selectRadio">
-				<u-radio shape="square"></u-radio>
-				<text class="read_tip">我已阅读并同意同意<text class="blue">{{` 会员协议 `}}</text></text>
-			</u-radio-group>
-				</u-form-item> -->
-
 			</u--form>
-
-			<u-action-sheet :show="showAssessSheet" :actions="assessReasonList" title="请选择申请用途" description="请选择申请用途"
-				@close="showAssessSheet = false" @select="selectRreason">
-			</u-action-sheet>
-
 		</view>
 
+		<view class="adddesc">
+			<view class="detail">
+				提交申请将会产生300元的审核费用，判断是否能够偿还，将从您提交的银行卡中进行扣款，请检查余额是否足够完成扣款。
+			</view>
+			<view class="read">
+				<u-radio-group v-model="selectRadio">
+					<u-radio shape="square"></u-radio>
+					<text class="read_tip">我已阅读并同意同意<text class="blue"
+							@click="jumpContent('assess')">{{` 《会员协议》 `}}</text></text>
+				</u-radio-group>
+			</view>
+		</view>
 		<view class="btn">
-			<u-button type="primary" :plain="true" class="custom-style" @click="submit" :hairline="true" text="确认">
+			<u-button type="primary" :plain="true" class="custom-style" @click="clickSubmit" :hairline="true" text="确认">
 			</u-button>
 		</view>
 
-
-
+		<u-action-sheet :show="showAssessSheet" :actions="assessReasonList" title="请选择申请用途" description="请选择申请用途"
+			@close="showAssessSheet = false" @select="selectRreason">
+		</u-action-sheet>
+		<u-toast ref="uToast"></u-toast>
 	</view>
 </template>
 
@@ -155,7 +153,7 @@
 				tips: '获取验证码',
 				noneBorder: false,
 				userAssessInfo: {
-					
+
 				},
 				cardIdNum: ''
 			};
@@ -166,14 +164,31 @@
 		onLoad() {},
 		methods: {
 			clickSubmit() {
+				// if (!this.selectRadio) {
+				// 	uni.$u.toast('请勾选同意')
+				// 	return;
+				// }
+
 				uni.$u.debounce(this.submit, 500)
 			},
 			submit() {
-				uni.$u.toast('评估成功')
-				uni.$u.route('/pages/product/reflect/reflect');
+				// uni.$u.toast('评估成功')
+				let params = {
+					type: 'success',
+					message: "评估成功",
+					url: '/pages/product/reflect/reflect'
+				}
+				this.$refs.uToast.show({
+					...params,
+					complete() {
+						params.url && uni.navigateTo({
+							url: params.url
+						})
+					}
+				})
 			},
 			selectRreason(e) {
-				console.log(e,'选择啊')
+				console.log(e, '选择啊')
 				this.purpose = e.name
 			},
 			codeChange(text) {
@@ -185,12 +200,11 @@
 						this.userAssessInfo = res?.data || {}
 						this.cardIdNum = res?.data?.user?.card_number
 						this.userMobile = res?.data?.user?.reserve_phone
-						this.assessReasonList = res?.data?.application_reason.map((item,i) => {
+						this.assessReasonList = res?.data?.application_reason.map((item, i) => {
 							return {
 								name: item,
 								id: i
 							}
-							console.log(item,'你还爱和')
 						})
 					}
 					console.log(res, 'nihao')
@@ -217,6 +231,12 @@
 			},
 			change(e) {
 				console.log('change', e);
+			},
+			jumpContent(val) {
+				if (val === 'assess') {
+					uni.$u.route('/pages/mine/agreement/agreement')
+					return;
+				}
 			}
 
 		},
@@ -224,14 +244,13 @@
 </script>
 
 <style lang="scss" scoped>
-	.container {
-		width: 100%;
-		height: 100%;
-		background: #ffffff;
-		margin-bottom: 60rpx;
-		.loan {
-			margin-top: 16rpx;
-			padding: 0px 64rpx 0 64rpx;
+	.resultContainer {
+		box-sizing: border-box;
+
+		.info {
+			margin: 16rpx 64rpx 24rpx 64rpx;
+			box-sizing: border-box;
+			border: 1px solid skyblue;
 
 			.title {
 				font-size: 32rpx;
@@ -241,11 +260,11 @@
 				line-height: 44rpx;
 			}
 
-			.money {
+			.price {
 				font-size: 74rpx;
 				font-family: Arial-BoldMT, Arial;
 				font-weight: normal;
-				color: #020f2b;
+				color: #020F2B;
 				line-height: 84rpx;
 			}
 
@@ -255,16 +274,19 @@
 				font-weight: 400;
 				color: #414141;
 				line-height: 28rpx;
+				margin-bottom: 4rpx;
 			}
 		}
 
-		.advert {
+		.advantage {
+			margin: 0 32rpx;
 			width: 686rpx;
 			height: 342rpx;
 			background: linear-gradient(180deg, #9EBEFF 0%, #FFFFFF 100%);
 			box-shadow: 4rpx 10rpx 12rpx 0px rgba(0, 0, 0, 0.04);
 			border-radius: 8rpx;
-			margin: 24rpx 32rpx;
+			background: url(../../../static/img/assessBg.png) no-repeat;
+			background-size: cover;
 
 			.top {
 				padding: 18rpx 24rpx 0 24rpx;
@@ -283,78 +305,84 @@
 					height: 32rpx;
 				}
 			}
-		}
 
-		.advList {
-			position: relative;
-			padding: 24rpx 24rpx;
+			.advList {
+				margin: 40rpx 24rpx;
 
-			.list {
-				margin-bottom: 24rpx;
+				.list {
+					margin-bottom: 24rpx;
 
-				image {
-					width: 56rpx;
-					height: 56rpx;
-				}
-
-				.content {
-					margin-left: 16rpx;
-
-					.title {
-						width: 96rpx;
-						height: 34rpx;
-						font-size: 24rpx;
-						font-family: PingFangSC-Medium, PingFang SC;
-						font-weight: 500;
-						color: #282626;
-						line-height: 34rpx;
+					.img {
+						image {
+							width: 56rpx;
+							height: 56rpx;
+						}
 					}
 
-					.desc1 {
-						width: 230rpx;
-						height: 44rpx;
-						font-size: 16rpx;
-						font-family: PingFangSC-Regular, PingFang SC;
-						font-weight: 400;
-						color: #282626;
-						// line-height: 11px;
+					.content {
+						margin-left: 16rpx;
+
+						.title {
+							width: 96rpx;
+							height: 34rpx;
+							font-size: 24rpx;
+							font-family: PingFangSC-Medium, PingFang SC;
+							font-weight: 500;
+							color: #282626;
+							line-height: 34rpx;
+						}
+
+						.desc1 {
+							width: 230rpx;
+							height: 44rpx;
+							font-size: 16rpx;
+							font-family: PingFangSC-Regular, PingFang SC;
+							font-weight: 400;
+							color: #282626;
+							// line-height: 11px;
+						}
 					}
 				}
 			}
 		}
 
-		.remark {
-			width: 686rpx;
-			height: 68rpx;
-			font-size: 24rpx;
+		.jieshaoText {
+			margin: 24rpx 32rpx;
+			font-size: 12px;
 			font-family: PingFangSC-Regular, PingFang SC;
 			font-weight: 400;
 			color: #414141;
-			line-height: 34rpx;
-			margin: 24rpx 32rpx;
-
+			line-height: 17px;
 		}
 
-		.formData {
-			margin: 24rpx 28rpx;
-			padding: 0 32rpx;
+		.formList {
+			margin: 0 32rpx;
 
-			.remarkForm {
-				width: 622rpx;
-				height: 56rpx;
+			.restBank {
+				position: absolute;
+			}
+
+			// .bankbox {
+			// 	position: relative;
+
+			// }
+		}
+
+		.adddesc {
+			margin: 24rpx 32rpx;
+
+			.detail {
 				font-size: 20rpx;
 				font-family: PingFangSC-Regular, PingFang SC;
 				font-weight: 400;
 				color: #414141;
 				line-height: 28rpx;
-				padding: 28rpx;
 			}
 
 			.read {
-				margin-top: 48rpx;
+				margin: 24rpx 0 128rpx 0;
 
 				.read_tip {
-
 					font-size: 24rpx;
 					font-family: PingFangSC-Regular, PingFang SC;
 					font-weight: 400;
@@ -363,28 +391,19 @@
 
 					.blue {
 						color: #4579E6;
+						cursor: pointer;
 					}
 				}
 			}
-
-			.setImgbox {
-				width: 36rpx;
-				height: 36rpx;
-				image {
-					width:100%;
-					height: 100%;
-				}
-			}
-
 		}
 
 		.btn {
 			padding: 0 52rpx;
-			margin-top: 56rpx;
+			// margin-top: 56rpx;
 			width: 646rpx;
 			height: 88rpx;
 			position: fixed;
-			bottom: 0;
+			bottom: 16rpx;
 
 			.custom-style {
 				background: #4579E6;
