@@ -32,8 +32,8 @@
 
 		<view class="formData">
 			<u--form :model="formContent" :borderBottom='noneBorder' ref="uForm" labelWidth="auto">
-				<u-form-item label="申请用途" prop="" :borderBottom="noneBorder" @click="showAssessSheet = true; hideKeyboard()"
-					ref="item1">
+				<u-form-item label="申请用途" prop="" :borderBottom="noneBorder"
+					@click="showAssessSheet = true; hideKeyboard()" ref="item1">
 					<u--input v-model="purpose" disabled inputAlign="right" disabledColor="#ffffff" border="none">
 					</u--input>
 					<u-icon slot="right" name="arrow-right"></u-icon>
@@ -41,11 +41,12 @@
 				<u-form-item label="银行卡号" prop="bankNo" :borderBottom="noneBorder" ref="item1">
 					<u--input inputAlign="right" v-model="cardIdNum" border="none"
 						suffixIcon="/static/icon/my_bank.png">
-							</u--input>
+					</u--input>
 				</u-form-item>
 
 				<u-form-item label="预留手机号" prop="phone" :borderBottom="noneBorder" ref="item1">
-					<u--input inputAlign="right" v-model="userMobile" border="none" suffixIcon="/static/icon/my_phone.png">
+					<u--input inputAlign="right" v-model="userMobile" border="none"
+						suffixIcon="/static/icon/my_phone.png">
 					</u--input>
 				</u-form-item>
 
@@ -155,7 +156,7 @@
 				tips: '获取验证码',
 				noneBorder: false,
 				userAssessInfo: {
-					
+
 				},
 				cardIdNum: ''
 			};
@@ -173,7 +174,7 @@
 				uni.$u.route('/pages/product/reflect/reflect');
 			},
 			selectRreason(e) {
-				console.log(e,'选择啊')
+				console.log(e, '选择啊')
 				this.purpose = e.name
 			},
 			codeChange(text) {
@@ -185,12 +186,11 @@
 						this.userAssessInfo = res?.data || {}
 						this.cardIdNum = res?.data?.user?.card_number
 						this.userMobile = res?.data?.user?.reserve_phone
-						this.assessReasonList = res?.data?.application_reason.map((item,i) => {
+						this.assessReasonList = res?.data?.application_reason.map((item, i) => {
 							return {
 								name: item,
 								id: i
 							}
-							console.log(item,'你还爱和')
 						})
 					}
 					console.log(res, 'nihao')
@@ -229,6 +229,7 @@
 		height: 100%;
 		background: #ffffff;
 		margin-bottom: 60rpx;
+
 		.loan {
 			margin-top: 16rpx;
 			padding: 0px 64rpx 0 64rpx;
@@ -370,8 +371,9 @@
 			.setImgbox {
 				width: 36rpx;
 				height: 36rpx;
+
 				image {
-					width:100%;
+					width: 100%;
 					height: 100%;
 				}
 			}

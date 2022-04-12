@@ -64,9 +64,10 @@
 		</u-action-sheet>
 
 		<view class="btn">
-			<u-button type="primary" :plain="true" class="custom-style" @click="submit" :hairline="true" text="完成">
+			<u-button type="primary" :plain="true" class="custom-style" @click="clickSubmit" :hairline="true" text="完成">
 			</u-button>
 		</view>
+		<u-toast ref="uToast"></u-toast>
 	</view>
 </template>
 
@@ -89,7 +90,7 @@
 					actual_name: [{
 							required: true,
 							message: '请输入姓名',
-							trigger: ['blur', 'change']
+							trigger: ['blur']
 						},
 						{
 							// 自定义验证函数，见上说明
@@ -100,13 +101,13 @@
 							},
 							message: '只能输入汉字',
 							// 触发器可以同时用blur和change
-							trigger: ['change', 'blur'],
+							trigger: ['blur'],
 						}
 					],
 					id_number: [{
 							required: true,
 							message: '请输入身份证号',
-							trigger: ['change', 'blur'],
+							trigger: ['blur'],
 						},
 						{
 							// 自定义验证函数，见上说明
@@ -117,23 +118,23 @@
 							},
 							message: '身份证号码不正确',
 							// 触发器可以同时用blur和change
-							trigger: ['change', 'blur'],
+							trigger: ['blur'],
 						}
 					],
 					bank_name: [{
 						required: true,
 						message: '请输入所属银行',
-						trigger: ['blur', 'change']
+						trigger: ['blur']
 					}],
 					card_number: [{
 						required: true,
 						message: '请输银行卡号',
-						trigger: ['blur', 'change']
+						trigger: ['blur']
 					}],
 					reserve_phone: [{
 							required: true,
 							message: '请输入手机号',
-							trigger: ['change', 'blur'],
+							trigger: ['blur'],
 						},
 						{
 							// 自定义验证函数，见上说明
@@ -144,13 +145,13 @@
 							},
 							message: '手机号码不正确',
 							// 触发器可以同时用blur和change
-							trigger: ['change', 'blur'],
+							trigger: ['blur'],
 						}
 					],
 					smsCode: [{
 							required: false,
 							message: '请输入手机验证码',
-							trigger: ['blur', 'change']
+							trigger: ['blur']
 						},
 						{
 							// 自定义验证函数，见上说明
@@ -186,6 +187,9 @@
 				}).catch((err) => {
 					console.log(err, 'err');
 				})
+			},
+			clickSubmit() {
+				uni.$u.debounce(this.submit, 500)
 			},
 			submit() {
 				this.$refs.uForm.validate().then(res => {

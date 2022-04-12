@@ -84,12 +84,13 @@
 						path: '',
 						name: '关于我们',
 						enName: 'about'
-					}, {
-						icon: '/static/icon/logoff.png',
-						path: '',
-						name: '注销账户',
-						enName: 'logoff'
 					},
+					//  {
+					// 	icon: '/static/icon/logoff.png',
+					// 	path: '',
+					// 	name: '注销账户',
+					// 	enName: 'logoff'
+					// },
 					{
 						icon: '/static/icon/logout.png',
 						path: '/pages/login/login',
@@ -118,7 +119,7 @@
 				})
 			},
 			clickNav(item) {
-				if (!this.isLogin) {
+				if (this.isLogin) {
 					if (item.path) {
 						uni.$u.route(item.path);
 					}

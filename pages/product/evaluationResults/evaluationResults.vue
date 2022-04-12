@@ -34,8 +34,8 @@
 
 		<view class="formList">
 			<u--form labelWidth="auto">
-				<u-form-item label="申请用途" labelWidth="auto">
-					<u--input v-model="purpose" disabled inputAlign="right" disabledColor="#ffffff" border="none">
+				<u-form-item label="申请用途" @click="showAssessSheet = true;" labelWidth="auto">
+					<u--input  v-model="purpose" disabled inputAlign="right" disabledColor="#ffffff" border="none">
 					</u--input>
 					<u-icon slot="right" name="arrow-right"></u-icon>
 				</u-form-item>
@@ -50,7 +50,8 @@
 				</u-form-item>
 
 				<u-form-item label="预留手机号" labelWidth="auto">
-					<u--input inputAlign="right" v-model="userMobile" border="none" suffixIcon="/static/icon/my_phone.png">
+					<u--input inputAlign="right" v-model="userMobile" border="none"
+						suffixIcon="/static/icon/my_phone.png">
 					</u--input>
 				</u-form-item>
 
@@ -140,7 +141,9 @@
 				userAssessInfo: {
 
 				},
-				cardIdNum: ''
+				userMobile: '',
+				cardIdNum: '',
+				code: ''
 			};
 		},
 		created() {
@@ -162,6 +165,7 @@
 					message: "评估成功",
 					url: '/pages/product/reflect/reflect'
 				}
+				this.$store.dispatch('setCurrentUserInfo')
 				this.$refs.uToast.show({
 					...params,
 					complete() {

@@ -28,7 +28,7 @@
 			</view>
 
 			<view class="btnBox">
-				<view class="btn" @click="setModalText">我要借钱</view>
+				<view class="btn" @click="borrowMoney">我要借钱</view>
 			</view>
 
 		</view>
@@ -159,6 +159,9 @@
 					console.log(err, 'err');
 				})
 			},
+			borrowMoney() {
+				this.setModalText()
+			},
 			setModalText() {
 				if (!this.isLogin) {
 					this.showModal = true;
@@ -180,6 +183,20 @@
 					this.content = '您好，为了方便的贷款，请绑定银行卡！';
 					this.confirmText = '去绑卡'
 				}
+
+				if (this.userStatus === 2) {
+					this.showModal = true;
+					this.title = '评估';
+					this.content = '您好，为了方便的贷款，请完成评估！';
+					this.confirmText = '去评估'
+				}
+
+				if (this.userStatus === 4) {
+					this.showModal = true;
+					this.title = '评估结果';
+					this.content = '您好，为了方便的贷款，请完成二次评估！';
+					this.confirmText = '去评估'
+				}
 			},
 			confirm() {
 				this.showModal = false;
@@ -192,6 +209,12 @@
 				}
 				if (this.userStatus === 2) {
 					uni.$u.route('/pages/evaluation/addBank/addBank');
+				}
+				if (this.userStatus === 3) {
+					uni.$u.route('/pages/product/evaluationResults/evaluationResults');
+				}
+				if (this.userStatus === 4) {
+					uni.$u.route('/pages/product/reflect/reflect');
 				}
 			},
 			clickEvaluation() {
