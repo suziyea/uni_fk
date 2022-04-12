@@ -78,7 +78,7 @@
 					smsCode: [{
 							required: true,
 							message: '请输入手机验证码',
-							trigger: ['blur', 'change']
+							trigger: ['blur']
 						},
 						{
 							// 自定义验证函数，见上说明
@@ -88,13 +88,13 @@
 							},
 							message: '手机验证码不正确',
 							// 触发器可以同时用blur和change
-							trigger: ['change', 'blur'],
+							trigger: ['blur'],
 						}
 					],
 					phone: [{
 							required: true,
 							message: '请输入手机号',
-							trigger: ['change', 'blur'],
+							trigger: ['blur'],
 						},
 						{
 							// 自定义验证函数，见上说明
@@ -105,7 +105,7 @@
 							},
 							message: '手机号码不正确',
 							// 触发器可以同时用blur和change
-							trigger: ['change', 'blur'],
+							trigger: ['blur'],
 						}
 					]
 				}
