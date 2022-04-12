@@ -194,10 +194,20 @@
 					}).then((res) => {
 						if (res.code === 100000) {
 							this.$store.dispatch('setCurrentUserInfo')
-							uni.$u.route({
-								type: 'switchTab',
-								url: 'pages/index/index'
+							let params = {
+								type: 'success',
+								message: "绑卡成功，请到下一步",
+								url: '/pages/product/evaluationResults/evaluationResults'
+							}
+							this.$refs.uToast.show({
+								...params,
+								complete() {
+									params.url && uni.navigateTo({
+										url: params.url
+									})
+								}
 							})
+
 						}
 
 					}).catch((err) => {
