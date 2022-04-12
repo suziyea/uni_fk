@@ -3,7 +3,7 @@
 		<u-list @scrolltolower="scrolltolower">
 			<view class="swiperBox">
 				<u-swiper :list="bannerList" keyName="url" @click="swiperClick" previousMargin="30" nextMargin="30"
-					circular :autoplay="true" radius="5" bgColor="#ffffff"></u-swiper>
+					circular imgMode="widthFix" :autoplay="true" radius="5" bgColor="#ffffff"></u-swiper>
 			</view>
 
 			<view class="products">
