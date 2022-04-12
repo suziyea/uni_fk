@@ -1,5 +1,5 @@
 <template>
-	<view class="container">
+	<view class="container" v-if="showFlag">
 		<view class="bgBox">
 			<view class="realImg">
 				<image src="/static/img/real.png" mode="aspectFill"></image>
@@ -79,6 +79,7 @@
 	export default {
 		data() {
 			return {
+				showFlag: false,
 				showBankListStatus: false,
 				tips: '获取验证码',
 				seconds: 60,
@@ -181,11 +182,15 @@
 			getBankList() {
 				getBank({}).then((res) => {
 					if (res.code === 100000) {
-						this.bankList = res?.data || []
+						this.bankList = res?.data || [];
+						this.showFlag = true
 					}
 					console.log(res, 'nihao')
 				}).catch((err) => {
 					console.log(err, 'err');
+				}).finally((data) => {
+					console.log(data)
+					this.showFlag = true;
 				})
 			},
 			clickSubmit() {
