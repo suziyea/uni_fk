@@ -236,8 +236,9 @@ import store from "@/store"
 	}
 
 	.topBox {
-		width: calc(100% + 64rpx);
+		width: calc(100% + 62rpx);
 		height: 440rpx;
+		overflow: hidden;
 		background: linear-gradient(180deg, #1B5BE2 0%, rgba(81, 135, 249, 0.51) 63%, rgba(62, 121, 250, 0) 100%);
 	}
 
