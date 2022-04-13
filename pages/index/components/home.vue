@@ -51,10 +51,10 @@
 		</view>
 
 		<!-- 我要测评 -->
-		<view class="assessBox" @click="test">
+		<view class="assessBox" @click="tesetModalTextst">
 			<view class="title">我要测评</view>
 			<view class="assessimg">
-				<image src="/static/img/evaluation.png" mode="aspectFill" @click="setModalText"></image>
+				<image src="/static/img/evaluation.png" mode="aspectFill"></image>
 			</view>
 		</view>
 
@@ -132,23 +132,7 @@ import store from "@/store"
 		created() {
 			this.getEdus()
 		},
-		watch: {
-			getUserInfos: {
-				deep: true,
-				handler(n, old) {
-					this.setModalText()
-				}
-			}
-		},
-		computed: {
-			...mapGetters(['isLogin', 'getUserInfos'])
-		},
-
 		methods: {
-			test() {
-				// this.$store.dispatch('setCurrentUserInfo')
-			},
-
 			getEdus() {
 				getEdu({
 					"code": "loan_amount"

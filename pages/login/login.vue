@@ -251,7 +251,7 @@
 
 <style lang="scss" scoped>
 	.container {
-		height: 100vh;
+		min-height: 100vh;
 		.login_bg {
 			width: 100%;
 			height: calc(2 * 282rpx);

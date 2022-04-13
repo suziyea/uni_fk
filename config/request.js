@@ -57,7 +57,8 @@ module.exports = (vm) => {
 
 			return data
 		}
-		if (data.code === 141000) {
+		if (data.code === 141000 || data.code === 150000) {
+			uni.$u.toast('请重新登录！');
 			store.commit('LOGOUT')
 			uni.$u.route({
 				type: 'reLaunch',

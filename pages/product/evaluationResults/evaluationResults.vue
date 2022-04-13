@@ -4,7 +4,8 @@
 			<text class="title">
 				预计放款额度
 			</text>
-			<text class="price">50000</text>
+			<!-- <text >50000</text> -->
+			<u--text mode="price" class="price" :text="userAssessInfo.loan_amount"></u--text>
 			<text class="desc">*此额度根据您的日常行为记录评估额度</text>
 			<text class="desc">最终可下款额度以资金方最终审核情况为准</text>
 		</view>
@@ -33,16 +34,17 @@
 		</view>
 
 		<view class="formList">
-			<u--form labelWidth="auto">
+			<u--form :model="formContent" labelWidth="auto">
 				<u-form-item label="申请用途" @click="showAssessSheet = true;" labelWidth="auto">
-					<u--input  v-model="purpose" disabled inputAlign="right" disabledColor="#ffffff" border="none">
+					<u--input v-model="formContent.purpose" disabled inputAlign="right" disabledColor="#ffffff"
+						border="none">
 					</u--input>
 					<u-icon slot="right" name="arrow-right"></u-icon>
 				</u-form-item>
 
 				<u-form-item label="银行卡号" labelWidth="auto" class="bankForm">
-					<u--input inputAlign="right" v-model="cardIdNum" border="none"
-						suffixIcon="/static/icon/my_bank.png">
+					<u--input inputAlign="right" v-model="formContent.bankInfo" border="none" disabled
+						disabledColor="#ffffff" suffixIcon="/static/icon/my_bank.png">
 					</u--input>
 					<text slot="right" class="restBank" @click="restAddBank">
 						重新绑卡
@@ -50,7 +52,7 @@
 				</u-form-item>
 
 				<u-form-item label="预留手机号" labelWidth="auto">
-					<u--input inputAlign="right" v-model="userMobile" border="none"
+					<u--input inputAlign="right" v-model="formContent.reserve_phone" border="none"
 						suffixIcon="/static/icon/my_phone.png">
 					</u--input>
 				</u-form-item>
@@ -59,13 +61,14 @@
 					<!-- <u--input inputAlign="right" v-model="phone" border="none" suffixIcon="/static/icon/my_phone.png"></u--input> -->
 					<!-- 注意：由于兼容性差异，如果需要使用前后插槽，nvue下需使用u--input，非nvue下需使用u-input -->
 					<!-- #ifndef APP-NVUE -->
-					<u-input inputAlign="right" v-model="code" border="none">
+					<u-input inputAlign="right" v-model="formContent.code" border="none">
 						<!-- #endif -->
 						<!-- #ifdef APP-NVUE -->
-						<u--input inputAlign="right" v-model="code" border="none">
+						<u--input inputAlign="right" v-model="formContent.code" border="none">
 							<!-- #endif -->
 							<template slot="suffix">
-								<u-code ref="uCode" @change="codeChange" seconds="20" changeText="X秒重新获取哈哈哈"></u-code>
+								<u-code ref="uCode" @change="codeChange" :seconds="seconds" changeText="X秒重新获取">
+								</u-code>
 								<u-button @tap="getCode" :text="tips" type="success" size="mini"></u-button>
 							</template>
 							<!-- #ifndef APP-NVUE -->
@@ -83,11 +86,12 @@
 				提交申请将会产生300元的审核费用，判断是否能够偿还，将从您提交的银行卡中进行扣款，请检查余额是否足够完成扣款。
 			</view>
 			<view class="read">
-				<u-radio-group v-model="selectRadio">
-					<u-radio shape="square"></u-radio>
-					<text class="read_tip">我已阅读并同意同意<text class="blue"
+				<u-checkbox-group>
+					<u-checkbox v-model="selectRadio" @change="checkboxChange"></u-checkbox><text
+						class="read_tip">我已阅读并同意同意<text class="blue"
 							@click="jumpContent('assess')">{{` 《会员协议》 `}}</text></text>
-				</u-radio-group>
+				</u-checkbox-group>
+
 			</view>
 		</view>
 		<view class="btn">
@@ -95,8 +99,8 @@
 			</u-button>
 		</view>
 
-		<u-action-sheet :show="showAssessSheet" :actions="assessReasonList" title="请选择申请用途" description="请选择申请用途"
-			@close="showAssessSheet = false" @select="selectRreason">
+		<u-action-sheet :show="showAssessSheet" :actions="assessReasonList" title="请选择申请用途"
+			@close=" showAssessSheet = false" @select="selectRreason">
 		</u-action-sheet>
 		<u-toast ref="uToast"></u-toast>
 	</view>
@@ -104,7 +108,8 @@
 
 <script>
 	import {
-		assessResult,setFirstPay
+		assessResult,
+		setFirstPay
 	} from "@/config/api/user.js";
 	export default {
 		data() {
@@ -133,7 +138,9 @@
 				showAssessSheet: false,
 				purpose: '',
 				phone: '',
-				formContent: {},
+				formContent: {
+					purpose: '日常消费'
+				},
 				selectRadio: false,
 				assessReasonList: [],
 				tips: '获取验证码',
@@ -141,23 +148,24 @@
 				userAssessInfo: {
 
 				},
-				userMobile: '',
-				cardIdNum: '',
-				code: ''
+				code: '',
+				seconds: 60,
 			};
 		},
-		created() {
+		created() {},
+		onLoad() {
 			this.getAssessInfo()
 		},
-		onLoad() {},
 		methods: {
+			checkboxChange(n) {
+				this.selectRadio = n
+			},
 			clickSubmit() {
-				// if (!this.selectRadio) {
-				// 	uni.$u.toast('请勾选同意')
-				// 	return;
-				// }
-
-				uni.$u.debounce(this.submit, 500)
+				if (this.selectRadio) {
+					uni.$u.debounce(this.submit, 500)
+					return;
+				}
+				uni.$u.toast('请勾选同意')
 			},
 			submit() {
 				let params = {
@@ -177,15 +185,14 @@
 							}
 						})
 					}
-				
+
 				}).catch((err) => {
 					console.log(err, 'err');
 				})
-				
+
 			},
 			selectRreason(e) {
-				console.log(e, '选择啊')
-				this.purpose = e.name
+				this.formContent.purpose = e.name
 			},
 			codeChange(text) {
 				this.tips = text;
@@ -193,9 +200,10 @@
 			getAssessInfo() {
 				assessResult({}).then((res) => {
 					if (res.code === 100000) {
-						this.userAssessInfo = res?.data || {}
-						this.cardIdNum = res?.data?.user?.card_number
-						this.userMobile = res?.data?.user?.reserve_phone
+						this.userAssessInfo = res?.data || {};
+						this.formContent.bankInfo =
+							`${res?.data?.user?.bank_name || ''} 尾号 ${res?.data?.user?.card_number?.slice(-4) || ''}`
+						Object.assign(this.formContent, res?.data?.user)
 						this.assessReasonList = res?.data?.application_reason.map((item, i) => {
 							return {
 								name: item,
@@ -203,30 +211,31 @@
 							}
 						})
 					}
-					console.log(res, 'nihao')
 				}).catch((err) => {
 					console.log(err, 'err');
 				})
 			},
 			getCode() {
-				if (this.$refs.uCode.canGetCode) {
-					// 模拟向后端请求验证码
-					uni.showLoading({
-						title: '正在获取验证码'
-					})
-					setTimeout(() => {
-						uni.hideLoading();
-						// 这里此提示会被this.start()方法中的提示覆盖
-						uni.$u.toast('验证码已发送');
-						// 通知验证码组件内部开始倒计时
-						this.$refs.uCode.start();
-					}, 2000);
+				if (this.formContent.reserve_phone && uni.$u.test.mobile(this.formContent.reserve_phone)) {
+					if (this.$refs.uCode.canGetCode) {
+						// 模拟向后端请求验证码
+						uni.showLoading({
+							title: '正在获取验证码'
+						})
+						setTimeout(() => {
+							uni.hideLoading();
+							// 这里此提示会被this.start()方法中的提示覆盖
+							uni.$u.toast('验证码已发送');
+							// 通知验证码组件内部开始倒计时
+							this.$refs.uCode.start();
+						}, 2000);
+					} else {
+						uni.$u.toast('倒计时结束后再发送');
+					}
 				} else {
-					uni.$u.toast('倒计时结束后再发送');
+					uni.$u.toast('请填写正确的手机号码');
 				}
-			},
-			change(e) {
-				console.log('change', e);
+
 			},
 			jumpContent(val) {
 				if (val === 'assess') {
@@ -263,11 +272,16 @@
 			}
 
 			.price {
-				font-size: 74rpx;
-				font-family: Arial-BoldMT, Arial;
-				font-weight: normal;
-				color: #020F2B;
-				line-height: 84rpx;
+				margin: 0 14rpx;
+
+				::v-deep .u-text__value {
+					font-size: 74rpx !important;
+					font-family: Arial-BoldMT, Arial;
+					font-weight: normal !important;
+					color: #020F2B !important;
+					line-height: 84rpx !important;
+				}
+
 			}
 
 			.desc {
@@ -379,10 +393,15 @@
 				cursor: pointer;
 			}
 
-			// .bankbox {
-			// 	position: relative;
-
-			// }
+			/deep/ .u-button--success {
+				border: none;
+				font-size: 24rpx;
+				font-family: PingFangSC-Regular, PingFang SC;
+				font-weight: 400;
+				color: #4579E6;
+				line-height: 34rpx;
+				background: none;
+			}
 		}
 
 		.adddesc {

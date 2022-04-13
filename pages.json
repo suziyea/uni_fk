@@ -70,8 +70,7 @@
 		}, {
 			"path": "pages/product/evaluationResults/evaluationResults",
 			"style": {
-				"navigationBarTitleText": "",
-				"navigationStyle": "custom",
+				"navigationBarTitleText": "评估",
 				"enablePullDownRefresh": false
 			}
 

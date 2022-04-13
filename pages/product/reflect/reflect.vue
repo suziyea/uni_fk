@@ -29,7 +29,7 @@
 					</u-col>
 					<u-col span="6">
 						<view class="demo-layout right_title">银行尾号 <text
-								class="num">{{` ${userAssessInfo.user.card_number.slice(-4)}`}}</text></view>
+								class="num">{{userAssessInfo.bankNoLast}}</text></view>
 					</u-col>
 				</u-row>
 
@@ -42,12 +42,11 @@
 			</u-button>
 		</view>
 		<view class="read">
-			<u-radio-group v-model="selectRadio">
-				<u-radio shape="square"></u-radio>
-				<text class="read_tip">我已经同意 <text class="blue"
-						@click="jumpContent('register')">{{` 《注册协议》 `}}</text>和<text class="blue"
+			<u-checkbox-group>
+				<u-checkbox v-model="selectRadio" @change="checkboxChange"></u-checkbox><text class="read_tip">我已经同意
+					<text class="blue" @click="jumpContent('register')">{{` 《注册协议》 `}}</text>和<text class="blue"
 						@click="jumpContent('hide')">{{` 《隐私协议》 `}}</text></text>
-			</u-radio-group>
+			</u-checkbox-group>
 		</view>
 		<u-toast ref="uToast"></u-toast>
 	</view>
@@ -55,7 +54,8 @@
 
 <script>
 	import {
-		getAssessResult,setSecondPay
+		getAssessResult,
+		setSecondPay
 	} from "@/config/api/user.js";
 	export default {
 		data() {
@@ -73,8 +73,8 @@
 				getAssessResult({}).then((res) => {
 					if (res.code === 100000) {
 						this.userAssessInfo = res?.data || {}
+						this.userAssessInfo.bankNoLast = res?.data?.user?.card_number?.slice(-4) || ''
 					}
-					console.log(res, 'nihao')
 				}).catch((err) => {
 					console.log(err, 'err');
 				})
@@ -90,13 +90,15 @@
 					return;
 				}
 			},
+			checkboxChange(n) {
+				this.selectRadio = n
+			},
 			clickSubmit() {
-				// if (!this.selectRadio) {
-				// 	uni.$u.toast('请勾选同意')
-				// 	return;
-				// }
-
-				uni.$u.debounce(this.submit, 500)
+				if (this.selectRadio) {
+					uni.$u.debounce(this.submit, 500)
+					return;
+				}
+				uni.$u.toast('请勾选同意')
 			},
 			submit() {
 				let params = {
@@ -116,12 +118,12 @@
 							}
 						})
 					}
-				
+
 				}).catch((err) => {
 					console.log(err, 'err');
 				})
-				
-				
+
+
 			},
 		}
 	}
@@ -130,7 +132,7 @@
 <style lang="scss" scoped>
 	.container {
 		width: 100%;
-		height: 100vh;
+		min-height: 100vh;
 		background: #F7F7F7;
 		display: flex;
 		flex-direction: column;
