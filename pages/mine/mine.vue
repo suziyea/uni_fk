@@ -52,11 +52,11 @@
 
 <script>
 	import {
-		mapState,
 		mapGetters,
 		mapMutations
 	} from 'vuex'
 	import common from '@/utils/common'
+	import store from "@/store"
 
 	export default {
 		data() {
@@ -119,10 +119,13 @@
 				})
 			},
 			clickNav(item) {
-				if (this.isLogin) {
-					if (item.path) {
-						uni.$u.route(item.path);
-					}
+				if (!(store.state.user.token)) {
+					this.showModal = true;
+					return;
+				}
+
+				if (item.path) {
+					uni.$u.route(item.path);
 				}
 			},
 			handleListItem(item) {
@@ -132,17 +135,17 @@
 					return;
 				}
 				if (item.name === 'about') {
-					uni.$u.route('/pages/mine/about/about')
+					uni.$u.route('/appPrivacyAgreement/appPrivacyAgreement')
 					return;
 				}
 				if (item.name === 'look') {
-					uni.$u.route('/pages/mine/agreement/agreement')
+					uni.$u.route('/assessAgreement/assessAgreement')
 					return;
 				}
 			},
 			confirm() {
 				this.showModal = false;
-				if (!this.isLogin) {
+				if (!(store.state.user.token)) {
 					uni.$u.route('/pages/login/login');
 					return;
 				}

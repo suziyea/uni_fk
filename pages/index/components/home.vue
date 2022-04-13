@@ -126,11 +126,11 @@ import store from "@/store"
 		},
 		onLoad(option) {
 			console.log('option', option);
-			this.setModalText()
 
 		},
 		created() {
 			this.getEdus()
+			this.setModalText()
 		},
 		methods: {
 			getEdus() {

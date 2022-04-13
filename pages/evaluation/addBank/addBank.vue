@@ -182,6 +182,12 @@
 			}
 		},
 		created() {
+			const storage = uni.getStorageSync('userInfo');
+			if (storage) {
+				this.formContent.actual_name = storage?.actual_name;
+				this.formContent.id_number = storage?.idNumber;
+				this.formContent.reserve_phone = storage?.phone;
+			}
 			this.getBankList()
 		},
 		methods: {

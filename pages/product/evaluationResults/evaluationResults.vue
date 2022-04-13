@@ -157,10 +157,10 @@
 				seconds: 60,
 			};
 		},
-		created() {},
-		onLoad() {
+		created() {
 			this.getAssessInfo()
 		},
+		onLoad() {},
 		computed: {
 			handlePrice() {
 				let num = this.userAssessInfo?.loan_amount ? common.formatNumber(this.userAssessInfo?.loan_amount, 2, '.',
