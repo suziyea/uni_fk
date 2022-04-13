@@ -2,7 +2,8 @@
 	<view class="container">
 		<u-list @scrolltolower="scrolltolower">
 			<view class="swiperBox">
-				<u-swiper :list="bannerList" keyName="url" :autoplay="true" bgColor=""  @click="swiperClick" imgMode="aspectFit"></u-swiper>
+				<u-swiper :list="bannerList" keyName="url" :autoplay="true" bgColor="" @click="swiperClick"
+					imgMode="aspectFill"></u-swiper>
 			</view>
 
 			<view class="products">
@@ -298,6 +299,6 @@
 	}
 
 	/deep/ .u-swiper {
-		height: 172rpx !important;
+		height: 200rpx !important;
 	}
 </style>
