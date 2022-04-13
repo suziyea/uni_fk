@@ -40,7 +40,7 @@
 
 				<!-- </view> -->
 				<view class="remarkForm">
-					<text class="read_tip">登录即表明您已经同意<text class="blue" @click="jumpContent('register')">{{` 《平台用户协议》 `}}</text>和<text
+					<text class="read_tip">登录即表明您已经同意<text class="blue" @click="jumpContent('platform')">{{` 《平台用户协议》 `}}</text>和<text
 							class="blue" @click="jumpContent('hide')">{{` 《隐私政策》 `}}</text></text>
 				</view>
 				<u-button class="custom-style" :plain="true" @tap="clickSubmit" :hairline="true">登录</u-button>
@@ -235,13 +235,13 @@
 				})
 			},
 			jumpContent(val) {
-				if (val === 'register') {
-					uni.$u.route('/pages/mine/agreement/agreement')
+				if (val === 'platform') {
+					uni.$u.route('/subpages/assessAgreement/assessAgreement')
 					return;
 				}
 				
 				if (val === 'hide') {
-					uni.$u.route('/pages/mine/agreement/agreement')
+					uni.$u.route('/subpages/appPrivacyAgreement/appPrivacyAgreement')
 					return;
 				}
 			},

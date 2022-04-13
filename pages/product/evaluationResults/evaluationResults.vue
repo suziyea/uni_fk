@@ -89,7 +89,7 @@
 				<u-checkbox-group>
 					<u-checkbox v-model="selectRadio" @change="checkboxChange"></u-checkbox><text
 						class="read_tip">我已阅读并同意同意<text class="blue"
-							@click="jumpContent('assess')">{{` 《会员协议》 `}}</text></text>
+							@click="jumpContent('assess')">{{` 《评估协议》 `}}</text></text>
 				</u-checkbox-group>
 
 			</view>
@@ -239,7 +239,7 @@
 			},
 			jumpContent(val) {
 				if (val === 'assess') {
-					uni.$u.route('/pages/mine/agreement/agreement')
+					uni.$u.route('/subpages/assessAgreement/assessAgreement')
 					return;
 				}
 			},

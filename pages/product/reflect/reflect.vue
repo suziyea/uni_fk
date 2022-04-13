@@ -44,7 +44,7 @@
 		<view class="read">
 			<u-checkbox-group>
 				<u-checkbox v-model="selectRadio" @change="checkboxChange"></u-checkbox><text class="read_tip">我已经同意
-					<text class="blue" @click="jumpContent('register')">{{` 《注册协议》 `}}</text>和<text class="blue"
+					<text class="blue" @click="jumpContent('platform')">{{` 《评估协议》 `}}</text>和<text class="blue"
 						@click="jumpContent('hide')">{{` 《隐私协议》 `}}</text></text>
 			</u-checkbox-group>
 		</view>
@@ -80,13 +80,13 @@
 				})
 			},
 			jumpContent(val) {
-				if (val === 'register') {
-					uni.$u.route('/pages/mine/agreement/agreement')
+				if (val === 'platform') {
+					uni.$u.route('/subpages/assessAgreement/assessAgreement')
 					return;
 				}
-
+				
 				if (val === 'hide') {
-					uni.$u.route('/pages/mine/agreement/agreement')
+					uni.$u.route('/subpages/appPrivacyAgreement/appPrivacyAgreement')
 					return;
 				}
 			},

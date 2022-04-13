@@ -82,63 +82,37 @@
 				"enablePullDownRefresh": false
 			}
 
-		}
-        ,{
-            "path" : "pages/webview/webview",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
+		}, {
+			"path": "pages/webview/webview",
+			"style": {
+				"navigationBarTitleText": "",
 				"navigationStyle": "custom",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/mine/feedback/feedback",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "反馈",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/mine/service/service",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "客服中心",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/mine/about/about",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "关于我们",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/mine/agreement/agreement",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "用户协议",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/product/result/result",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/mine/feedback/feedback",
+			"style": {
+				"navigationBarTitleText": "反馈",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/mine/service/service",
+			"style": {
+				"navigationBarTitleText": "客服中心",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/product/result/result",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}
+	],
 	"subPackages": [{
 		"root": "subpages",
 		"pages": [{
@@ -155,6 +129,27 @@
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
 
+			}
+
+		}, {
+			"path": "h5PrivacyAgreement/h5PrivacyAgreement",
+			"style": {
+				"navigationBarTitleText": "h5隐私协议",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "assessAgreement/assessAgreement",
+			"style": {
+				"navigationBarTitleText": "会员用户协议",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "appPrivacyAgreement/appPrivacyAgreement",
+			"style": {
+				"navigationBarTitleText": "app隐私协议",
+				"enablePullDownRefresh": false
 			}
 
 		}]
