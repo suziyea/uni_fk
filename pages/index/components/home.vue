@@ -51,7 +51,7 @@
 		</view>
 
 		<!-- 我要测评 -->
-		<view class="assessBox" @click="tesetModalTextst">
+		<view class="assessBox" @click="borrowMoney">
 			<view class="title">我要测评</view>
 			<view class="assessimg">
 				<image src="/static/img/evaluation.png" mode="aspectFill"></image>
