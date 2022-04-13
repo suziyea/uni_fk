@@ -16,25 +16,25 @@
 					<u--input inputAlign="right" v-model="formContent.actual_name" border="none"
 						suffixIcon="/static/icon/my_name.png"></u--input>
 				</u-form-item>
-				<u-form-item label="身份证号" prop="id_number" borderBottom ref="item1">
+				<u-form-item label="身份证号" prop="id_number" borderBottom ref="item2">
 					<u--input inputAlign="right" v-model="formContent.id_number" border="none"
 						suffixIcon="/static/icon/my_idcard.png"></u--input>
 				</u-form-item>
-				<u-form-item label="所属银行" @click="showBankListStatus = true;" prop="bank_name" borderBottom ref="item1">
+				<u-form-item label="所属银行" @click="showBankListStatus = true;" prop="bank_name" borderBottom ref="item3">
 					<u--input readonly inputAlign="right" v-model="formContent.bank_name" border="none"
 						suffixIcon="/static/icon/right.png"></u--input>
 				</u-form-item>
-				<u-form-item label="银行卡号" prop="card_number" borderBottom ref="item1">
+				<u-form-item label="银行卡号" prop="card_number" borderBottom ref="item4">
 					<u--input inputAlign="right" v-model="formContent.card_number" border="none"
 						suffixIcon="/static/icon/my_bank.png"></u--input>
 				</u-form-item>
 
-				<u-form-item label="预留手机号" prop="reserve_phone" borderBottom ref="item1">
+				<u-form-item label="预留手机号" prop="reserve_phone" borderBottom ref="item5">
 					<u--input inputAlign="right" v-model="formContent.reserve_phone" border="none"
 						suffixIcon="/static/icon/my_phone.png"></u--input>
 				</u-form-item>
 
-				<u-form-item label="验证码" prop="code" ref="item1">
+				<u-form-item label="验证码" prop="code" ref="item6">
 					<!-- <u--input  v-model="phone" border suffixIcon="/static/icon/my_phone.png"></u--input> -->
 					<!-- 注意：由于兼容性差异，如果需要使用前后插槽，nvue下需使用u--input，非nvue下需使用u-input -->
 					<!-- #ifndef APP-NVUE -->
@@ -76,6 +76,8 @@
 		getBank,
 		addBankInfo
 	} from "@/config/api/product.js";
+	import common from '@/utils/validator.js'
+
 	export default {
 		data() {
 			return {
@@ -131,6 +133,16 @@
 						required: true,
 						message: '请输银行卡号',
 						trigger: ['blur']
+					}, {
+						// 自定义验证函数，见上说明
+						validator: (rule, value, callback) => {
+							// 上面有说，返回true表示校验通过，返回false表示不通过
+							// uni.$u.test.mobile()就是返回true或者false的
+							return common.isBankCardNo(value);
+						},
+						message: '请输银行卡号码不正确',
+						// 触发器可以同时用blur和change
+						trigger: ['blur'],
 					}],
 					reserve_phone: [{
 							required: true,
@@ -174,7 +186,6 @@
 		},
 		methods: {
 			bankSelect(e) {
-				console.log(e, '哈哈哈哈')
 				this.formContent.bank_id = e.id;
 				this.formContent.bank_name = e.name
 				this.$refs.uForm.validateField('formContent.bank_id')
@@ -185,7 +196,6 @@
 						this.bankList = res?.data || [];
 						this.showFlag = true
 					}
-					console.log(res, 'nihao')
 				}).catch((err) => {
 					console.log(err, 'err');
 				}).finally((data) => {

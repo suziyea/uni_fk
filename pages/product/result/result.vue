@@ -33,24 +33,24 @@
 		<view class="formData">
 			<u--form :model="formContent" :borderBottom='noneBorder' ref="uForm" labelWidth="auto">
 				<u-form-item label="申请用途" prop="" :borderBottom="noneBorder"
-					@click="showAssessSheet = true; hideKeyboard()" ref="item1">
+					@click="showAssessSheet = true;" ref="item1">
 					<u--input v-model="purpose" disabled inputAlign="right" disabledColor="#ffffff" border="none">
 					</u--input>
 					<u-icon slot="right" name="arrow-right"></u-icon>
 				</u-form-item>
-				<u-form-item label="银行卡号" prop="bankNo" :borderBottom="noneBorder" ref="item1">
+				<u-form-item label="银行卡号" prop="bankNo" :borderBottom="noneBorder" ref="item2">
 					<u--input inputAlign="right" v-model="cardIdNum" border="none"
 						suffixIcon="/static/icon/my_bank.png">
 					</u--input>
 				</u-form-item>
 
-				<u-form-item label="预留手机号" prop="phone" :borderBottom="noneBorder" ref="item1">
+				<u-form-item label="预留手机号" prop="phone" :borderBottom="noneBorder" ref="item3">
 					<u--input inputAlign="right" v-model="userMobile" border="none"
 						suffixIcon="/static/icon/my_phone.png">
 					</u--input>
 				</u-form-item>
 
-				<u-form-item label="验证码" prop="phone" borderBottom ref="item1">
+				<u-form-item label="验证码" prop="phone" borderBottom ref="item4">
 					<!-- <u--input inputAlign="right" v-model="phone" border="none" suffixIcon="/static/icon/my_phone.png"></u--input> -->
 					<!-- 注意：由于兼容性差异，如果需要使用前后插槽，nvue下需使用u--input，非nvue下需使用u-input -->
 					<!-- #ifndef APP-NVUE -->

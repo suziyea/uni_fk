@@ -1,11 +1,13 @@
 <template>
-	<view class="resultContainer u-flex u-flex-column u-flex-center u-row-center">
+	<view class="resultContainer u-flex u-flex-column u-flex-center u-row-center" v-if="showFlag">
 		<view class="info u-flex u-flex-column u-flex-center u-row-center">
 			<text class="title">
 				预计放款额度
 			</text>
-			<!-- <text >50000</text> -->
-			<u--text mode="price" class="price" :text="userAssessInfo.loan_amount"></u--text>
+			<view>
+				<text class="sign">¥</text><text class="pice">{{handlePrice}}</text>
+			</view>
+			<!-- <u--text mode="price" class="price" :text="userAssessInfo.loan_amount"></u--text> -->
 			<text class="desc">*此额度根据您的日常行为记录评估额度</text>
 			<text class="desc">最终可下款额度以资金方最终审核情况为准</text>
 		</view>
@@ -111,9 +113,12 @@
 		assessResult,
 		setFirstPay
 	} from "@/config/api/user.js";
+	import common from '@/utils/common.js'
+	// 
 	export default {
 		data() {
 			return {
+				showFlag: false,
 				productsNav: [{
 						icon: "/static/icon/shenhe.png",
 						title: "快速审核",
@@ -155,6 +160,15 @@
 		created() {},
 		onLoad() {
 			this.getAssessInfo()
+		},
+		computed: {
+			handlePrice() {
+				let num = this.userAssessInfo?.loan_amount ? common.formatNumber(this.userAssessInfo?.loan_amount, 2, '.',
+					',') : common.formatNumber(0, 2, '.', ',')
+				return num
+			},
+
+
 		},
 		methods: {
 			checkboxChange(n) {
@@ -210,9 +224,13 @@
 								id: i
 							}
 						})
+						this.showFlag = true;
 					}
 				}).catch((err) => {
 					console.log(err, 'err');
+				}).finally((data) => {
+					console.log(data)
+					this.showFlag = true;
 				})
 			},
 			getCode() {
@@ -271,16 +289,20 @@
 				line-height: 44rpx;
 			}
 
-			.price {
-				margin: 0 14rpx;
+			.sign {
+				font-size: 18px;
+				font-family: PingFangSC-Medium, PingFang SC;
+				font-weight: 500;
+				color: #414141;
+				line-height: 25px;
+			}
 
-				::v-deep .u-text__value {
-					font-size: 74rpx !important;
-					font-family: Arial-BoldMT, Arial;
-					font-weight: normal !important;
-					color: #020F2B !important;
-					line-height: 84rpx !important;
-				}
+			.pice {
+				font-size: 37px;
+				font-family: Arial-BoldMT, Arial;
+				font-weight: normal;
+				color: #020F2B;
+				line-height: 42px;
 
 			}
 

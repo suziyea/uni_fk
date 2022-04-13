@@ -14,7 +14,7 @@
 					</u--input>
 				</u-form-item>
 
-				<u-form-item label="" prop="smsCode" ref="item1">
+				<u-form-item label="" prop="smsCode" ref="item2">
 					<!-- <u--input  v-model="phone" border suffixIcon="/static/icon/my_phone.png"></u--input> -->
 					<!-- 注意：由于兼容性差异，如果需要使用前后插槽，nvue下需使用u--input，非nvue下需使用u-input -->
 					<!-- #ifndef APP-NVUE -->
