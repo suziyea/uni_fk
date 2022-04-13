@@ -2,8 +2,7 @@
 	<view class="container">
 		<u-list @scrolltolower="scrolltolower">
 			<view class="swiperBox">
-				<u-swiper :list="bannerList" keyName="url" @click="swiperClick" previousMargin="30" nextMargin="30"
-					circular imgMode="widthFix" :autoplay="true" radius="5" bgColor="#ffffff"></u-swiper>
+				<u-swiper :list="bannerList" keyName="url" :autoplay="true" bgColor=""  @click="swiperClick" imgMode="aspectFit"></u-swiper>
 			</view>
 
 			<view class="products">
@@ -15,7 +14,7 @@
 					</view>
 				</view>
 				<u-list-item v-for="(item,i) in productList" :key="i">
-					<navigator :url="'/pages/webview/webview?urlPath='+ encodeURIComponent(item.link)">
+					<navigator :url="'/pages/webview/webview?urlPath='+ (item.link)">
 						<view class="productList">
 							<view class="product-item">
 								<view class="left">
@@ -71,14 +70,14 @@
 			this.loadmore()
 		},
 		created() {
-			// this.getEdus();
+			this.getEdus();
 			this.getBannerImg()
 		},
 		methods: {
 			swiperClick(i) {
 				let url = this.bannerList[i]?.link || ''
 				uni.navigateTo({
-					url: `/pages/webview/webview?urlPath=${encodeURIComponent(url)}`
+					url: `/pages/webview/webview?urlPath=${(url)}`
 				});
 			},
 			getBannerImg() {
