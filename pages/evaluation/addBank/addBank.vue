@@ -56,11 +56,8 @@
 				</u-form-item>
 
 			</u--form>
-
-
 		</view>
-		<u-action-sheet :show="showBankListStatus" :actions="bankList" title="请选择银行" description="请选择银行"
-			@close="showBankListStatus = false" @select="bankSelect">
+		<u-action-sheet :closeOnClickOverlay="true"  :closeOnClickAction="true" :show="showBankListStatus" :actions="bankList" title="请选择银行" @close="showBankListStatus = false"  @select="bankSelect">
 		</u-action-sheet>
 
 		<view class="btn">
@@ -191,6 +188,10 @@
 			this.getBankList()
 		},
 		methods: {
+			closeSheet() {
+				console.log('你好')
+				this.showBankListStatus = false
+			},
 			bankSelect(e) {
 				this.formContent.bank_id = e.id;
 				this.formContent.bank_name = e.name

@@ -11,6 +11,6 @@
   "license": "ISC",
   "dependencies": {
     "moment": "^2.29.1",
-    "uview-ui": "^2.0.29"
+    "uview-ui": "^2.0.30"
   }
 }

@@ -60,7 +60,7 @@
 	export default {
 		data() {
 			return {
-				messageArr: ['凯文罗', '小罗', '二流子'],
+				messageArr: ['186****0764 总借款共计12000元', '186****0765 总借款共计12000元', '186****0766 总借款共计12000元'],
 				selectRadio: false,
 				userAssessInfo: {}
 			}

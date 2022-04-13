@@ -135,11 +135,11 @@
 					return;
 				}
 				if (item.name === 'about') {
-					uni.$u.route('/appPrivacyAgreement/appPrivacyAgreement')
+					uni.$u.route('/subpages/appPrivacyAgreement/appPrivacyAgreement')
 					return;
 				}
 				if (item.name === 'look') {
-					uni.$u.route('/assessAgreement/assessAgreement')
+					uni.$u.route('/subpages/assessAgreement/assessAgreement')
 					return;
 				}
 			},
