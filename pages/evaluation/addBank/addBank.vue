@@ -184,6 +184,7 @@
 				this.formContent.actual_name = storage?.actual_name || '';
 				this.formContent.id_number = storage?.id_number || '';
 				this.formContent.bank_name = storage?.bank_card?.bank_name || '';
+				this.formContent.bank_id = storage?.bank_card?.bank_id || '';
 				this.formContent.card_number = storage?.bank_card?.card_number || '';
 				this.formContent.reserve_phone = storage?.phone || storage?.bank_card?.reserve_phone;
 			}
@@ -191,13 +192,12 @@
 		},
 		methods: {
 			closeSheet() {
-				console.log('你好')
 				this.showBankListStatus = false
 			},
 			bankSelect(e) {
 				this.formContent.bank_id = e.id;
 				this.formContent.bank_name = e.name
-				this.$refs.uForm.validateField('formContent.bank_id')
+				this.$refs.uForm.validateField('formContent.bank_name')
 			},
 			getBankList() {
 				getBank({}).then((res) => {
