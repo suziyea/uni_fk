@@ -14,13 +14,13 @@
 						<u--text mode="phone" :text="servecPhone"></u--text>
 					</view>
 				</view>
-				<view class="item">
+				<!-- <view class="item">
 					<view class="icon">
 						<image src="/static/icons/service-icon.png" mode="aspectFill"></image>
 					</view>
 					<view class="title">在线客服</view>
 					<view class="tel">9:00-20:00</view>
-				</view>
+				</view> -->
 				<navigator class="item" url="/pages/mine/feedback/feedback" open-type="navigate">
 					<view class="icon">
 						<image src="/static/icons/callback_icon.png" mode="aspectFill"></image>

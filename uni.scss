@@ -153,3 +153,7 @@ $mc-normal-font-color: #333333;
 .u-flex-items-center {
 	align-items: center
 }
+
+/deep/ .uicon-close {
+	display: none
+}

@@ -181,9 +181,11 @@
 		created() {
 			const storage = uni.getStorageSync('userInfo');
 			if (storage) {
-				this.formContent.actual_name = storage?.actual_name;
-				this.formContent.id_number = storage?.idNumber;
-				this.formContent.reserve_phone = storage?.phone;
+				this.formContent.actual_name = storage?.actual_name || '';
+				this.formContent.id_number = storage?.id_number || '';
+				this.formContent.bank_name = storage?.bank_card?.bank_name || '';
+				this.formContent.card_number = storage?.bank_card?.card_number || '';
+				this.formContent.reserve_phone = storage?.phone || storage?.bank_card?.reserve_phone;
 			}
 			this.getBankList()
 		},
