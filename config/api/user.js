@@ -68,5 +68,10 @@ export const setSecondPay = (params, config = {
 	}
 }) => http.post('/api/fk/home/second-pay', params, config)
 
+// 获取开屏页
+export const getStartBg = (params, config = {
+
+}) => http.post('/api/public/image-collection/get', params, config)
+
 // get请求
 export const getMenu = (data) => http.get('url', data)

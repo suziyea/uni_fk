@@ -6,12 +6,15 @@
 </template>
 
 <script>
+	import {
+		getStartBg,
+	} from "@/config/api/user.js";
 	export default {
 		data() {
 			return {
 				second: 3,
 				timer: null,
-				image: "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F019bbc5542e1300000019ae965f0bf.jpg&refer=http%3A%2F%2Fimg.zcool.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1652152833&t=8a93930dd64a870df5e17343d3223c92"
+				image: ""
 			};
 		},
 		onReady() {
@@ -36,18 +39,21 @@
 				}
 			}, 1000)
 		},
-		onLoad() {
-			// this.loadImage()
+		created() {
+			this.loadImage()
 		},
 		methods: {
 			loadImage() {
-				this.$request.POST('/startup_page', null, true,
-					(res) => {
-						this.image = res.data.image
-					},
-					(err) => {
-						this.image = '/static/bgs/hello_bg.jpg'
-					})
+				getStartBg({
+					code: 'opening_page_image'
+				}).then((res) => {
+					if (res.code === 100000) {
+						this.image = res.data.url
+					}
+
+				}).catch((err) => {
+					console.log(err, 'err');
+				})
 			}
 		}
 	}
