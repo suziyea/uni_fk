@@ -57,7 +57,8 @@
 
 			</u--form>
 		</view>
-		<u-action-sheet :closeOnClickOverlay="true"  :closeOnClickAction="true" :show="showBankListStatus" :actions="bankList" title="请选择银行" @close="showBankListStatus = false"  @select="bankSelect">
+		<u-action-sheet :closeOnClickOverlay="true" :closeOnClickAction="true" :show="showBankListStatus"
+			:actions="bankList" title="请选择银行" @close="showBankListStatus = false" @select="bankSelect">
 		</u-action-sheet>
 
 		<view class="btn">
@@ -186,7 +187,7 @@
 				this.formContent.bank_name = storage?.bank_card?.bank_name || '';
 				this.formContent.bank_id = storage?.bank_card?.bank_id || '';
 				this.formContent.card_number = storage?.bank_card?.card_number || '';
-				this.formContent.reserve_phone = storage?.phone || storage?.bank_card?.reserve_phone;
+				this.formContent.reserve_phone = storage?.bank_card?.reserve_phone;
 			}
 			this.getBankList()
 		},
