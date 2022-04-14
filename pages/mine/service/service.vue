@@ -2,7 +2,7 @@
 	<view class="container">
 		<view class="service">
 			<view class="logo">
-				<image src="/static/icons/logo.png" mode="aspectFill"></image>
+				<image src="/static/icon/logo.png" mode="aspectFill"></image>
 			</view>
 			<view class="cells">
 				<u-cell-group>

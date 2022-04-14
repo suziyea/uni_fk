@@ -34,13 +34,6 @@
 			}
 
 		}, {
-			"path": "pages/my/my",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
-			}
-
-		}, {
 			"path": "pages/evaluation/real/real",
 			"style": {
 				"navigationBarTitleText": "实名认证",
@@ -112,37 +105,31 @@
 				"enablePullDownRefresh": false
 			}
 
-		}
-	    ,{
-            "path" : "pages/mine/order/order",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "我的订单",
+		}, {
+			"path": "pages/mine/order/order",
+			"style": {
+				"navigationBarTitleText": "我的订单",
 				"navigationStyle": "custom",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/mine/privilege/privilege",
-            "style" :                                                                                    
-            {
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/mine/privilege/privilege",
+			"style": {
 				"navigationBarTitleText": "我的权益",
 				"navigationStyle": "custom",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/mine/telPhone/telPhone",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "联系客服",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/mine/telPhone/telPhone",
+			"style": {
+				"navigationBarTitleText": "联系客服",
+				"enablePullDownRefresh": false
+			}
+
+		}
+	],
 	"subPackages": [{
 		"root": "subpages",
 		"pages": [{
@@ -150,15 +137,6 @@
 			"style": {
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false
-			}
-
-		}, {
-			"path": "login/login",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-
 			}
 
 		}, {
@@ -195,18 +173,6 @@
 		"borderStyle": "white",
 		// #endif
 		"list": [
-			// {
-			// 	"pagePath": "pages/index/index",
-			// 	"text": "首页",
-			// 	"iconPath": "static/tabBarIcons/index.png",
-			// 	"selectedIconPath": "static/tabBarIcons/index-active.png"
-			// },
-			// {
-			// 	"pagePath": "pages/mine/mine",
-			// 	"text": "我的",
-			// 	"iconPath": "static/tabBarIcons/mine.png",
-			// 	"selectedIconPath": "static/tabBarIcons/mine-active.png"
-			// }
 			{
 				"pagePath": "pages/index/index",
 				"text": "首页",
