@@ -15,7 +15,7 @@
 					</view>
 				</view>
 				<u-list-item v-for="(item,i) in productList" :key="i">
-					<navigator :url="'/pages/webview/webview?urlPath='+ (item.link)">
+					<navigator :url="'/pages/webview/webview?urlPath='+ encodeURIComponent(item.link)">
 						<view class="productList">
 							<view class="product-item">
 								<view class="left">
@@ -78,7 +78,7 @@
 			swiperClick(i) {
 				let url = this.bannerList[i]?.link || ''
 				uni.navigateTo({
-					url: `/pages/webview/webview?urlPath=${(url)}`
+					url: `/pages/webview/webview?urlPath=${encodeURIComponent(url)}`
 				});
 			},
 			getBannerImg() {

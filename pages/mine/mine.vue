@@ -143,7 +143,7 @@ import {
 					getQy({}).then((res) => {
 						if (res.code === 100000) {
 							uni.navigateTo({
-								url: `/pages/webview/webview?urlPath=${res?.data?.url}`
+								url: `/pages/webview/webview?urlPath=${encodeURIComponent(res?.data?.url)}`
 							});
 						} else {
 							uni.$u.route(item.path);
