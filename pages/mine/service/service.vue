@@ -6,10 +6,16 @@
 			</view>
 			<view class="cells">
 				<u-cell-group>
-					<u-cell title="客服电话" icon="/static/icon/tel_icon.png" isLink url="/pages/componentsB/tag/tag">
+					<u-cell title="客服电话" icon="/static/icon/tel_icon.png" isLink url="/pages/mine/telPhone/telPhone">
 					</u-cell>
 					<u-cell title="改善建议/投诉反馈" icon="/static/icon/callback_icon.png" isLink
 						url="/pages/mine/feedback/feedback"></u-cell>
+
+					<!-- #ifdef APP-PLUS -->
+					<u-cell title="版本号" icon="setting">
+						<text slot="value" class="u-slot-value">版本 {{version}}</text>
+					</u-cell>
+					<!-- #endif -->
 				</u-cell-group>
 			</view>
 		</view>
@@ -19,8 +25,18 @@
 <script>
 	export default {
 		data() {
-			return {};
-		}
+			return {
+				version: ''
+			};
+		},
+		created() {
+			// #ifdef APP-PLUS
+			this.version = plus.runtime.version;
+			// #endif
+
+
+		},
+
 	}
 </script>
 
