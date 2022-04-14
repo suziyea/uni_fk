@@ -32,10 +32,15 @@
 			</view>
 		</view>
 
-		<view class="listView" v-if="isLogin">
+		<view class="listView">
 			<u-cell-group>
-				<u-cell v-for="(item,index) in cellList" :key="index" :title="item.name" size="large"
-					:name="item.enName" isLink :icon="item.icon" @click="handleListItem"></u-cell>
+				<view v-for="(item,index) in cellList" :key="index">
+					<u-cell v-if="isLogin" :title="item.name" size="large" :name="item.enName" isLink :icon="item.icon"
+						@click="handleListItem"></u-cell>
+					<u-cell v-else-if="!isLogin && !item.power" :title="item.name" size="large" :name="item.enName"
+						isLink :icon="item.icon" @click="handleListItem"></u-cell>
+				</view>
+
 			</u-cell-group>
 		</view>
 
@@ -63,11 +68,11 @@
 			return {
 				memberNav: [{
 					icon: '/static/icon/memberLegal.png',
-					path: '',
+					path: '/pages/mine/privilege/privilege',
 					name: '会员权益'
 				}, {
 					icon: '/static/icon/myLegal.png',
-					path: '',
+					path: '/pages/mine/order/order',
 					name: '我的订单'
 				}, {
 					icon: '/static/icon/kefu.png',
@@ -78,12 +83,14 @@
 						icon: '/static/icon/look_agreement.png',
 						path: '',
 						name: '查看协议',
-						enName: 'look'
+						enName: 'look',
+						power: false
 					}, {
 						icon: '/static/icon/about_us.png',
 						path: '',
 						name: '关于我们',
-						enName: 'about'
+						enName: 'about',
+						power: false
 					},
 					//  {
 					// 	icon: '/static/icon/logoff.png',
@@ -95,7 +102,8 @@
 						icon: '/static/icon/logout.png',
 						path: '/pages/login/login',
 						name: '退出登录',
-						enName: 'logout'
+						enName: 'logout',
+						power: true
 					}
 				],
 				showModal: false,
