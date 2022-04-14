@@ -15,7 +15,8 @@
 
 		},
 		onLoad(options) {
-			this.path = decodeURIComponent(options.urlPath);
+			// this.path = decodeURIComponent(options.urlPath);
+			this.path = options.urlPath
 		}
 	}
 </script>

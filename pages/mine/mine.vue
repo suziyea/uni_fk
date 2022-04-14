@@ -63,21 +63,28 @@
 	import common from '@/utils/common'
 	import store from "@/store"
 
+import {
+		getQy
+	} from "@/config/api/user.js";
+
 	export default {
 		data() {
 			return {
 				memberNav: [{
 					icon: '/static/icon/memberLegal.png',
 					path: '/pages/mine/privilege/privilege',
-					name: '会员权益'
+					name: '我的权益',
+					page: 'current'
 				}, {
 					icon: '/static/icon/myLegal.png',
 					path: '/pages/mine/order/order',
-					name: '我的订单'
+					name: '我的订单',
+					page: ''
 				}, {
 					icon: '/static/icon/kefu.png',
 					path: '/pages/mine/service/service',
-					name: '客服中心'
+					name: '客服中心',
+					page: ''
 				}],
 				cellList: [{
 						icon: '/static/icon/look_agreement.png',
@@ -130,6 +137,20 @@
 				if (!(store.state.user.token)) {
 					this.showModal = true;
 					return;
+				}
+				
+				if (item.page) {
+					getQy({}).then((res) => {
+						if (res.code === 100000) {
+							uni.navigateTo({
+								url: `/pages/webview/webview?urlPath=${res?.data?.url}`
+							});
+						} else {
+							uni.$u.route(item.path);
+						}
+					}).catch((err) => {
+						console.log(err, 'err');
+					})
 				}
 
 				if (item.path) {

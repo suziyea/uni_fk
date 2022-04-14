@@ -73,5 +73,12 @@ export const getStartBg = (params, config = {
 
 }) => http.post('/api/public/image-collection/get', params, config)
 
+
+// 获取权益
+export const getQy = (params, config = {
+	custom: {
+		auth: true
+	}
+}) => http.post('/api/fk/qy/authentication', params, config)
 // get请求
 export const getMenu = (data) => http.get('url', data)
