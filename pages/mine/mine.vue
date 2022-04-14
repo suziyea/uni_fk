@@ -151,6 +151,7 @@ import {
 					}).catch((err) => {
 						console.log(err, 'err');
 					})
+					return;
 				}
 
 				if (item.path) {
