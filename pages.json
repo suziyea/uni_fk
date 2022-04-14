@@ -21,6 +21,7 @@
 			"path": "pages/404/404",
 			"style": {
 				"navigationBarTitleText": "页面未找到",
+				"navigationStyle": "custom",
 				"enablePullDownRefresh": false
 			}
 
@@ -112,7 +113,36 @@
 			}
 
 		}
-	],
+	    ,{
+            "path" : "pages/mine/order/order",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "我的订单",
+				"navigationStyle": "custom",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/mine/privilege/privilege",
+            "style" :                                                                                    
+            {
+				"navigationBarTitleText": "我的权益",
+				"navigationStyle": "custom",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/mine/telPhone/telPhone",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "联系客服",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	"subPackages": [{
 		"root": "subpages",
 		"pages": [{

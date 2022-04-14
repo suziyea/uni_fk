@@ -21,4 +21,13 @@
 	/*每个页面公共css */
 	/* 注意要写在第一行，同时给style标签加入lang="scss"属性 */
 	@import "uview-ui/index.scss";
+	/* App.vue */
+	.cell-hover-class {
+		background-color: rgb(235, 237, 238);
+	}
+	
+	/* 或者单是设置透明度 */
+	// .cell-hover-class {
+	// 	opacity: 0.5;
+	// }
 </style>
