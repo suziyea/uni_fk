@@ -202,7 +202,8 @@
 				 * '0' 男
 				 * '1' 女
 				 */
-				let sexNum = this.getUserInfos?.idNumber ? common.getSexByBirthday(this.getUserInfos.idNumber) : 2
+				let sexNum = this.getUserInfos?.id_number ? common.getSexByBirthday(this.getUserInfos.id_number) : 2
+				console.log(sexNum,'你好啊')
 				if (sexNum === '0') {
 					return 'headman'
 				}
