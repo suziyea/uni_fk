@@ -35,7 +35,6 @@
 				}).then((res) => {
 					if (res.code === 100000) {
 						if (res?.data?.value?.value) {
-							console.log(res?.data?.value?.value.split(','))
 							this.telphones = res?.data?.value?.value.split(',')
 							return
 						}

@@ -209,7 +209,6 @@
 				}).catch((err) => {
 					console.log(err, 'err');
 				}).finally((data) => {
-					console.log(data)
 					this.showFlag = true;
 				})
 			},
@@ -249,8 +248,6 @@
 			},
 			codeChange(text) {
 				this.tips = text;
-				console.log('change', text);
-
 			},
 			getCode() {
 				if (this.$refs.uCode.canGetCode) {

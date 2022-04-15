@@ -14,8 +14,6 @@ module.exports = (vm) => {
 		config.data = config.data || {}
 		// 根据custom参数中配置的是否需要token，添加对应的请求头
 		if (config?.custom?.auth) {
-			console.log('config-----', config, store);
-
 			// 可以在此通过vm引用vuex中的变量，具体值在vm.$store.state中
 			config.header.Authorization = `Bearer ${store.state.user.token}`
 		}
@@ -28,7 +26,6 @@ module.exports = (vm) => {
 	uni.$u.http.interceptors.response.use((response) => {
 		/* 对响应成功做点什么 可使用async await 做异步操作*/
 		const data = response.data
-		console.log(response, '和您详细了解')
 		// 自定义参数
 		const custom = response.config?.custom
 		if (data.code === 100000) {

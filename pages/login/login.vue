@@ -115,8 +115,6 @@
 			...mapMutations(['SETDEVICE', 'LOGIN', 'SET_TOKEN']),
 			codeChange(text) {
 				this.tips = text;
-				console.log('change', text);
-
 			},
 			getCode() {
 				if (this.$refs.uCode.canGetCode) {
@@ -175,8 +173,6 @@
 						phone,
 						smsCode
 					} = this.formContent
-					console.log('res', res);
-
 					// uni.$u.toast('校验通过')
 					uni.showLoading({
 						title: "加载中",
@@ -199,7 +195,6 @@
 						.then((res) => {
 							uni.hideLoading();
 							if (res.code === 100000) {
-								console.log('陈工了', res);
 								let handleBaseInfo = {
 									token: res.data.access_token,
 									userInfo: res.data
@@ -209,20 +204,12 @@
 									token: res.data.access_token,
 									refresh_token: res.data.refresh_token
 								})
-								// userInfo: {
-								// 		...res.data
-								// 	}
 								uni.switchTab({
 									url: '/pages/index/index'
 								})
-
 							}
-							//   return this.$request.getShowBorrowButton();
-
 						})
 						.catch((err) => {
-							console.log('res哈哈哈哈是比啊了', err);
-
 							uni.hideLoading();
 							uni.showToast({
 								icon: "none",

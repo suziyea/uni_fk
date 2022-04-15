@@ -38,7 +38,7 @@
 
 		<view class="btn">
 			<u-button type="primary" @click="clickSubmit" :plain="true" class="custom-style" :hairline="true"
-				text="立即体现">
+				text="立即提现">
 			</u-button>
 		</view>
 		<view class="read">

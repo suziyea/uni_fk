@@ -174,7 +174,6 @@
 				uni.$u.route('/pages/product/reflect/reflect');
 			},
 			selectRreason(e) {
-				console.log(e, '选择啊')
 				this.purpose = e.name
 			},
 			codeChange(text) {
@@ -193,7 +192,6 @@
 							}
 						})
 					}
-					console.log(res, 'nihao')
 				}).catch((err) => {
 					console.log(err, 'err');
 				})

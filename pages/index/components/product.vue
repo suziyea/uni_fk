@@ -86,7 +86,6 @@
 					if (res.code === 100000) {
 						this.bannerList = res?.data?.list || []
 					}
-					console.log(res, 'nihao')
 				}).catch((err) => {
 					console.log(err, 'err');
 				})

@@ -90,7 +90,7 @@ import store from "@/store"
 		data() {
 			return {
 				title: 'Hello',
-				messageArr: ['凯文罗', '小罗', '二流子'],
+				messageArr: ['评估如实反映您的信用情况，最终结果以第三方审核为准', '评估如实反映您的信用情况，最终结果以第三方审核为准', '评估如实反映您的信用情况，最终结果以第三方审核为准'],
 				showModal: false,
 				title: '实名认证',
 				content: '您好，请先完成实名认证信息补全!',
@@ -148,7 +148,9 @@ import store from "@/store"
 				this.setModalText()
 			},
 			setModalText() {
-				if (!(store.state.user.token)) {
+				const storeToken = uni.getStorageSync('token');
+				const storeUserInfo = uni.getStorageSync('userInfo');
+				if (!(storeToken)&& !storeUserInfo) {
 					this.showModal = true;
 					this.title = '登录';
 					this.content = '您好，请先完成登录！';

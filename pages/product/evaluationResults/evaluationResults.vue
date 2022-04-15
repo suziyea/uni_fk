@@ -229,7 +229,6 @@
 				}).catch((err) => {
 					console.log(err, 'err');
 				}).finally((data) => {
-					console.log(data)
 					this.showFlag = true;
 				})
 			},

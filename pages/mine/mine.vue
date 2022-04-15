@@ -63,7 +63,7 @@
 	import common from '@/utils/common'
 	import store from "@/store"
 
-import {
+	import {
 		getQy
 	} from "@/config/api/user.js";
 
@@ -126,20 +126,14 @@ import {
 					url: item.path
 				})
 			},
-			logout() {
-				this.$store.commit('logout')
-				getApp().globalData.refreshIndexList = true
-				uni.switchTab({
-					url: '/pages/index/index'
-				})
-			},
+
 			clickNav(item) {
 				if (!(store.state.user.token)) {
 					this.showModal = true;
 					return;
 				}
-				
-				if (item.page) {
+
+				if (item.page && this.getUserInfos?.status === 5) {
 					getQy({}).then((res) => {
 						if (res.code === 100000) {
 							uni.navigateTo({
@@ -160,8 +154,11 @@ import {
 			},
 			handleListItem(item) {
 				if (item.name === 'logout') {
+					uni.$u.route({
+						type: 'reLaunch',
+						url: 'pages/login/login',
+					})
 					this.LOGOUT()
-					uni.$u.route('/pages/login/login');
 					return;
 				}
 				if (item.name === 'about') {

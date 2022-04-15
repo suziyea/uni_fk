@@ -53,7 +53,6 @@ export default {
 		setLogin({
 			commit
 		}, data) {
-			console.log('payload-----data', data);
 			commit("LOGIN", data);
 		},
 		async setCurrentUserInfo (context) {
@@ -62,13 +61,10 @@ export default {
 				userInfo: {}
 			}
 			if (currentUser.code === 100000) {
-				// this.loan_amount = res?.data?.value?.value || '****'
-				// commit("LOGIN", data);
 				params.userInfo = currentUser.data
 				context.commit('LOGIN', params)
 
 			}
-			console.log('currentUser',params);
 		},
 	},
 }
