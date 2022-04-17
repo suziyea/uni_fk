@@ -75,7 +75,6 @@
 		addBankInfo
 	} from "@/config/api/product.js";
 	import common from '@/utils/validator.js'
-
 	export default {
 		data() {
 			return {
@@ -181,9 +180,10 @@
 		},
 		created() {
 			const storage = uni.getStorageSync('userInfo');
+			const storageReal = uni.getStorageSync('userBankInfo');
 			if (storage) {
-				this.formContent.actual_name = storage?.actual_name || '';
-				this.formContent.id_number = storage?.id_number || '';
+				this.formContent.actual_name = storageReal.name || storage?.actual_name || '';
+				this.formContent.id_number = storageReal.idcard || storage?.id_number || '';
 				this.formContent.bank_name = storage?.bank_card?.bank_name || '';
 				this.formContent.bank_id = storage?.bank_card?.bank_id || '';
 				this.formContent.card_number = storage?.bank_card?.card_number || '';
@@ -221,11 +221,13 @@
 						...this.formContent
 					}).then((res) => {
 						if (res.code === 100000) {
+							let storeData = uni.removeStorageSync('userBankInfo')
+							uni.setStorageSync('userBankInfo', this.formContent)
 							this.$store.dispatch('setCurrentUserInfo')
 							let params = {
 								type: 'success',
 								message: "绑卡成功，请到下一步",
-								url: '/pages/product/evaluationResults/evaluationResults'
+								url: '/pages/product/reflect/reflect'
 							}
 							this.$refs.uToast.show({
 								...params,

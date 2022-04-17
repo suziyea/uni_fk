@@ -1,5 +1,5 @@
 <template>
-	<view class="container">
+	<view class="container  u-flex u-flex-column u-row-center ">
 		<view class="bgBox">
 			<view class="userInfo">
 				<view class="avatar">
@@ -30,6 +30,10 @@
 					</u-col>
 				</u-row>
 			</view>
+		</view>
+		<!-- 消息轮播 -->
+		<view class="tipsBox" @click="setModalText">
+			<u-notice-bar :text="messageArr" icon="volume" direction="column" speed="250" url=""></u-notice-bar>
 		</view>
 
 		<view class="listView">
@@ -113,6 +117,7 @@
 						power: true
 					}
 				],
+				messageArr: ['不限新老客户每日限领一次','成为会员免费领取美团会员','天天优惠，通红红包'],
 				showModal: false,
 				title: '登录',
 				content: '您好，请先完成登录！',
@@ -137,7 +142,7 @@
 					getQy({}).then((res) => {
 						if (res.code === 100000) {
 							uni.navigateTo({
-								url: `/pages/webview/webview?urlPath=${encodeURIComponent(res?.data?.url)}`
+								url: `/pages/webview/webview?urlPath=${encodeURI(res?.data?.url)}`
 							});
 						} else {
 							uni.$u.route(item.path);
@@ -220,8 +225,9 @@
 <style lang="scss" scoped>
 	.container {
 		width: 100%;
-		height: 100vh;
+		min-height: 100vh;
 		background-color: #f7f7f7;
+		overflow: hidden;
 	}
 
 	.bgBox {
@@ -313,7 +319,9 @@
 			}
 		}
 
-		.listView {}
+		.listView {
+			width: 100%;
+		}
 
 	}
 
@@ -325,5 +333,12 @@
 		margin: 0 16rpx;
 		background: #FFFFFF;
 		margin-top: 12rpx !important;
+	}
+	.tipsBox {
+		width: 686rpx;
+		height: 64rpx;
+		background: #FFFFFF;
+		border-radius: 8rpx;
+		margin: 24rpx 0;
 	}
 </style>

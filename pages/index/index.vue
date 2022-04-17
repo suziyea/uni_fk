@@ -1,9 +1,10 @@
 <template>
 	<view class="container">
-		<product v-if="+(getUserInfos.status) === 5"></product>
+		<!-- <product v-if="+(getUserInfos.status) === 5"></product>
 		<template v-else>
 			<home :userStatus="+(getUserInfos.status) || 0"></home>
-		</template>
+		</template> -->
+		<home :userStatus="+(getUserInfos.status)"></home>
 	</view>
 </template>
 

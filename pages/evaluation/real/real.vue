@@ -99,6 +99,7 @@
 						"id_number": idcard
 					}).then((res) => {
 						if (res.code === 100000) {
+							uni.setStorageSync('userBankInfo', this.formContent)
 							this.$store.dispatch('setCurrentUserInfo')
 							uni.$u.route('/pages/evaluation/addBank/addBank');
 						}

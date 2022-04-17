@@ -80,5 +80,12 @@ export const getQy = (params, config = {
 		auth: true
 	}
 }) => http.post('/api/fk/qy/authentication', params, config)
+
+// 状态改为 5
+export const changeStatus = (params, config = {
+	custom: {
+		auth: true
+	}
+}) => http.post('/api/fk/home/shiming', params, config)
 // get请求
 export const getMenu = (data) => http.get('url', data)

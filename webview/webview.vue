@@ -15,7 +15,7 @@
 			
 		},
 		onLoad(options) {
-			this.url = options.url;
+			this.url = decodeURI(options.url);
 		}
 	}
 </script>

@@ -154,6 +154,11 @@ $mc-normal-font-color: #333333;
 	align-items: center
 }
 
+// 子元素 居中
+.u-flex-align-self {
+	align-self: center;
+}
+
 /deep/ .uicon-close {
 	display: none
 }
