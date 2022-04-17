@@ -6,10 +6,10 @@
 
 		<view class="quotaBox u-flex u-row-center">
 			<view class="circleimg">
-				<image src="/static/img/circle.png" mode="aspectFill" @click="setModalText"></image>
+				<image src="/static/img/circle.png" mode="aspectFill" @click="setModalText('status')"></image>
 				<view class="countStyle u-flex u-flex-column u-row-centeru-flex-items-center ">
-					<text class="title">会员权益能节省</text>
-					<u-count-to :endVal="loan_amount" separator="," class="count"></u-count-to>
+					<text class="title">会员权益带来多项生活便利</text>
+					<!-- <u-count-to :endVal="loan_amount" separator="," class="count"></u-count-to> -->
 				</view>
 			</view>
 
@@ -18,7 +18,7 @@
 					<u-col span="4" justify="center" v-for="(item,index) in productDelsNav" :key="index">
 						<view class="demo-layout bg-purple icontip">
 							<view class="productBox">
-								<image src="/static/icon/zan.png" mode="aspectFill" @click="setModalText"></image>
+								<image src="/static/icon/zan.png" mode="aspectFill" @click="setModalText('status')"></image>
 								<view class="tiptext">{{item.tips}}</view>
 							</view>
 							<view class="title">{{item.name}}</view>
@@ -34,7 +34,7 @@
 		</view>
 
 		<!-- 消息轮播 -->
-		<view class="tipsBox" @click="setModalText">
+		<view class="tipsBox" @click="setModalText('status')">
 			<u-notice-bar :text="messageArr" icon="volume" direction="column" speed="250" url=""></u-notice-bar>
 		</view>
 
@@ -42,7 +42,7 @@
 		<view class="listBox">
 			<u-row justify="space-between">
 				<u-col span="4" justify="center" v-for="(item,index) in memberNav" :key="index">
-					<view class="demo-layout bg-purple iconList" @click="setModalText">
+					<view class="demo-layout bg-purple iconList" @click="setModalText('status')">
 						<image :src="item.icon" mode="aspectFill"></image>
 						<view class="title">{{item.name}}</view>
 					</view>
@@ -77,7 +77,7 @@
 <script>
 import store from "@/store"
 	import {
-		getEdu,getQy
+		getEdu,getQy,changeStatus
 	} from "@/config/api/user.js";
 	import {
 		mapGetters,
@@ -129,6 +129,7 @@ import store from "@/store"
 					tips: '快速体验',
 					name: '10分钟'
 				}],
+				
 			}
 		},
 		onLoad(option) {
@@ -152,17 +153,21 @@ import store from "@/store"
 				})
 			},
 			borrowMoney() {
-				this.setModalText()
+				this.setModalText('status')
 			},
-			setModalText() {
+			setModalText(value='') {
 				console.log(this.userStatus,'呵嘿')
 				const storeToken = uni.getStorageSync('token');
 				const storeUserInfo = uni.getStorageSync('userInfo');
 				if (!(storeToken)&& !storeUserInfo) {
-					this.showModal = true;
-					this.title = '登录';
-					this.content = '您好，请先完成登录！';
-					this.confirmText = '去登录'
+					// this.showModal = true;
+					// this.title = '登录';
+					// this.content = '您好，请先完成登录！';
+					// this.confirmText = '去登录'
+					uni.$u.route({
+						type: 'reLaunch',
+						url: 'pages/login/login',
+					})
 				}
 
 				if (this.userStatus === 1) {
@@ -178,8 +183,24 @@ import store from "@/store"
 					this.content = '您好，为了体验专属优惠，请绑定银行卡！';
 					this.confirmText = '去绑卡'
 				}
+
+				if (this.userStatus === 3) {
+					let storeData = uni.getStorageSync('userBankInfo')
+					changeStatus({
+							"actual_name": storeData?.actual_name,
+							"id_number": storeData?.id_number
+						}).then((res) => {
+							if (res.code === 100000) {
+								this.$store.dispatch('setCurrentUserInfo')
+								console.log('===000')
+							}
+
+						}).catch((err) => {
+							console.log(err, 'err');
+						})
+				}
 				
-				if (this.userStatus === 5) {
+				if (this.userStatus === 5 && value) {
 					getQy({}).then((res) => {
 						if (res.code === 100000) {
 							uni.navigateTo({
@@ -260,10 +281,8 @@ import store from "@/store"
 
 			.countStyle {
 				position: absolute;
-				top: 138rpx;
-				left: 120rpx;
-				width: 256rpx;
-				padding: 0 14rpx;
+				bottom: 54rpx;
+				left: 116rpx;
 				box-sizing: border-box;
 				align-items: center;
 
