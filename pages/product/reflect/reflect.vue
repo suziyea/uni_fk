@@ -73,10 +73,10 @@
 							<!-- <u--input  v-model="phone" border suffixIcon="/static/icon/my_phone.png"></u--input> -->
 							<!-- 注意：由于兼容性差异，如果需要使用前后插槽，nvue下需使用u--input，非nvue下需使用u-input -->
 							<!-- #ifndef APP-NVUE -->
-							<u-input v-model="formContent.code" inputAlign="right" type="number">
+							<u-input v-model="formContent.code" type="number">
 								<!-- #endif -->
 								<!-- #ifdef APP-NVUE -->
-								<u--input v-model="formContent.code" inputAlign="right" type="number">
+								<u--input v-model="formContent.code" type="number">
 									<!-- #endif -->
 									<template slot="suffix">
 										<u-code ref="uCode" @change="codeChange" seconds="60" changeText="X秒重新获取">
@@ -204,7 +204,7 @@
 								getQy({}).then((res) => {
 									if (res.code === 100000) {
 										uni.navigateTo({
-											url: `/pages/webview/webview?urlPath=${encodeURI(res?.data?.url)}`
+											url: `/pages/webview/webview?urlPath=${res?.data?.url}`
 										});
 									} else {
 										uni.$u.route({

@@ -142,7 +142,7 @@
 					getQy({}).then((res) => {
 						if (res.code === 100000) {
 							uni.navigateTo({
-								url: `/pages/webview/webview?urlPath=${encodeURI(res?.data?.url)}`
+								url: `/pages/webview/webview?urlPath=${encodeURIComponent(res?.data?.url)}`
 							});
 						} else {
 							uni.$u.route(item.path);
@@ -340,5 +340,6 @@
 		background: #FFFFFF;
 		border-radius: 8rpx;
 		margin: 24rpx 0;
+		align-self: center;
 	}
 </style>

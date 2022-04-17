@@ -59,7 +59,7 @@
 		</view>
 		
 		<view class="assessBox" @click="borrowMoney">
-			<view class="title">享受权益</view>
+			<view class="title">会员权益</view>
 			<view class="assessimg">
 				<image src="/static/imgs/img_huiyuanfuli.png" mode="aspectFill"></image>
 			</view>
