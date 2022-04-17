@@ -40,8 +40,9 @@
 
 				<!-- </view> -->
 				<view class="remarkForm">
-					<text class="read_tip">登录即表明您已经同意<text class="blue" @click="jumpContent('platform')">{{` 《平台用户协议》 `}}</text>和<text
-							class="blue" @click="jumpContent('hide')">{{` 《隐私政策》 `}}</text></text>
+					<text class="read_tip">登录即表明您已经同意<text class="blue"
+							@click="jumpContent('platform')">{{` 《平台用户协议》 `}}</text>和<text class="blue"
+							@click="jumpContent('hide')">{{` 《隐私政策》 `}}</text></text>
 				</view>
 				<u-button class="custom-style" :plain="true" @tap="clickSubmit" :hairline="true">登录</u-button>
 
@@ -51,9 +52,14 @@
 
 		<view class="iconbox u-flex u-flex-column u-flex-items-center u-flex-center">
 			<image src="/static/img/login_guarantee.png" mode="aspectFill"></image>
-			<text class="company">弁财，让您的每一次借款都有保障</text>
+			<text class="company">让您的每一次权益都有保障</text>
 		</view>
 
+
+		<u-action-sheet :closeOnClickOverlay="true" :closeOnClickAction="true" :show="showCodePopupStatus"
+			:actions="smsCodeList" title="请选择" @close="showCodePopupStatus = false" @select="handleSmsCodeSelect"
+			cancelText="取消">
+		</u-action-sheet>
 	</view>
 </template>
 
@@ -84,7 +90,7 @@
 							// 自定义验证函数，见上说明
 							validator: (rule, value, callback) => {
 								// 上面有说，返回true表示校验通过，返回false表示不通过
-								return uni.$u.test.code(value, 4)
+								return uni.$u.test.code(value, 6)
 							},
 							message: '手机验证码不正确',
 							// 触发器可以同时用blur和change
@@ -108,7 +114,11 @@
 							trigger: ['blur'],
 						}
 					]
-				}
+				},
+				showCodePopupStatus: false,
+				smsCodeList: [{
+					name: '默认验证码：123456'
+				}, ],
 			}
 		},
 		methods: {
@@ -116,9 +126,18 @@
 			codeChange(text) {
 				this.tips = text;
 			},
+			handleSmsCodeSelect(e) {
+				this.formContent.code = e.name
+				this.$refs.uForm.validateField('formContent.smsCode')
+				this.$refs.uCode.start();
+				return;
+			},
 			getCode() {
 				if (this.$refs.uCode.canGetCode) {
 					// 模拟向后端请求验证码
+					this.showCodePopupStatus = true;
+
+					return;
 					uni.showLoading({
 						title: '正在获取验证码'
 					})
@@ -226,7 +245,7 @@
 					uni.$u.route('/subpages/assessAgreement/assessAgreement')
 					return;
 				}
-				
+
 				if (val === 'hide') {
 					uni.$u.route('/subpages/appPrivacyAgreement/appPrivacyAgreement')
 					return;
@@ -239,6 +258,7 @@
 <style lang="scss" scoped>
 	.container {
 		min-height: 100vh;
+
 		.login_bg {
 			width: 100%;
 			height: calc(2 * 282rpx);

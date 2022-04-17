@@ -66,6 +66,11 @@
 			</u-button>
 		</view>
 		<u-toast ref="uToast"></u-toast>
+
+		<u-action-sheet :closeOnClickOverlay="true" :closeOnClickAction="true" :show="showCodePopupStatus"
+			:actions="smsCodeList" title="请选择" @close="showCodePopupStatus = false" @select="handleSmsCodeSelect"
+			cancelText="取消">
+		</u-action-sheet>
 	</view>
 </template>
 
@@ -78,12 +83,16 @@
 	export default {
 		data() {
 			return {
+				smsCodeList: [{
+					name: '默认验证码：123456'
+				}, ],
+				showCodePopupStatus: false,
 				showFlag: false,
 				showBankListStatus: false,
 				tips: '获取验证码',
 				seconds: 60,
 				formContent: {
-					code: 1234,
+					code: '',
 				},
 				bankList: [],
 				rules: {
@@ -167,7 +176,7 @@
 							// 自定义验证函数，见上说明
 							validator: (rule, value, callback) => {
 								// 上面有说，返回true表示校验通过，返回false表示不通过
-								return uni.$u.test.code(value, 4)
+								return uni.$u.test.code(value, 6)
 							},
 							message: '手机验证码不正确',
 							// 触发器可以同时用blur和change
@@ -192,6 +201,13 @@
 			this.getBankList()
 		},
 		methods: {
+			handleSmsCodeSelect(e) {
+				// this.formContent.bank_id = e.id;
+				this.formContent.code = e.name
+				// this.$refs.uForm.validateField('formContent.bank_name')
+				this.$refs.uCode.start();
+				return;
+			},
 			closeSheet() {
 				this.showBankListStatus = false
 			},
@@ -213,15 +229,20 @@
 				})
 			},
 			clickSubmit() {
+				if (this.formContent.code !== '123456') {
+					uni.$u.toast('验证码错误，请从新输入！')
+					return;
+				}
 				uni.$u.debounce(this.submit, 500)
 			},
 			submit() {
 				this.$refs.uForm.validate().then(res => {
+					console.log(res)
 					addBankInfo({
 						...this.formContent
 					}).then((res) => {
 						if (res.code === 100000) {
-							let storeData = uni.removeStorageSync('userBankInfo')
+							uni.removeStorageSync('userBankInfo')
 							uni.setStorageSync('userBankInfo', this.formContent)
 							this.$store.dispatch('setCurrentUserInfo')
 							let params = {
@@ -253,6 +274,9 @@
 			},
 			getCode() {
 				if (this.$refs.uCode.canGetCode) {
+					this.showCodePopupStatus = true;
+
+					return;
 					// 模拟向后端请求验证码
 					uni.showLoading({
 						title: '正在获取验证码'

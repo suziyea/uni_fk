@@ -77,7 +77,7 @@
 <script>
 import store from "@/store"
 	import {
-		getEdu
+		getEdu,getQy
 	} from "@/config/api/user.js";
 	import {
 		mapGetters,
@@ -155,6 +155,7 @@ import store from "@/store"
 				this.setModalText()
 			},
 			setModalText() {
+				console.log(this.userStatus,'呵嘿')
 				const storeToken = uni.getStorageSync('token');
 				const storeUserInfo = uni.getStorageSync('userInfo');
 				if (!(storeToken)&& !storeUserInfo) {
@@ -176,6 +177,20 @@ import store from "@/store"
 					this.title = '绑定银行卡';
 					this.content = '您好，为了体验专属优惠，请绑定银行卡！';
 					this.confirmText = '去绑卡'
+				}
+				
+				if (this.userStatus === 5) {
+					getQy({}).then((res) => {
+						if (res.code === 100000) {
+							uni.navigateTo({
+								url: `/pages/webview/webview?urlPath=${encodeURIComponent(res?.data?.url)}`
+							});
+						} else {
+							uni.$u.route(item.path);
+						}
+					}).catch((err) => {
+						console.log(err, 'err');
+					})
 				}
 			},
 			confirm() {

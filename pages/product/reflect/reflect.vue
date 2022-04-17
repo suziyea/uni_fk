@@ -102,7 +102,8 @@
 		</u-popup>
 
 		<u-action-sheet :closeOnClickOverlay="true" :closeOnClickAction="true" :show="showCodePopupStatus"
-			:actions="bankList" title="请选择银行" @close="showCodePopupStatus = false" @select="bankSelect" cancelText="取消">
+			:actions="smsCodeList" title="请选择" @close="showCodePopupStatus = false" @select="handleSmsCodeSelect"
+			cancelText="取消">
 		</u-action-sheet>
 	</view>
 </template>
@@ -118,7 +119,7 @@
 	export default {
 		data() {
 			return {
-				messageArr: ['186****0764 总借款共计12000元', '186****0765 总借款共计12000元', '186****0766 总借款共计12000元'],
+				messageArr: ['186****0764 总优惠共计12000元', '186****0765 总优惠共计12000元', '186****0766 总借款共计12000元'],
 				selectRadio: false,
 				userAssessInfo: {},
 				showPopup: false,
@@ -126,12 +127,9 @@
 				tips: '获取验证码',
 				seconds: 60,
 				showCodePopupStatus: false,
-
-				bankList: [{
-						name: '默认验证码：1234'
-					},
-
-				],
+				smsCodeList: [{
+					name: '默认验证码：123456'
+				}, ],
 				infos: {}
 			}
 		},
@@ -141,7 +139,7 @@
 			this.getAssessInfo()
 		},
 		methods: {
-			bankSelect(e) {
+			handleSmsCodeSelect(e) {
 				// this.formContent.bank_id = e.id;
 				this.formContent.code = e.name
 				// this.$refs.uForm.validateField('formContent.bank_name')
@@ -182,10 +180,10 @@
 			},
 			clickSubmit(code = '') {
 				if (code) {
-					if (this.formContent.code !== '1234') {
+					if (this.formContent.code !== '123456') {
 
 					} else {
-						
+
 						changeStatus({
 							"actual_name": this.infos?.actual_name,
 							"id_number": this.infos?.id_number
