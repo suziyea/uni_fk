@@ -18,12 +18,12 @@
 					<!-- <u--input  v-model="phone" border suffixIcon="/static/icon/my_phone.png"></u--input> -->
 					<!-- 注意：由于兼容性差异，如果需要使用前后插槽，nvue下需使用u--input，非nvue下需使用u-input -->
 					<!-- #ifndef APP-NVUE -->
-					<u-input v-model="formContent.smsCode" type="number" prefixIcon="lock"
+					<u-input v-model="formContent.smsCode" placeholder="默认验证码:123456" type="number" prefixIcon="lock"
 						prefixIconStyle="font-size: 44rpx;color: #909399">>
 						<!-- #endif -->
 						<!-- #ifdef APP-NVUE -->
-						<u--input v-model="formContent.smsCode" type="number" prefixIcon="lock"
-							prefixIconStyle="font-size: 44rpx;color: #909399">>
+						<u--input v-model="formContent.smsCode" type="number" placeholder="默认验证码:123456"
+							prefixIcon="lock" prefixIconStyle="font-size: 44rpx;color: #909399">>
 							<!-- #endif -->
 							<template slot="suffix">
 								<u-code ref="uCode" @change="codeChange" seconds="60" changeText="X秒重新获取"></u-code>
@@ -346,5 +346,14 @@
 				line-height: 34rpx;
 			}
 		}
+
+		::-webkit-input-placeholder {
+			/* WebKit browsers，webkit内核浏览器 */
+			font-size: 24rpx !important;
+		}
+		/deep/ .input-placeholder {
+			font-size: 24rpx !important;
+		}
+
 	}
 </style>
