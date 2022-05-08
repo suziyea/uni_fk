@@ -185,7 +185,7 @@ import store from "@/store"
 				}
 
 				if (this.userStatus === 3) {
-					let storeData = uni.getStorageSync('userBankInfo')
+					let storeData = uni.getStorageSync('userInfo')
 					changeStatus({
 							"actual_name": storeData?.actual_name,
 							"id_number": storeData?.id_number
