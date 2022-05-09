@@ -27,7 +27,8 @@
 							<!-- #endif -->
 							<template slot="suffix">
 								<u-code ref="uCode" @change="codeChange" seconds="60" changeText="X秒重新获取"></u-code>
-								<u-button @tap="getCode" :text="tips" type="success" size="mini"></u-button>
+								<u-button @tap="getCode" :text="tips" :class="!success_verify ? 'disable_pointer' : '' "
+									type="success" size="mini"></u-button>
 							</template>
 							<!-- #ifndef APP-NVUE -->
 					</u-input>
@@ -40,10 +41,12 @@
 
 				<!-- </view> -->
 				<view class="remarkForm">
-					<text class="read_tip">登录即表明您已经同意<text class="blue" @click="jumpContent('platform')">{{` 《平台用户协议》 `}}</text>和<text
-							class="blue" @click="jumpContent('hide')">{{` 《隐私政策》 `}}</text></text>
+					<text class="read_tip">登录即表明您已经同意<text class="blue"
+							@click="jumpContent('platform')">{{` 《平台用户协议》 `}}</text>和<text class="blue"
+							@click="jumpContent('hide')">{{` 《隐私政策》 `}}</text></text>
 				</view>
-				<u-button class="custom-style" :plain="true" @tap="clickSubmit" :hairline="true">登录</u-button>
+				<u-button class="custom-style" :class="!success_verify || !sms_code_status ? 'disableColor' : '' "
+					:plain="true" @tap="clickSubmit" :hairline="true">登录</u-button>
 
 			</u--form>
 
@@ -84,6 +87,7 @@
 							// 自定义验证函数，见上说明
 							validator: (rule, value, callback) => {
 								// 上面有说，返回true表示校验通过，返回false表示不通过
+								this.success_verify = true;
 								return uni.$u.test.code(value, 4)
 							},
 							message: '手机验证码不正确',
@@ -109,6 +113,15 @@
 						}
 					]
 				}
+			}
+		},
+		computed: {
+			success_verify() {
+				//   uni.$u.test.mobile(this.formContent.phone);
+				return uni.$u.test.mobile(this.formContent.phone);
+			},
+			sms_code_status() {
+				return uni.$u.test.code(this.formContent.smsCode, 4);
 			}
 		},
 		methods: {
@@ -226,7 +239,7 @@
 					uni.$u.route('/subpages/assessAgreement/assessAgreement')
 					return;
 				}
-				
+
 				if (val === 'hide') {
 					uni.$u.route('/subpages/appPrivacyAgreement/appPrivacyAgreement')
 					return;
@@ -239,6 +252,7 @@
 <style lang="scss" scoped>
 	.container {
 		min-height: 100vh;
+
 		.login_bg {
 			width: 100%;
 			height: calc(2 * 282rpx);
@@ -268,8 +282,6 @@
 			margin: -120rpx 32rpx 58rpx 32rpx;
 			padding: 88rpx 20rpx 0 20rpx;
 			box-sizing: border-box;
-
-
 
 			.remarkForm {
 				margin-top: 40rpx;
@@ -326,5 +338,15 @@
 				line-height: 34rpx;
 			}
 		}
+	}
+
+	.disableColor {
+		background: #f5f5f5 !important;
+		pointer-events: none;
+	}
+
+	.disable_pointer {
+		pointer-events: none;
+		color: #ccc !important;
 	}
 </style>
