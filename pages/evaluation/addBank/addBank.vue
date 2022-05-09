@@ -72,7 +72,8 @@
 <script>
 	import {
 		getBank,
-		addBankInfo
+		addBankInfo,
+		addBankInfoSms
 	} from "@/config/api/product.js";
 	import common from '@/utils/validator.js'
 
@@ -86,6 +87,7 @@
 				formContent: {
 					code: 1234,
 				},
+				bind_card_id: '',
 				bankList: [],
 				rules: {
 					actual_name: [{
@@ -136,7 +138,9 @@
 						validator: (rule, value, callback) => {
 							// 上面有说，返回true表示校验通过，返回false表示不通过
 							// uni.$u.test.mobile()就是返回true或者false的
-							return common.isBankCardNo(value);
+							console.log(value.length, 'common.isBankCardNo(value)', common.isBankCardNo(value))
+							// return common.isBankCardNo(value);
+							return true
 						},
 						message: '请输银行卡号码不正确',
 						// 触发器可以同时用blur和change
@@ -218,7 +222,8 @@
 			submit() {
 				this.$refs.uForm.validate().then(res => {
 					addBankInfo({
-						...this.formContent
+						bind_card_id: this.bind_card_id,
+						code: this.formContent.code
 					}).then((res) => {
 						if (res.code === 100000) {
 							this.$store.dispatch('setCurrentUserInfo')
@@ -262,9 +267,7 @@
 					// 	// 通知验证码组件内部开始倒计时
 					// 	this.$refs.uCode.start();
 					// }, 2000);
-					sendSMS({
-							"phone": this.formContent.phone
-						})
+					addBankInfoSms(this.formContent)
 						.then((res) => {
 							if (res.code === 100000) {
 								uni.hideLoading();
@@ -273,6 +276,7 @@
 								// 通知验证码组件内部开始倒计时
 								this.$refs.uCode.start();
 								this.formContent.smsCodecode = "";
+								this.bind_card_id = res.data?.bind_card_id || ''
 							}
 
 						})
@@ -356,8 +360,16 @@
 			-webkit-box-sizing: border-box;
 			-moz-box-sizing: border-box;
 			box-sizing: border-box;
-			padding: 0 56rpx;
-			background: #FFFFFF;
+
+			/deep/ .u-form-item__body {
+				padding: 20rpx 56rpx;
+				background: #FFFFFF;
+			}
+
+			/deep/ .u-form-item:nth-child(2n) {
+				margin-bottom: 24rpx;
+				border-bottom: none !important;
+			}
 		}
 
 		.btn {
