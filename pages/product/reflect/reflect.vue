@@ -41,12 +41,18 @@
 				text="立即提现">
 			</u-button>
 		</view>
-		<view class="read">
-			<u-checkbox-group>
+		<view class="read u-flex u-flex-items-center">
+			<view :class="[!selectRadio ? 'icon-this-option' : 'icon-has-checked']" @click="checkboxChange"></view>
+			<view class="wenan">
+				<text class="read_tip">我已经同意<text class="blue"
+						@click="jumpContent('platform')">{{` 《评估协议》 `}}</text>和<text class="blue"
+						@click="jumpContent('hide')">{{` 《隐私协议》 `}}</text></text>
+			</view>
+			<!-- <u-checkbox-group>
 				<u-checkbox v-model="selectRadio" @change="checkboxChange"></u-checkbox><text class="read_tip">我已经同意
 					<text class="blue" @click="jumpContent('platform')">{{` 《评估协议》 `}}</text>和<text class="blue"
 						@click="jumpContent('hide')">{{` 《隐私协议》 `}}</text></text>
-			</u-checkbox-group>
+			</u-checkbox-group> -->
 		</view>
 		<u-toast ref="uToast"></u-toast>
 	</view>
@@ -84,14 +90,14 @@
 					uni.$u.route('/subpages/assessAgreement/assessAgreement')
 					return;
 				}
-				
+
 				if (val === 'hide') {
 					uni.$u.route('/subpages/appPrivacyAgreement/appPrivacyAgreement')
 					return;
 				}
 			},
-			checkboxChange(n) {
-				this.selectRadio = n
+			checkboxChange() {
+				this.selectRadio = !this.selectRadio
 			},
 			clickSubmit() {
 				if (this.selectRadio) {
@@ -273,5 +279,23 @@
 				color: #414141 !important;
 			}
 		}
+	}
+
+	.icon-has-checked {
+		width: 28rpx;
+		height: 28rpx;
+		background: url(../../../static/icon/checked.png) no-repeat;
+		background-size: cover;
+	}
+
+	.icon-this-option {
+		width: 28rpx;
+		height: 28rpx;
+		background: url(../../../static/icon/noChecked.png) no-repeat;
+		background-size: cover;
+	}
+
+	.wenan {
+		margin-left: 12rpx;
 	}
 </style>
