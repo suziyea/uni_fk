@@ -29,7 +29,7 @@
 			</u--form>
 		</view>
 		<view class="btn">
-			<u-button type="primary" :plain="true" class="custom-style" @tap="clickSubmit" :hairline="true" text="下一步">
+			<u-button type="primary" :plain="true" class="custom-style" :class="!realname_verify || !idcard_verify ? 'disableColor' : '' " @tap="clickSubmit" :hairline="true" text="下一步">
 			</u-button>
 		</view>
 	</view>
@@ -83,6 +83,14 @@
 				}
 			}
 		},
+		computed: {
+      realname_verify() {
+        return uni.$u.test.chinese(this.formContent.name);
+      },
+	  idcard_verify() {
+        return uni.$u.test.idCard(this.formContent.idcard);
+	  }
+    },
 		methods: {
 			clickSubmit() {
 				uni.$u.debounce(this.submit, 500)
@@ -221,5 +229,11 @@
 			width: 100%;
 			box-sizing: border-box;
 		}
+	}
+	.disableColor {
+		background: #f5f5f5 !important;
+		pointer-events: none;
+		border:1px solid #ccc;
+		color:#000 !important;
 	}
 </style>
