@@ -27,4 +27,12 @@ export const addBankInfo = (params, config = {
 	custom: {
 		auth: true
 	}
-}) => http.post('/api/fk/user-bank-card/save', params, config)
+}) => http.post('/api/fk/user-bank-card/sms-verify', params, config)
+
+
+// 绑卡发送验证码
+export const addBankInfoSms = (params, config = {
+	custom: {
+		auth: true
+	}
+}) => http.post('/api/fk/user-bank-card/sms', params, config)
