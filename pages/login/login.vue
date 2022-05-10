@@ -87,7 +87,6 @@
 							// 自定义验证函数，见上说明
 							validator: (rule, value, callback) => {
 								// 上面有说，返回true表示校验通过，返回false表示不通过
-								this.success_verify = true;
 								return uni.$u.test.code(value, 4)
 							},
 							message: '手机验证码不正确',
@@ -117,7 +116,6 @@
 		},
 		computed: {
 			success_verify() {
-				//   uni.$u.test.mobile(this.formContent.phone);
 				return uni.$u.test.mobile(this.formContent.phone);
 			},
 			sms_code_status() {
