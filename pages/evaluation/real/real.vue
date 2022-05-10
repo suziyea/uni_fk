@@ -11,7 +11,7 @@
 		</view>
 
 		<view class="formList">
-			<u--form :model="formContent" :rules="rules" ref="uForm">
+			<u--form :model="formContent" :rules="rules" ref="uForm" :errorType="errorType">
 				<u-form-item label="" prop="name">
 					<text class="form__title">真实姓名</text>
 
@@ -29,7 +29,7 @@
 			</u--form>
 		</view>
 		<view class="btn">
-			<u-button type="primary" :plain="true" class="custom-style" :class="!realname_verify || !idcard_verify ? 'disableColor' : '' " @tap="clickSubmit" :hairline="true" text="下一步">
+			<u-button type="primary" :plain="true" class="custom-style" @tap="clickSubmit" :hairline="true" text="下一步">
 			</u-button>
 		</view>
 	</view>
@@ -42,6 +42,7 @@
 	export default {
 		data() {
 			return {
+				errorType: 'toast',
 				formContent: {
 					phone: ''
 				},
@@ -49,7 +50,7 @@
 					name: [{
 							required: true,
 							message: '请输入姓名',
-							trigger: ['blur', 'change']
+							// trigger: ['blur', 'change']
 						},
 						{
 							// 自定义验证函数，见上说明
@@ -60,7 +61,7 @@
 							},
 							message: '只能输入汉字',
 							// 触发器可以同时用blur和change
-							trigger: ['change', 'blur'],
+							// trigger: ['change', 'blur'],
 						}
 					],
 					idcard: [{
@@ -84,13 +85,13 @@
 			}
 		},
 		computed: {
-      realname_verify() {
-        return uni.$u.test.chinese(this.formContent.name);
-      },
-	  idcard_verify() {
-        return uni.$u.test.idCard(this.formContent.idcard);
-	  }
-    },
+			realname_verify() {
+				return uni.$u.test.chinese(this.formContent.name);
+			},
+			idcard_verify() {
+				return uni.$u.test.idCard(this.formContent.idcard);
+			}
+		},
 		methods: {
 			clickSubmit() {
 				uni.$u.debounce(this.submit, 500)
@@ -107,7 +108,7 @@
 						"id_number": idcard
 					}).then((res) => {
 						if (res.code === 100000) {
-							this.$store.dispatch('setCurrentUserInfo')
+							uni.removeStorageSync('userInfo');
 							uni.$u.route('/pages/evaluation/addBank/addBank');
 						}
 
@@ -116,7 +117,7 @@
 					})
 
 				}).catch(errors => {
-					uni.$u.toast('校验失败')
+					uni.$u.toast(errors[0].message)
 				})
 			}
 		}
@@ -230,10 +231,11 @@
 			box-sizing: border-box;
 		}
 	}
+
 	.disableColor {
 		background: #f5f5f5 !important;
 		pointer-events: none;
-		border:1px solid #ccc;
-		color:#000 !important;
+		border: 1px solid #ccc;
+		color: #000 !important;
 	}
 </style>

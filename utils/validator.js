@@ -252,6 +252,6 @@ export default {
   * @return {Boolean}
   */
   isBankCardNo(bankCardNo){
-    return /^([1-9]{1})(\d{14}|\d{18})$/.test(bankCardNo)
+    return bankCardNo.length <= 16
   }
 }

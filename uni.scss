@@ -157,3 +157,9 @@ $mc-normal-font-color: #333333;
 /deep/ .uicon-close {
 	display: none
 }
+
+// 禁止点击
+.disable_pointer {
+	pointer-events: none;
+	color: #ccc !important;
+}

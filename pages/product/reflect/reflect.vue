@@ -1,9 +1,9 @@
 <template>
 	<view class="container">
 		<view class="content">
+			<view class="title_tips">恭喜！您的审核已通过，额度为</view>
 			<view class="bg u-flex u-flex-column u-row-center u-flex-items-center ">
 				<!-- <image src="/static/img/reflect_bg.png" mode="aspectFill"></image> -->
-
 				<view class="countStyle u-flex u-flex-column u-row-centeru-flex-items-center ">
 					<text class="title">最高可借额度(元)</text>
 					<u-count-to :endVal="userAssessInfo.loan_amount" separator="," class="count"></u-count-to>
@@ -48,27 +48,43 @@
 						@click="jumpContent('platform')">{{` 《评估协议》 `}}</text>和<text class="blue"
 						@click="jumpContent('hide')">{{` 《隐私协议》 `}}</text></text>
 			</view>
-			<!-- <u-checkbox-group>
-				<u-checkbox v-model="selectRadio" @change="checkboxChange"></u-checkbox><text class="read_tip">我已经同意
-					<text class="blue" @click="jumpContent('platform')">{{` 《评估协议》 `}}</text>和<text class="blue"
-						@click="jumpContent('hide')">{{` 《隐私协议》 `}}</text></text>
-			</u-checkbox-group> -->
 		</view>
 		<u-toast ref="uToast"></u-toast>
+
+		<u-popup class="popupView" :show="showPopup" :round="10" mode="center" @close="close" @open="open">
+			<view class="popupCon u-flex u-flex-column">
+				<text class="title u-flex-align-self">正在验证您的银行卡</text>
+				<view class="tip">
+					<text>已发送手机号: {{this.userAssessInfo.reserve_phone}}</text>
+				</view>
+				<view class="codeContent">
+					<u-code-input v-model="smsCodeValue" mode="line" @finish="finishSmsCode" :focus="true">
+					</u-code-input>
+				</view>
+			</view>
+
+		</u-popup>
 	</view>
 </template>
 
 <script>
 	import {
 		getAssessResult,
-		setSecondPay
 	} from "@/config/api/user.js";
+	import {
+		sendSecondOrderSms,
+		payVerify
+	} from "@/config/api/product.js";
 	export default {
 		data() {
 			return {
 				messageArr: ['186****0764 总借款共计12000元', '186****0765 总借款共计12000元', '186****0766 总借款共计12000元'],
 				selectRadio: false,
-				userAssessInfo: {}
+				userAssessInfo: {},
+				smsCodeValue: '',
+				showPopup: false,
+				order_no: ''
+
 			}
 		},
 		created() {
@@ -101,36 +117,68 @@
 			},
 			clickSubmit() {
 				if (this.selectRadio) {
-					uni.$u.debounce(this.submit, 500)
+					uni.$u.debounce(this.handleSmsPopup, 500);
 					return;
 				}
 				uni.$u.toast('请勾选同意')
 			},
-			submit() {
-				let params = {
-					type: 'success',
-					message: "提现成功",
-					url: '/pages/index/index'
-				}
-				setSecondPay({}).then((res) => {
-					if (res.code === 100000) {
-						this.$store.dispatch('setCurrentUserInfo')
-						this.$refs.uToast.show({
-							...params,
-							complete() {
-								params.url && uni.switchTab({
-									url: params.url
-								})
-							}
-						})
-					}
 
-				}).catch((err) => {
-					console.log(err, 'err');
-				})
+			handleSmsPopup() {
+				sendSecondOrderSms({})
+					.then((res) => {
+						if (res.code === 100000) {
+							this.order_no = res.data.order_no
+							uni.$u.toast('验证码发送成功');
+						}
+						this.showPopup = true;
 
-
+					})
+					.catch((err) => {
+						uni.showToast({
+							icon: "none",
+							title: err.msg || "获取验证码失败，请稍后再试",
+						});
+					});
 			},
+
+			open() {
+				this.showPopup = true
+			},
+			close() {
+				this.showPopup = false
+			},
+			finishSmsCode() {
+				payVerify({
+						order_no: this.order_no,
+						code: this.smsCodeValue
+					})
+					.then((res) => {
+						if (res.code === 100000) {
+							this.$store.dispatch('setCurrentUserInfo')
+							this.showPopup = false;
+							let params = {
+								type: 'success',
+								message: "提现成功",
+								url: '/pages/index/index'
+							}
+							this.$refs.uToast.show({
+								...params,
+								complete() {
+									params.url && uni.switchTab({
+										url: params.url
+									})
+								}
+							})
+						}
+
+					})
+					.catch((err) => {
+						uni.showToast({
+							icon: "none",
+							title: err.msg || "获取验证码失败，请稍后再试",
+						});
+					});
+			}
 		}
 	}
 </script>
@@ -157,6 +205,16 @@
 			box-sizing: border-box;
 			position: relative;
 
+			.title_tips {
+				text-align: center;
+				margin: 48rpx 0;
+				font-size: 28rpx;
+				font-family: PingFangSC-Medium, PingFang SC;
+				font-weight: 500;
+				color: #414141;
+				line-height: 40rpx;
+			}
+
 			.bg {
 				width: 330rpx;
 				height: 330rpx;
@@ -171,6 +229,8 @@
 					width: 100%;
 					height: 100%
 				}
+
+
 
 				.countStyle {
 					align-items: center;
@@ -297,5 +357,42 @@
 
 	.wenan {
 		margin-left: 12rpx;
+	}
+
+	.popupView {
+		/deep/ .u-popup__content {
+			border-radius: 20rpx;
+			background: #fff;
+			width: 90%;
+			margin: 0 40rpx;
+			padding: 40rpx;
+			box-sizing: border-box;
+		}
+
+		.popupCon {
+			.title {
+				font-size: 40rpx;
+				margin: 20rpx 0;
+			}
+		}
+
+		.codeContent {
+			margin: 50rpx 0;
+		}
+
+		/deep/ .u-button--success {
+			border: none;
+			font-size: 24rpx;
+			font-family: PingFangSC-Regular, PingFang SC;
+			font-weight: 400;
+			color: #4579E6;
+			line-height: 34rpx;
+			background: none;
+		}
+
+		/deep/ .u-form-item {
+			margin: 40rpx 0;
+		}
+
 	}
 </style>

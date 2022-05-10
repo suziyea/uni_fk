@@ -344,9 +344,4 @@
 		background: #f5f5f5 !important;
 		pointer-events: none;
 	}
-
-	.disable_pointer {
-		pointer-events: none;
-		color: #ccc !important;
-	}
 </style>

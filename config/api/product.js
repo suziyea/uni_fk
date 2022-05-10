@@ -36,3 +36,25 @@ export const addBankInfoSms = (params, config = {
 		auth: true
 	}
 }) => http.post('/api/fk/user-bank-card/sms', params, config)
+
+// 第一笔支付验证码发送
+export const sendFirstOrderSms = (params, config = {
+	custom: {
+		auth: true
+	}
+}) => http.post('/api/fk/first-order/sms', params, config)
+
+// 第二笔支付验证码发送
+export const sendSecondOrderSms = (params, config = {
+	custom: {
+		auth: true
+	}
+}) => http.post('/api/fk/second-order/sms', params, config)
+
+
+// 支付校验
+export const payVerify = (params, config = {
+	custom: {
+		auth: true
+	}
+}) => http.post('/api/fk/order/sms-verify', params, config)

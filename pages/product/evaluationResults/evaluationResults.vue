@@ -45,7 +45,7 @@
 				</u-form-item>
 
 				<u-form-item label="银行卡号" labelWidth="auto" class="bankForm">
-					<u--input inputAlign="right" v-model="formContent.bankInfo" border="none" disabled
+					<u--input readonly inputAlign="right" v-model="formContent.bankInfo" border="none" disabled
 						disabledColor="#ffffff" suffixIcon="/static/icon/my_bank.png">
 					</u--input>
 					<text slot="right" class="restBank" @click="restAddBank">
@@ -54,31 +54,9 @@
 				</u-form-item>
 
 				<u-form-item label="预留手机号" labelWidth="auto">
-					<u--input inputAlign="right" v-model="formContent.reserve_phone" border="none"
+					<u--input readonly inputAlign="right" v-model="formContent.reserve_phone" border="none"
 						suffixIcon="/static/icon/my_phone.png">
 					</u--input>
-				</u-form-item>
-
-				<u-form-item label="验证码" prop="phone">
-					<!-- <u--input inputAlign="right" v-model="phone" border="none" suffixIcon="/static/icon/my_phone.png"></u--input> -->
-					<!-- 注意：由于兼容性差异，如果需要使用前后插槽，nvue下需使用u--input，非nvue下需使用u-input -->
-					<!-- #ifndef APP-NVUE -->
-					<u-input inputAlign="right" v-model="formContent.code" border="none">
-						<!-- #endif -->
-						<!-- #ifdef APP-NVUE -->
-						<u--input inputAlign="right" v-model="formContent.code" border="none">
-							<!-- #endif -->
-							<template slot="suffix">
-								<u-code ref="uCode" @change="codeChange" :seconds="seconds" changeText="X秒重新获取">
-								</u-code>
-								<u-button @tap="getCode" :text="tips" type="success" size="mini"></u-button>
-							</template>
-							<!-- #ifndef APP-NVUE -->
-					</u-input>
-					<!-- #endif -->
-					<!-- #ifdef APP-NVUE -->
-					</u--input>
-					<!-- #endif -->
 				</u-form-item>
 			</u--form>
 		</view>
@@ -87,13 +65,12 @@
 			<view class="detail">
 				提交申请将会产生300元的审核费用，判断是否能够偿还，将从您提交的银行卡中进行扣款，请检查余额是否足够完成扣款。
 			</view>
-			<view class="read">
-				<u-checkbox-group>
-					<u-checkbox v-model="selectRadio" @change="checkboxChange"></u-checkbox><text
-						class="read_tip">我已阅读并同意同意<text class="blue"
+			<view class="read u-flex u-flex-items-center">
+				<view :class="[!selectRadio ? 'icon-this-option' : 'icon-has-checked']" @click="checkboxChange"></view>
+				<view class="wenan">
+					<text class="read_tip">我已阅读并同意同意<text class="blue"
 							@click="jumpContent('assess')">{{` 《评估协议》 `}}</text></text>
-				</u-checkbox-group>
-
+				</view>
 			</view>
 		</view>
 		<view class="btn">
@@ -105,19 +82,36 @@
 			@close=" showAssessSheet = false" @select="selectRreason">
 		</u-action-sheet>
 		<u-toast ref="uToast"></u-toast>
+
+		<u-popup class="popupView" :show="showPopup" :round="10" mode="center" @close="close" @open="open">
+			<view class="popupCon u-flex u-flex-column">
+				<text class="title u-flex-align-self">正在验证您的银行卡</text>
+				<view class="tip">
+					<text>已发送手机号: {{this.userAssessInfo.reserve_phone}}</text>
+				</view>
+				<view class="codeContent">
+					<u-code-input v-model="smsCodeValue" mode="line" @finish="finishSmsCode"></u-code-input>
+				</view>
+			</view>
+
+		</u-popup>
 	</view>
 </template>
 
 <script>
 	import {
 		assessResult,
-		setFirstPay
 	} from "@/config/api/user.js";
+	import {
+		sendFirstOrderSms,
+		payVerify,
+	} from "@/config/api/product.js";
 	import common from '@/utils/common.js'
 	// 
 	export default {
 		data() {
 			return {
+				showPopup: false,
 				showFlag: false,
 				productsNav: [{
 						icon: "/static/icon/shenhe.png",
@@ -141,20 +135,14 @@
 					},
 				],
 				showAssessSheet: false,
-				purpose: '',
-				phone: '',
 				formContent: {
 					purpose: '日常消费'
 				},
 				selectRadio: false,
 				assessReasonList: [],
-				tips: '获取验证码',
-				noneBorder: false,
-				userAssessInfo: {
-
-				},
-				code: '',
-				seconds: 60,
+				userAssessInfo: {},
+				order_no: '',
+				smsCodeValue: ''
 			};
 		},
 		created() {
@@ -171,45 +159,38 @@
 
 		},
 		methods: {
-			checkboxChange(n) {
-				this.selectRadio = n
+			checkboxChange() {
+				this.selectRadio = !this.selectRadio
+
 			},
 			clickSubmit() {
 				if (this.selectRadio) {
-					uni.$u.debounce(this.submit, 500)
+					uni.$u.debounce(this.handleSmsPopup, 500);
 					return;
 				}
 				uni.$u.toast('请勾选同意')
 			},
-			submit() {
-				let params = {
-					type: 'success',
-					message: "评估成功",
-					url: '/pages/product/reflect/reflect'
-				}
-				setFirstPay({}).then((res) => {
-					if (res.code === 100000) {
-						this.$store.dispatch('setCurrentUserInfo')
-						this.$refs.uToast.show({
-							...params,
-							complete() {
-								params.url && uni.navigateTo({
-									url: params.url
-								})
-							}
-						})
-					}
+			handleSmsPopup() {
+				sendFirstOrderSms({
+						application_reason: this.formContent.purpose
+					})
+					.then((res) => {
+						if (res.code === 100000) {
+							this.order_no = res.data.order_no
+							this.showPopup = true;
+							uni.$u.toast('验证码发送成功');
+						}
 
-				}).catch((err) => {
-					console.log(err, 'err');
-				})
-
+					})
+					.catch((err) => {
+						uni.showToast({
+							icon: "none",
+							title: err.msg || "获取验证码失败，请稍后再试",
+						});
+					});
 			},
 			selectRreason(e) {
 				this.formContent.purpose = e.name
-			},
-			codeChange(text) {
-				this.tips = text;
 			},
 			getAssessInfo() {
 				assessResult({}).then((res) => {
@@ -232,28 +213,6 @@
 					this.showFlag = true;
 				})
 			},
-			getCode() {
-				if (this.formContent.reserve_phone && uni.$u.test.mobile(this.formContent.reserve_phone)) {
-					if (this.$refs.uCode.canGetCode) {
-						// 模拟向后端请求验证码
-						uni.showLoading({
-							title: '正在获取验证码'
-						})
-						setTimeout(() => {
-							uni.hideLoading();
-							// 这里此提示会被this.start()方法中的提示覆盖
-							uni.$u.toast('验证码已发送');
-							// 通知验证码组件内部开始倒计时
-							this.$refs.uCode.start();
-						}, 2000);
-					} else {
-						uni.$u.toast('倒计时结束后再发送');
-					}
-				} else {
-					uni.$u.toast('请填写正确的手机号码');
-				}
-
-			},
 			jumpContent(val) {
 				if (val === 'assess') {
 					uni.$u.route('/subpages/assessAgreement/assessAgreement')
@@ -266,6 +225,47 @@
 					url: 'pages/evaluation/addBank/addBank',
 				})
 				return;
+			},
+
+			open() {
+				this.showPopup = true
+				// console.log('open');
+			},
+			close() {
+				this.showPopup = false
+				// console.log('close');
+			},
+			finishSmsCode() {
+				payVerify({
+						order_no: this.order_no,
+						code: this.smsCodeValue
+					})
+					.then((res) => {
+						if (res.code === 100000) {
+							this.showPopup = false;
+							let params = {
+								type: 'success',
+								message: "评估成功",
+								url: '/pages/product/reflect/reflect'
+							}
+							this.$store.dispatch('setCurrentUserInfo')
+							this.$refs.uToast.show({
+								...params,
+								complete() {
+									params.url && uni.navigateTo({
+										url: params.url
+									})
+								}
+							})
+						}
+
+					})
+					.catch((err) => {
+						uni.showToast({
+							icon: "none",
+							title: err.msg || "获取验证码失败，请稍后再试",
+						});
+					});
 			}
 
 		},
@@ -472,5 +472,60 @@
 				line-height: 44rpx;
 			}
 		}
+	}
+
+	.icon-has-checked {
+		width: 28rpx;
+		height: 28rpx;
+		background: url(../../../static/icon/checked.png) no-repeat;
+		background-size: cover;
+	}
+
+	.icon-this-option {
+		width: 28rpx;
+		height: 28rpx;
+		background: url(../../../static/icon/noChecked.png) no-repeat;
+		background-size: cover;
+	}
+
+	.wenan {
+		margin-left: 12rpx;
+	}
+
+	.popupView {
+		/deep/ .u-popup__content {
+			border-radius: 20rpx;
+			background: #fff;
+			width: 90%;
+			margin: 0 40rpx;
+			padding: 40rpx;
+			box-sizing: border-box;
+		}
+
+		.popupCon {
+			.title {
+				font-size: 40rpx;
+				margin: 20rpx 0;
+			}
+		}
+
+		.codeContent {
+			margin: 50rpx 0;
+		}
+
+		/deep/ .u-button--success {
+			border: none;
+			font-size: 24rpx;
+			font-family: PingFangSC-Regular, PingFang SC;
+			font-weight: 400;
+			color: #4579E6;
+			line-height: 34rpx;
+			background: none;
+		}
+
+		/deep/ .u-form-item {
+			margin: 40rpx 0;
+		}
+
 	}
 </style>

@@ -57,7 +57,7 @@
 		}, {
 			"path": "pages/product/reflect/reflect",
 			"style": {
-				"navigationBarTitleText": "",
+				"navigationBarTitleText": "提现",
 				"enablePullDownRefresh": false
 			}
 
@@ -129,7 +129,16 @@
 			}
 
 		}
-	],
+	    ,{
+            "path" : "pages/product/evaluationFirtPay/evaluationFirtPay",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "评估结果",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	"subPackages": [{
 		"root": "subpages",
 		"pages": [{
