@@ -1,5 +1,5 @@
 <template>
-	<view class="container">
+	<view class="container_prod">
 		<u-list @scrolltolower="scrolltolower">
 			<view class="swiperBox">
 				<u-swiper :list="bannerList" keyName="url" :autoplay="true" bgColor="" @click="swiperClick"
@@ -27,12 +27,6 @@
 									<text class="top_title u-line-1">{{item.remark}}</text>
 									<text
 										class="u-line-1 centermid_title">{{`${item.term} (${item.fastest_term})`}}</text>
-									<!-- <view class="tags">
-									<u-tag text="标签" plain size="mini" type="warning"></u-tag>
-							<u-tag text="标签" plain size="mini" type="warning"></u-tag>
-									<view class="tagItem">拒就赔</view>
-							<view class="tagItem">拒就赔</view>
-								</view> -->
 								</view>
 								<view class="right">
 									<u-button :plain="true" class="custom-style" :hairline="true" text="一键申请">
@@ -114,7 +108,7 @@
 </script>
 
 <style lang="scss" scoped>
-	.container {
+	.container_prod {
 		width: 100%;
 		height: 100vh;
 		background: #F7F7F7;

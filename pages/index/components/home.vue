@@ -1,5 +1,5 @@
 <template>
-	<view class="content">
+	<view class="container_home">
 		<view class="topBox">
 
 		</view>
@@ -212,7 +212,7 @@ import store from "@/store"
 </script>
 
 <style lang="scss" scoped>
-	.content {
+	.container_home {
 		display: flex;
 		flex-direction: column;
 		align-items: center;

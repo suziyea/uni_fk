@@ -1,8 +1,8 @@
 <template>
-	<view class="container">
-		<product v-if="+(getUserInfos.status) === 5"></product>
+	<view class="container" v-if="showFlag">
+		<product v-if="+(inituserStatus) === 5"></product>
 		<template v-else>
-			<home :userStatus="+(getUserInfos.status) || 0"></home>
+			<home :userStatus="+(inituserStatus) || 0"></home>
 		</template>
 	</view>
 </template>
@@ -11,6 +11,9 @@
 	import {
 		mapGetters,
 	} from 'vuex'
+	import {
+		getUserInfo
+	} from "@/config/api/user.js";
 	import home from './components/home.vue'
 	import product from './components/product.vue'
 	export default {
@@ -19,17 +22,41 @@
 			product
 		},
 		data() {
-			return {}
+			return {
+				showFlag: false,
+				userInfo:{}
+			}
+		},
+		created() {
+			this.getUserInfos()
 		},
 		methods: {
 
+		getUserInfos() {
+				getUserInfo({}).then((res) => {
+					if (res.code === 100000) {
+						this.userInfo = res?.data || ''
+						this.showFlag = true;
+					}
+				}).catch((err) => {
+					console.log(err, 'err');
+				}).finally(() => {
+					this.showFlag = true;
+				})
+			},
 		},
 		computed: {
-			...mapGetters(['isLogin', 'getUserInfos'])
+			// ...mapGetters(['isLogin', 'getUserInfos'])
+			inituserStatus() {
+				console.log(this.userInfo.status,'状态----')
+				return this.userInfo.status 
+			}
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
-
+.container {
+	min-width: 100vw;
+}
 </style>
