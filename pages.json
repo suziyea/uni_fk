@@ -109,7 +109,6 @@
 			"path": "pages/mine/order/order",
 			"style": {
 				"navigationBarTitleText": "我的订单",
-				"navigationStyle": "custom",
 				"enablePullDownRefresh": false
 			}
 

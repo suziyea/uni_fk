@@ -58,3 +58,11 @@ export const payVerify = (params, config = {
 		auth: true
 	}
 }) => http.post('/api/fk/order/sms-verify', params, config)
+
+
+// 我的订单
+export const getMyOrderList = (params, config = {
+	custom: {
+		auth: true
+	}
+}) => http.post('/api/fk/user-order/get', params, config)
