@@ -96,7 +96,7 @@
 			clickSubmit() {
 				uni.$u.debounce(this.submit, 500)
 			},
-			submit() {
+			 submit() {
 				this.$refs.uForm.validate().then(res => {
 					let {
 						name,
@@ -106,9 +106,11 @@
 					HandleRealName({
 						"actual_name": name,
 						"id_number": idcard
-					}).then((res) => {
+					}).then(async (res) => {
 						if (res.code === 100000) {
 							uni.removeStorageSync('userInfo');
+							let saveStorage = await this.$store.dispatch('setCurrentUserInfo')
+							console.log(saveStorage,'你好啊---')
 							uni.$u.route('/pages/evaluation/addBank/addBank');
 						}
 

@@ -1,5 +1,6 @@
 <template>
 	<view class="container" v-if="showFlag">
+		{{this.userInfo.status}}
 		<product v-if="+(inituserStatus) === 5"></product>
 		<template v-else>
 			<home :userStatus="+(inituserStatus) || 0"></home>
@@ -24,19 +25,22 @@
 		data() {
 			return {
 				showFlag: false,
-				userInfo:{}
+				userInfo:{
+					status: ''
+				}
 			}
 		},
 		created() {
-			this.getUserInfos()
+			this.getUpdateUserInfos()
 		},
 		methods: {
 
-		getUserInfos() {
+		getUpdateUserInfos() {
 				getUserInfo({}).then((res) => {
 					if (res.code === 100000) {
+						console.log(res,'哈哈哈首页')
 						this.userInfo = res?.data || ''
-						this.showFlag = true;
+
 					}
 				}).catch((err) => {
 					console.log(err, 'err');
@@ -46,10 +50,10 @@
 			},
 		},
 		computed: {
-			// ...mapGetters(['isLogin', 'getUserInfos'])
+			...mapGetters(['isLogin', 'getUserInfos']),
 			inituserStatus() {
-				console.log(this.userInfo.status,'状态----')
-				return this.userInfo.status 
+				console.log(this.userInfo?.status ,'状态----')
+				return this.userInfo?.status 
 			}
 		}
 	}

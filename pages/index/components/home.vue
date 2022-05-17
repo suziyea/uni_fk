@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import store from "@/store"
+	import store from "@/store"
 	import {
 		getEdu
 	} from "@/config/api/user.js";
@@ -150,7 +150,7 @@ import store from "@/store"
 			setModalText() {
 				const storeToken = uni.getStorageSync('token');
 				const storeUserInfo = uni.getStorageSync('userInfo');
-				if (!(storeToken)&& !storeUserInfo) {
+				if (!(storeToken) && !storeUserInfo) {
 					this.showModal = true;
 					this.title = '登录';
 					this.content = '您好，请先完成登录！';

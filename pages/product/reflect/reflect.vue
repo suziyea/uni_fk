@@ -55,7 +55,7 @@
 			<view class="popupCon u-flex u-flex-column">
 				<text class="title u-flex-align-self">正在验证您的银行卡</text>
 				<view class="tip">
-					<text>已发送手机号: {{this.userAssessInfo.reserve_phone}}</text>
+					<text>已发送手机号: {{this.userAssessInfo.phone}}</text>
 				</view>
 				<view class="codeContent">
 					<u-code-input v-model="smsCodeValue" mode="line" @finish="finishSmsCode" :focus="true">
@@ -152,23 +152,24 @@
 						order_no: this.order_no,
 						code: this.smsCodeValue
 					})
-					.then((res) => {
+					.then(async (res) => {
 						if (res.code === 100000) {
-							this.$store.dispatch('setCurrentUserInfo')
 							this.showPopup = false;
-							let params = {
-								type: 'success',
-								message: "提现成功",
-								url: '/pages/index/index'
-							}
-							this.$refs.uToast.show({
-								...params,
-								complete() {
-									params.url && uni.switchTab({
-										url: params.url
-									})
-								}
-							})
+							await this.$store.dispatch('setCurrentUserInfo')
+							uni.$u.route('/pages/pay/pay',{type:2});
+							// let params = {
+							// 	type: 'success',
+							// 	message: "提现成功",
+							// 	url: '/pages/index/index'
+							// }
+							// this.$refs.uToast.show({
+							// 	...params,
+							// 	complete() {
+							// 		params.url && uni.switchTab({
+							// 			url: params.url
+							// 		})
+							// 	}
+							// })
 						}
 
 					})

@@ -252,39 +252,38 @@
 				return;
 			},
 			selectReason(e) {
-				console.log(e, '选中')
 				this.applyValue = e.name
 			},
 			open() {
 				this.showPopup = true
-				// console.log('open');
 			},
 			close() {
 				this.showPopup = false
-				// console.log('close');
 			},
 			finishSmsCode() {
 				payVerify({
 						order_no: this.order_no,
 						code: this.smsCodeValue
 					})
-					.then((res) => {
+					.then(async (res) => {
 						if (res.code === 100000) {
 							this.showPopup = false;
-							let params = {
-								type: 'success',
-								message: "评估成功",
-								url: '/pages/product/reflect/reflect'
-							}
-							this.$store.dispatch('setCurrentUserInfo')
-							this.$refs.uToast.show({
-								...params,
-								complete() {
-									params.url && uni.navigateTo({
-										url: params.url
-									})
-								}
-							})
+							await this.$store.dispatch('setCurrentUserInfo')
+							uni.$u.route('/pages/pay/pay',{type:1});
+
+							// let params = {
+							// 	type: 'success',
+							// 	message: "评估成功",
+							// 	url: '/pages/product/reflect/reflect'
+							// }
+							// this.$refs.uToast.show({
+							// 	...params,
+							// 	complete() {
+							// 		params.url && uni.navigateTo({
+							// 			url: params.url
+							// 		})
+							// 	}
+							// })
 						}
 
 					})

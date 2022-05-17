@@ -196,48 +196,22 @@
 			}
 		},
 		created() {
-			// const storage = uni.getStorageSync('userInfo');
-			// console.log('123',storage)
-			// if (storage || this.getUserInfos) {
+			const storage = uni.getStorageSync('userInfo');
+			console.log('123',storage)
+			if (storage || this.getUserInfos) {
 
-			// console.log('进来了',storage)
-			// 	this.formContent.actual_name = storage?.actual_name || this.getUserInfos.actual_name || 'kkk';
-			// 	this.formContent.id_number = storage?.id_number || this.getUserInfos?.id_number || '';
-			// 	this.formContent.bank_id = storage?.bank_card?.bank_id || this.getUserInfos?.bank_id || ''
-			// 	this.formContent.bank_name = storage?.bank_card?.bank_name || this.getUserInfos?.bank_name || ''
-			// 	this.formContent.card_number = storage?.bank_card?.card_number || this.getUserInfos?.card_number || ''
-			// 	this.formContent.reserve_phone = storage?.bank_card?.reserve_phone || this.getUserInfos?.reserve_phone || ''
-			// }
-			this.getUserInfos()
+			console.log('进来了',storage)
+				this.formContent.actual_name = storage?.actual_name || this.getUserInfos.actual_name || 'kkk';
+				this.formContent.id_number = storage?.id_number || this.getUserInfos?.id_number || '';
+				this.formContent.bank_id = storage?.bank_card?.bank_id || this.getUserInfos?.bank_id || ''
+				this.formContent.bank_name = storage?.bank_card?.bank_name || this.getUserInfos?.bank_name || ''
+				this.formContent.card_number = storage?.bank_card?.card_number || this.getUserInfos?.card_number || ''
+				this.formContent.reserve_phone = storage?.bank_card?.reserve_phone || this.getUserInfos?.reserve_phone || ''
+			}
+			this.getBankList()
+
 		},
 		methods: {
-			getUserInfos() {
-				// 	let storage =  await getUserInfo();
-				// 	if (storage) {
-
-				// console.log('进来了',storage)
-				// 	this.formContent.actual_name = storage?.actual_name || '';
-				// 	this.formContent.id_number = storage?.id_number || '';
-				// 	this.formContent.bank_id = storage?.bank_card?.bank_id || ''
-				// 	this.formContent.bank_name = storage?.bank_card?.bank_name || ''
-				// 	this.formContent.card_number = storage?.bank_card?.card_number || ''
-				// 	this.formContent.reserve_phone = storage?.bank_card?.reserve_phone || ''
-				// }
-				getUserInfo({}).then((res) => {
-					if (res.code === 100000) {
-						this.formContent.actual_name = res?.data?.actual_name || '';
-						this.formContent.id_number = res?.data?.id_number || '';
-						this.formContent.bank_id = res?.data?.bank_card?.bank_id || ''
-						this.formContent.bank_name = res?.data?.bank_card?.bank_name || ''
-						this.formContent.card_number = res?.data?.bank_card?.card_number || ''
-						this.formContent.reserve_phone = res?.data?.bank_card?.reserve_phone || ''
-					}
-				}).catch((err) => {
-					console.log(err, 'err');
-				})
-				this.getBankList()
-
-			},
 			closeSheet() {
 				this.showBankListStatus = false
 			},
@@ -266,9 +240,9 @@
 					addBankInfo({
 						bind_card_id: this.bind_card_id,
 						code: this.formContent.code
-					}).then((res) => {
+					}).then(async (res) => {
 						if (res.code === 100000) {
-							this.$store.dispatch('setCurrentUserInfo')
+							await this.$store.dispatch('setCurrentUserInfo')
 							let params = {
 								type: 'success',
 								message: "绑卡成功，请到下一步",
