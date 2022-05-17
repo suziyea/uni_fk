@@ -93,18 +93,21 @@
 			@close=" showAssessSheet = false" @select="selectReason">
 		</u-action-sheet>
 		<u-toast ref="uToast"></u-toast>
-
 		<u-popup class="popupView" :show="showPopup" :round="10" mode="center" @close="close" @open="open">
-			<view class="popupCon u-flex u-flex-column">
-				<text class="title u-flex-align-self">正在验证您的银行卡</text>
+			<view class="popupCon u-flex u-flex-column u-flex-items-center">
+				<text class="title u-flex-align-self">输入验证码</text>
 				<view class="tip">
-					<text>已发送手机号: {{this.userInfo.reserve_phone}}</text>
+					<text>验证码发送至: {{this.userInfo.reserve_phone}}</text>
 				</view>
 				<view class="codeContent">
-					<u-code-input v-model="smsCodeValue" mode="line" :focus="true" @finish="finishSmsCode"></u-code-input>
+					<u-code-input v-model="smsCodeValue" mode="line" @finish="finishSmsCode" :focus="true">
+					</u-code-input>
 				</view>
 			</view>
-
+			<view class="sms_num">
+				<text v-if="!restCode"><text class="restSms">{{`${seconds} `}}</text>秒后重发短信验证码</text>
+				<text class="restSms" v-else @click="restSmsCode">重新获取</text>
+			</view>
 		</u-popup>
 	</view>
 
@@ -152,7 +155,9 @@
 				showPopup: false,
 				showAssessSheet: false,
 				applyValue: '日常消费',
-
+				seconds: 10,
+				restCode: false,
+				timer: ''
 			}
 		},
 		computed: {
@@ -215,6 +220,13 @@
 				}
 				uni.$u.toast('请勾选同意')
 			},
+			// 重新获取验证码
+			restSmsCode() {
+				this.restCode = false;
+				uni.$u.debounce(this.handleSmsPopup, 500);
+				return;
+			},
+
 			handleSmsPopup() {
 				sendFirstOrderSms({
 						application_reason: this.applyValue
@@ -223,7 +235,14 @@
 						if (res.code === 100000) {
 							this.order_no = res.data.order_no
 							this.showPopup = true;
-							uni.$u.toast('验证码发送成功');
+							// uni.$u.toast('验证码发送成功');
+							this.timer = setInterval(() => {
+								this.seconds--
+								if (this.seconds <= 0) {
+									this.seconds = 60
+									clearInterval(this.timer)
+								}
+							}, 1000)
 						}
 
 					})
@@ -269,7 +288,9 @@
 						if (res.code === 100000) {
 							this.showPopup = false;
 							await this.$store.dispatch('setCurrentUserInfo')
-							uni.$u.route('/pages/pay/pay',{type:1});
+							uni.$u.route('/pages/pay/pay', {
+								type: 1
+							});
 
 							// let params = {
 							// 	type: 'success',
@@ -294,7 +315,10 @@
 						});
 					});
 			}
-		}
+		},
+		onUnload() {
+			clearInterval(this.timer)
+		},
 	}
 </script>
 
@@ -567,19 +591,50 @@
 		}
 
 		.popupView {
+
+			box-sizing: border-box;
+
 			/deep/ .u-popup__content {
 				border-radius: 20rpx;
 				background: #fff;
-				width: 90%;
-				margin: 0 40rpx;
+				width: 100%;
+				// margin: 0 40rpx;
 				padding: 40rpx;
+				width: 670rpx;
+				height: 497rpx;
+				background: #FFFFFF;
+				border-radius: 10rpx;
 				box-sizing: border-box;
 			}
 
 			.popupCon {
+
 				.title {
 					font-size: 40rpx;
 					margin: 20rpx 0;
+				}
+
+				.tip {
+
+					font-size: 30rpx;
+					font-family: PingFangSC-Regular, PingFang SC;
+					font-weight: 400;
+					color: #BFC2CD;
+					line-height: 42rpx;
+				}
+			}
+
+			.sms_num {
+				font-size: 24rpx;
+				font-family: PingFangSC-Regular, PingFang SC;
+				font-weight: 400;
+				color: #BEC2CC;
+				line-height: 33rpx;
+				text-align: right;
+
+				.restSms {
+					color: #3E69E5;
+
 				}
 			}
 
