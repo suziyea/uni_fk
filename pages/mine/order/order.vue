@@ -18,7 +18,7 @@
 				</u-list-item>
 			</u-list>
 		</view>
-
+<button @click="hak">测试跳转</button>
 	</view>
 </template>
 
@@ -92,11 +92,7 @@
 				this.loadmore()
 			},
 			loadmore() {
-				for (let i = 0; i < 30; i++) {
-					this.indexList.push({
-						url: this.urls[uni.$u.random(0, this.urls.length - 1)]
-					})
-				}
+				// 滚动分页
 			}
 		},
 		computed: {
