@@ -77,9 +77,8 @@
 		addBankInfo,
 		addBankInfoSms
 	} from "@/config/api/product.js";
-	import {
-		getUserInfo
-	} from "@/config/api/user.js";
+	import store from "@/store"
+
 	import common from '@/utils/validator.js'
 
 	export default {
@@ -237,6 +236,8 @@
 						code: this.formContent.code
 					}).then(async (res) => {
 						if (res.code === 100000) {
+							store.commit('PAY_ERROR', false);
+
 							await this.$store.dispatch('setCurrentUserInfo')
 							let params = {
 								type: 'success',

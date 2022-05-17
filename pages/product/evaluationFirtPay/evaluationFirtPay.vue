@@ -1,5 +1,6 @@
 <template>
 	<view class="container" v-if="showFlag">
+		{{getInsufficientBalance}}
 		<!-- 预计放款内容 -->
 		<view class="predict_loan">
 			<view class="content">
@@ -117,6 +118,9 @@
 
 <script>
 	import {
+		mapGetters,
+	} from 'vuex'
+	import {
 		assessResult,
 		getEdu
 	} from "@/config/api/user.js";
@@ -167,6 +171,8 @@
 			}
 		},
 		computed: {
+			// 获取银行卡余额
+			...mapGetters(['getInsufficientBalance']),
 			handlePrice() {
 				let num = this.userAssessInfo?.loan_amount ? common.formatNumber(this.userAssessInfo?.loan_amount, 2, '.',
 					',') : common.formatNumber(0, 2, '.', ',')
@@ -193,6 +199,13 @@
 			}
 
 
+		},
+		watch: {
+			getInsufficientBalance(data) {
+				if (data === true) {
+					this.showPopup = false
+				}
+			}
 		},
 		created() {
 			this.getEdus()
@@ -223,6 +236,13 @@
 				})
 			},
 			clickSubmit() {
+				if (this.getInsufficientBalance) {
+					uni.showToast({
+						icon: "none",
+						title: "银行卡余额不足，请重新绑卡",
+					});
+					return;
+				}
 				if (this.selectRadio) {
 					uni.$u.debounce(this.handleSmsPopup, 500);
 					return;
@@ -317,9 +337,14 @@
 
 					})
 					.catch((err) => {
+						if (this.getInsufficientBalance) {
+							uni.$u.toast(data.msg)
+							this.showPopup = false;
+							return;
+						}
 						uni.showToast({
 							icon: "none",
-							title: err.msg || "获取验证码失败，请稍后再试",
+							title: err.msg,
 						});
 					});
 			}

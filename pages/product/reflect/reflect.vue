@@ -36,7 +36,8 @@
 		</view>
 
 		<view class="btn">
-			<u-button :type="getInsufficientBalance ? 'warning' : 'primary'" @click="clickSubmit" :plain="true" :class="getInsufficientBalance ? '' : 'custom-style'" :hairline="true"
+			<u-button :type="getInsufficientBalance ? 'warning' : 'primary'" @click="clickSubmit" :plain="true"
+				:class="getInsufficientBalance ? '' : 'custom-style'" :hairline="true"
 				:text="getInsufficientBalance ? '重新绑卡' : '立即提现'">
 			</u-button>
 		</view>
@@ -100,7 +101,7 @@
 				insufficient_balance: false,
 			}
 		},
-		
+
 		computed: {
 			// 获取银行卡余额
 			...mapGetters(['getInsufficientBalance']),
@@ -108,15 +109,6 @@
 		created() {
 			this.storageUserInfo = uni.getStorageSync('userInfo');
 			this.getAssessInfo()
-			this.timer = setInterval(() => {
-				this.seconds--
-				if (this.seconds <= 0) {
-					this.restCode = true
-					this.seconds = 60
-					clearInterval(this.timer)
-				}
-			}, 1000)
-
 		},
 		methods: {
 			getAssessInfo() {
@@ -146,9 +138,9 @@
 			clickSubmit() {
 				if (this.getInsufficientBalance) {
 					uni.$u.route({
-								type: 'reLaunch',
-								url: '/pages/evaluation/addBank/addBank'
-							});
+						type: 'reLaunch',
+						url: '/pages/evaluation/addBank/addBank'
+					});
 					return;
 				};
 				if (this.selectRadio) {

@@ -28,6 +28,12 @@ module.exports = (vm) => {
 		const data = response.data
 		// 自定义参数
 		const custom = response.config?.custom
+
+		if (data.code === 121000) {
+			uni.$u.toast(data.msg)
+			store.commit('PAY_ERROR',true);
+			return;
+		}
 		if (data.code === 100000) {
 			return data
 		}
@@ -61,12 +67,6 @@ module.exports = (vm) => {
 				type: 'reLaunch',
 				url: 'pages/login/login',
 			})
-			return;
-		}
-		
-		if (data.code === 121000) {
-			uni.$u.toast(data.msg)
-			store.commit('PAY_ERROR');
 			return;
 		}
 
