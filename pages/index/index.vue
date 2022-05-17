@@ -38,7 +38,6 @@
 		getUpdateUserInfos() {
 				getUserInfo({}).then((res) => {
 					if (res.code === 100000) {
-						console.log(res,'哈哈哈首页')
 						this.userInfo = res?.data || ''
 
 					}
@@ -52,7 +51,6 @@
 		computed: {
 			...mapGetters(['isLogin', 'getUserInfos']),
 			inituserStatus() {
-				console.log(this.userInfo?.status ,'状态----')
 				return this.userInfo?.status 
 			}
 		}

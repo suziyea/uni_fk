@@ -68,7 +68,8 @@
 			<view class="tips">
 				<u-line class="my_line"></u-line>
 				<view class="notice">
-					提交申请将会产生300元的审核费用，判断是否能够偿还，将从您提交的银行卡中进行扣款，请检查余额是否足够完成扣款。
+					提交申请将会产生<text
+						class="restSms">{{` ${service_charge}元 `}}</text>的审核费用，判断是否能够偿还，将从您提交的银行卡中进行扣款，请检查余额是否足够完成扣款。
 				</view>
 				<view class="read u-flex u-flex-items-center">
 					<view :class="[!selectRadio ? 'icon-this-option' : 'icon-has-checked']" @click="checkboxChange">
@@ -93,7 +94,8 @@
 			@close=" showAssessSheet = false" @select="selectReason">
 		</u-action-sheet>
 		<u-toast ref="uToast"></u-toast>
-		<u-popup class="popupView" :show="showPopup" :round="10" mode="center" @close="close" @open="open">
+		<u-popup class="popupView" :closeable='closeable' :closeOnClickOverlay="closeOnClickOverlay"
+			overlayOpacity='0.8' :show="showPopup" :round="10" mode="center" @close="close" @open="open">
 			<view class="popupCon u-flex u-flex-column u-flex-items-center">
 				<text class="title u-flex-align-self">输入验证码</text>
 				<view class="tip">
@@ -116,6 +118,7 @@
 <script>
 	import {
 		assessResult,
+		getEdu
 	} from "@/config/api/user.js";
 	import {
 		sendFirstOrderSms,
@@ -155,9 +158,12 @@
 				showPopup: false,
 				showAssessSheet: false,
 				applyValue: '日常消费',
-				seconds: 10,
+				seconds: 60,
 				restCode: false,
-				timer: ''
+				timer: '',
+				closeable: true,
+				closeOnClickOverlay: false,
+				service_charge: '', // 服务费
 			}
 		},
 		computed: {
@@ -189,22 +195,25 @@
 
 		},
 		created() {
+			this.getEdus()
 			this.getAssessInfo()
 		},
 		methods: {
+			getEdus() {
+				getEdu({
+					"code": "first_debit_amount"
+				}).then((res) => {
+					if (res.code === 100000) {
+						this.service_charge = res?.data?.value?.value || '****'
+					}
+				}).catch((err) => {
+					console.log(err, 'err');
+				})
+			},
 			getAssessInfo() {
 				assessResult({}).then((res) => {
 					if (res.code === 100000) {
 						this.userAssessInfo = res?.data || {};
-						// this.formContent.bankInfo =
-						// 	`${res?.data?.user?.bank_name || ''} 尾号 ${res?.data?.user?.card_number?.slice(-4) || ''}`
-						// Object.assign(this.formContent, res?.data?.user)
-						// this.applicationUseList = res?.data?.application_reason.map((item, i) => {
-						// 	return {
-						// 		name: item,
-						// 		id: i
-						// 	}
-						// })
 						this.showFlag = true;
 					}
 				}).catch((err) => {
@@ -261,12 +270,10 @@
 				if (e.name === 'applyreason') {
 					this.showAssessSheet = true;
 				}
-				console.log(e.name, e, '游戏')
-
 			},
 			restAddBank() {
 				uni.$u.route({
-					url: 'pages/evaluation/addBank/addBank',
+					url: '/pages/evaluation/addBank/addBank',
 				})
 				return;
 			},
@@ -289,7 +296,8 @@
 							this.showPopup = false;
 							await this.$store.dispatch('setCurrentUserInfo')
 							uni.$u.route('/pages/pay/pay', {
-								type: 1
+								serviceType: 1,
+								service_charge: this.service_charge
 							});
 
 							// let params = {
@@ -507,10 +515,6 @@
 				padding: 12rpx 28rpx;
 			}
 
-			// /deep/ .u-cell-group .u-line {
-			// 	border: none !important;
-			// }
-
 			.tips {
 				margin: 0 28rpx 24rpx 28rpx;
 
@@ -518,8 +522,6 @@
 					margin-bottom: 24rpx !important;
 				}
 
-				// width: 622rpx;
-				// height: 56rpx;
 				.notice {
 					font-size: 20rpx;
 					font-family: PingFangSC-Regular, PingFang SC;
@@ -598,13 +600,16 @@
 				border-radius: 20rpx;
 				background: #fff;
 				width: 100%;
-				// margin: 0 40rpx;
 				padding: 40rpx;
 				width: 670rpx;
 				height: 497rpx;
 				background: #FFFFFF;
 				border-radius: 10rpx;
 				box-sizing: border-box;
+			}
+
+			/deep/ .uicon-close {
+				display: block;
 			}
 
 			.popupCon {
@@ -631,11 +636,6 @@
 				color: #BEC2CC;
 				line-height: 33rpx;
 				text-align: right;
-
-				.restSms {
-					color: #3E69E5;
-
-				}
 			}
 
 			.codeContent {
@@ -655,6 +655,11 @@
 			/deep/ .u-form-item {
 				margin: 40rpx 0;
 			}
+
+		}
+
+		.restSms {
+			color: #4579E6;
 
 		}
 

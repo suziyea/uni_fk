@@ -34,11 +34,13 @@
 				payDetails: {},
 				showFlag: false,
 				timer: '', // 定时器
-				payType: '', // 第几次支付
+				payType: '', // 第几次支付 服务费
+				service_charge: '', // 服务费用
 			}
 		},
 		onLoad(props) {
-			this.payType = props.type
+			this.payType = props.serviceType
+			this.service_charge = props.serviceType
 		},
 		created() {
 			this.getUpdateUserInfos()
@@ -54,7 +56,7 @@
 				if ((this.payType == 1 && status == 4) || (this.payType == 2 && status == 5)) {
 					resultObj.icon = 'result_processing';
 					resultObj.title = '支付成功';
-					resultObj.tip = '¥100.00';
+					resultObj.tip = this.service_charge ? `¥${this.service_charge.toFixed(2)}` : '';
 				}
 				return resultObj
 			},
@@ -65,7 +67,7 @@
 					getUserInfo({}).then(async (res) => {
 						if (res.code === 100000) {
 							this.payDetails = res?.data || ''
-							if (res.data.status == 5) {
+							if (res.data.status == 4 || res.data.status == 5) {
 								await this.$store.dispatch('setCurrentUserInfo')
 								clearInterval(this.timer)
 							}

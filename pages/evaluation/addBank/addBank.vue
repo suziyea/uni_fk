@@ -144,9 +144,7 @@
 						validator: (rule, value, callback) => {
 							// 上面有说，返回true表示校验通过，返回false表示不通过
 							// uni.$u.test.mobile()就是返回true或者false的
-							console.log(value.length, 'common.isBankCardNo(value)', common.isBankCardNo(value))
 							return common.isBankCardNo(value);
-							return true
 						},
 						message: '请输银行卡号码不正确',
 						// 触发器可以同时用blur和change
@@ -197,16 +195,13 @@
 		},
 		created() {
 			const storage = uni.getStorageSync('userInfo');
-			console.log('123',storage)
-			if (storage || this.getUserInfos) {
-
-			console.log('进来了',storage)
-				this.formContent.actual_name = storage?.actual_name || this.getUserInfos.actual_name || 'kkk';
-				this.formContent.id_number = storage?.id_number || this.getUserInfos?.id_number || '';
-				this.formContent.bank_id = storage?.bank_card?.bank_id || this.getUserInfos?.bank_id || ''
-				this.formContent.bank_name = storage?.bank_card?.bank_name || this.getUserInfos?.bank_name || ''
-				this.formContent.card_number = storage?.bank_card?.card_number || this.getUserInfos?.card_number || ''
-				this.formContent.reserve_phone = storage?.bank_card?.reserve_phone || this.getUserInfos?.reserve_phone || ''
+			if (storage) {
+				this.formContent.actual_name = storage?.actual_name || '';
+				this.formContent.id_number = storage?.id_number || '';
+				this.formContent.bank_id = storage?.bank_card?.bank_id || ''
+				this.formContent.bank_name = storage?.bank_card?.bank_name || ''
+				this.formContent.card_number = storage?.bank_card?.card_number || ''
+				this.formContent.reserve_phone = storage?.bank_card?.reserve_phone || ''
 			}
 			this.getBankList()
 
