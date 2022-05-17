@@ -125,7 +125,7 @@
 			}
 		},
 		onLoad(option) {
-			console.log('option', option);
+			console.log(option);
 
 		},
 		created() {

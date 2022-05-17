@@ -1,10 +1,8 @@
 <template>
 	<view class="container">
-		{{getInsufficientBalance}}--
 		<view class="content">
 			<view class="title_tips">恭喜！您的审核已通过，额度为</view>
 			<view class="bg u-flex u-flex-column u-row-center u-flex-items-center ">
-				<!-- <image src="/static/img/reflect_bg.png" mode="aspectFill"></image> -->
 				<view class="countStyle u-flex u-flex-column u-row-centeru-flex-items-center ">
 					<text class="title">最高可借额度(元)</text>
 					<u-count-to :endVal="userAssessInfo.loan_amount" separator="," class="count"></u-count-to>
