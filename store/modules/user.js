@@ -10,6 +10,7 @@ export default {
 		userInfo: uni.getStorageSync('userInfo') || {},
 		deviceId: uni.getStorageSync('deviceId') || '',
 		osType: uni.getStorageSync('osType') || '',
+		insufficient_balance: true
 	},
 	mutations: {
 		LOGIN(state, payload) {
@@ -37,6 +38,9 @@ export default {
 			state.login = true;
 			state.refresh_token = payload.refresh_token;
 		},
+		PAY_ERROR(state) {
+			state.insufficient_balance = true;
+		}
 	},
 	getters: {
 		isLogin(state) {
@@ -47,6 +51,9 @@ export default {
 		},
 		getUserInfos(state) {
 			return state.userInfo;
+		},
+		getInsufficientBalance(state) {
+			return state.insufficient_balance;
 		},
 	},
 	actions: {

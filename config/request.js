@@ -63,6 +63,13 @@ module.exports = (vm) => {
 			})
 			return;
 		}
+		
+		if (data.code === 121000) {
+			uni.$u.toast(data.msg)
+			store.commit('PAY_ERROR');
+			return;
+		}
+
 		if (data.code !== 200) {
 			// 如果没有显式定义custom的toast参数为false的话，默认对报错进行toast弹出提示
 			if (custom.toast !== false) {

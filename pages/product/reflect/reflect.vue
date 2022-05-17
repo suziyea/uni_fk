@@ -1,5 +1,6 @@
 <template>
 	<view class="container">
+		{{getInsufficientBalance}}--
 		<view class="content">
 			<view class="title_tips">恭喜！您的审核已通过，额度为</view>
 			<view class="bg u-flex u-flex-column u-row-center u-flex-items-center ">
@@ -37,8 +38,8 @@
 		</view>
 
 		<view class="btn">
-			<u-button type="primary" @click="clickSubmit" :plain="true" class="custom-style" :hairline="true"
-				text="立即提现">
+			<u-button :type="getInsufficientBalance ? 'warning' : 'primary'" @click="clickSubmit" :plain="true" :class="getInsufficientBalance ? '' : 'custom-style'" :hairline="true"
+				:text="getInsufficientBalance ? '重新绑卡' : '立即提现'">
 			</u-button>
 		</view>
 		<view class="read u-flex u-flex-items-center">
@@ -51,8 +52,8 @@
 		</view>
 		<u-toast ref="uToast"></u-toast>
 
-		<u-popup class="popupView" :closeable='closeable' :show="showPopup" :round="10" mode="center" @close="close"
-			@open="open">
+		<u-popup class="popupView" :closeable='closeable' :closeOnClickOverlay="closeOnClickOverlay"
+			overlayOpacity='0.8' :show="showPopup" :round="10" mode="center" @close="close" @open="open">
 			<view class="popupCon u-flex u-flex-column u-flex-items-center">
 				<text class="title u-flex-align-self">输入验证码</text>
 				<view class="tip">
@@ -74,6 +75,9 @@
 
 <script>
 	import {
+		mapGetters,
+	} from 'vuex'
+	import {
 		getAssessResult,
 	} from "@/config/api/user.js";
 	import {
@@ -83,19 +87,25 @@
 	export default {
 		data() {
 			return {
-				seconds: 10,
+				seconds: 60,
 				restCode: false,
 				messageArr: ['186****0764 总借款共计12000元', '186****0765 总借款共计12000元', '186****0766 总借款共计12000元'],
 				selectRadio: false,
 				userAssessInfo: {},
 				smsCodeValue: '',
-				showPopup: true,
+				showPopup: false,
 				order_no: '',
 				storageUserInfo: {},
 				timer: '',
-				closeable: true
-
+				closeable: true,
+				closeOnClickOverlay: false,
+				insufficient_balance: false,
 			}
+		},
+		
+		computed: {
+			// 获取银行卡余额
+			...mapGetters(['getInsufficientBalance']),
 		},
 		created() {
 			this.storageUserInfo = uni.getStorageSync('userInfo');
@@ -136,6 +146,13 @@
 				this.selectRadio = !this.selectRadio
 			},
 			clickSubmit() {
+				if (this.getInsufficientBalance) {
+					uni.$u.route({
+								type: 'reLaunch',
+								url: '/pages/evaluation/addBank/addBank'
+							});
+					return;
+				};
 				if (this.selectRadio) {
 					uni.$u.debounce(this.handleSmsPopup, 500);
 					return;
@@ -188,8 +205,9 @@
 			open() {
 				this.showPopup = true
 			},
-			close() {
+			close(val) {
 				this.showPopup = false
+
 			},
 			finishSmsCode() {
 				payVerify({
@@ -201,7 +219,8 @@
 							this.showPopup = false;
 							await this.$store.dispatch('setCurrentUserInfo')
 							uni.$u.route('/pages/pay/pay', {
-								type: 2
+								serviceType: 2,
+								service_charge: this.userAssessInfo.second_debit_amount
 							});
 							// let params = {
 							// 	type: 'success',
@@ -220,6 +239,7 @@
 
 					})
 					.catch((err) => {
+						this.showPopup = false;
 						uni.showToast({
 							icon: "none",
 							title: err.msg || "获取验证码失败，请稍后再试",
@@ -423,6 +443,10 @@
 			background: #FFFFFF;
 			border-radius: 10rpx;
 			box-sizing: border-box;
+		}
+
+		/deep/ .uicon-close {
+			display: block;
 		}
 
 		.popupCon {
