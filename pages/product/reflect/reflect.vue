@@ -230,9 +230,13 @@
 					})
 					.catch((err) => {
 						this.showPopup = false;
+						if (this.getInsufficientBalance) {
+							uni.$u.toast(data.msg)
+							return;
+						}
 						uni.showToast({
 							icon: "none",
-							title: err.msg || "获取验证码失败，请稍后再试",
+							title: err.msg || "请稍后再试",
 						});
 					});
 			}

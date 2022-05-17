@@ -337,9 +337,9 @@
 
 					})
 					.catch((err) => {
+						this.showPopup = false;
 						if (this.getInsufficientBalance) {
 							uni.$u.toast(data.msg)
-							this.showPopup = false;
 							return;
 						}
 						uni.showToast({
