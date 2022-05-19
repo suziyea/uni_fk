@@ -49,8 +49,6 @@
 						@click="jumpContent('hide')">{{` 《隐私协议》 `}}</text></text>
 			</view>
 		</view>
-		<u-toast ref="uToast"></u-toast>
-
 		<u-popup class="popupView" :closeable='closeable' :closeOnClickOverlay="closeOnClickOverlay"
 			overlayOpacity='0.8' :show="showPopup" :round="10" mode="center" @close="close" @open="open">
 			<view class="popupCon u-flex u-flex-column u-flex-items-center">
@@ -152,21 +150,14 @@
 			// 重新获取验证码
 			restSmsCode() {
 				this.restCode = false;
-				this.timer = setInterval(() => {
-					this.seconds--
-					if (this.seconds <= 0) {
-						this.restCode = true
-						this.seconds = 60
-						clearInterval(this.timer)
-					}
-				}, 1000)
-
-				return;
-				uni.$u.debounce(this.handleSmsPopup, 500);
+				this.seconds = 60
+				this.order_no = ''
+				this.handleSmsPopup();
 				return;
 			},
 
 			handleSmsPopup() {
+				this.seconds = 60;
 				sendSecondOrderSms({})
 					.then((res) => {
 						if (res.code === 100000) {
@@ -176,11 +167,10 @@
 								this.seconds--
 								if (this.seconds <= 0) {
 									this.seconds = 60
+									this.restCode = true;
 									clearInterval(this.timer)
 								}
 							}, 1000)
-
-							// uni.$u.toast('验证码发送成功');
 						}
 
 					})
@@ -195,9 +185,11 @@
 			open() {
 				this.showPopup = true
 			},
-			close(val) {
-				this.showPopup = false
-
+			close(val = 'close') {
+				if (val == 'smserr') this.order_no = ''
+				this.showPopup = false;
+				this.smsCodeValue = '';
+				clearInterval(this.timer)
 			},
 			finishSmsCode() {
 				payVerify({
@@ -205,6 +197,13 @@
 						code: this.smsCodeValue
 					})
 					.then(async (res) => {
+						if (res.code === 121000 || res.code === 123000) {
+							let closeStatus;
+							if (res.code === 123000) closeStatus = 'smserr'
+							this.close(closeStatus)
+							Promise.reject(res)
+							return;
+						}
 						if (res.code === 100000) {
 							this.showPopup = false;
 							await this.$store.dispatch('setCurrentUserInfo')
@@ -212,33 +211,15 @@
 								serviceType: 2,
 								service_charge: this.userAssessInfo.second_debit_amount
 							});
-							// let params = {
-							// 	type: 'success',
-							// 	message: "提现成功",
-							// 	url: '/pages/index/index'
-							// }
-							// this.$refs.uToast.show({
-							// 	...params,
-							// 	complete() {
-							// 		params.url && uni.switchTab({
-							// 			url: params.url
-							// 		})
-							// 	}
-							// })
 						}
 
 					})
 					.catch((err) => {
-						this.showPopup = false;
-						if (this.getInsufficientBalance) {
-							uni.$u.toast(data.msg)
-							return;
-						}
 						uni.showToast({
 							icon: "none",
 							title: err.msg || "请稍后再试",
 						});
-					});
+					})
 			}
 		},
 		onUnload() {

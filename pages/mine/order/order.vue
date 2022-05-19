@@ -18,7 +18,6 @@
 				</u-list-item>
 			</u-list>
 		</view>
-<button @click="hak">测试跳转</button>
 	</view>
 </template>
 
@@ -42,11 +41,12 @@
 		},
 		filters: {
 			formatOrderType(value) {
-				if (value == 1) {
+				console.log(typeof value, '类型')
+				if (value == '1') {
 					return '第一笔付款'
 				}
-				if (value == 2) {
-					return '第一笔付款'
+				if (value == '2') {
+					return '第二笔付款'
 				}
 				return ''
 			},
@@ -116,7 +116,8 @@
 
 		.order_list {
 			/deep/ .u-cell__left-icon-wrap {
-				margin-right: 6px;
+				width: 100rpx;
+				margin-right: 12rpx;
 			}
 		}
 	}

@@ -29,10 +29,11 @@ module.exports = (vm) => {
 		// 自定义参数
 		const custom = response.config?.custom
 
-		if (data.code === 121000) {
+		// 银行卡余额不足----
+		if (data.code === 121000 || data.code === 123000) {
 			uni.$u.toast(data.msg)
-			store.commit('PAY_ERROR',true);
-			return;
+			if (data.code === 121000) store.commit('PAY_ERROR',true)
+			return data;
 		}
 		if (data.code === 100000) {
 			return data

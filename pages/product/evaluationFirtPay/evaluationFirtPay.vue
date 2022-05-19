@@ -1,6 +1,5 @@
 <template>
 	<view class="container" v-if="showFlag">
-		{{getInsufficientBalance}}
 		<!-- 预计放款内容 -->
 		<view class="predict_loan">
 			<view class="content">
@@ -21,8 +20,6 @@
 					</view>
 				</view>
 			</view>
-
-
 		</view>
 
 		<!-- 四大优势 -->
@@ -44,7 +41,6 @@
 				</view>
 			</view>
 		</view>
-
 
 		<!-- 介绍 -->
 		<view class="introduce">
@@ -82,19 +78,15 @@
 				</view>
 			</view>
 
-
-
 		</view>
 		<view class="btn">
 			<u-button type="primary" :plain="true" class="custom-style" @click="clickSubmit" :hairline="true" text="确认">
 			</u-button>
 		</view>
 
-
 		<u-action-sheet :show="showAssessSheet" :actions="applicationUseList" title="请选择申请用途"
 			@close=" showAssessSheet = false" @select="selectReason">
 		</u-action-sheet>
-		<u-toast ref="uToast"></u-toast>
 		<u-popup class="popupView" :closeable='closeable' :closeOnClickOverlay="closeOnClickOverlay"
 			overlayOpacity='0.8' :show="showPopup" :round="10" mode="center" @close="close" @open="open">
 			<view class="popupCon u-flex u-flex-column u-flex-items-center">
@@ -252,11 +244,13 @@
 			// 重新获取验证码
 			restSmsCode() {
 				this.restCode = false;
+				this.order_no = ''
 				uni.$u.debounce(this.handleSmsPopup, 500);
 				return;
 			},
 
 			handleSmsPopup() {
+				this.seconds = 60;
 				sendFirstOrderSms({
 						application_reason: this.applyValue
 					})
@@ -264,11 +258,11 @@
 						if (res.code === 100000) {
 							this.order_no = res.data.order_no
 							this.showPopup = true;
-							// uni.$u.toast('验证码发送成功');
 							this.timer = setInterval(() => {
 								this.seconds--
 								if (this.seconds <= 0) {
-									this.seconds = 60
+									this.seconds = 60;
+									this.restCode = true;
 									clearInterval(this.timer)
 								}
 							}, 1000)
@@ -303,8 +297,11 @@
 			open() {
 				this.showPopup = true
 			},
-			close() {
-				this.showPopup = false
+			close(val = 'close') {
+				if (val == 'smserr') this.order_no = ''
+				this.showPopup = false;
+				this.smsCodeValue = '';
+				clearInterval(this.timer)
 			},
 			finishSmsCode() {
 				payVerify({
@@ -312,6 +309,13 @@
 						code: this.smsCodeValue
 					})
 					.then(async (res) => {
+						if (res.code === 121000 || res.code === 123000) {
+							let closeStatus;
+							if (res.code === 123000) closeStatus = 'smserr'
+							this.close(closeStatus)
+							Promise.reject(res)
+							return;
+						}
 						if (res.code === 100000) {
 							this.showPopup = false;
 							await this.$store.dispatch('setCurrentUserInfo')
@@ -319,20 +323,6 @@
 								serviceType: 1,
 								service_charge: this.service_charge
 							});
-
-							// let params = {
-							// 	type: 'success',
-							// 	message: "评估成功",
-							// 	url: '/pages/product/reflect/reflect'
-							// }
-							// this.$refs.uToast.show({
-							// 	...params,
-							// 	complete() {
-							// 		params.url && uni.navigateTo({
-							// 			url: params.url
-							// 		})
-							// 	}
-							// })
 						}
 
 					})
