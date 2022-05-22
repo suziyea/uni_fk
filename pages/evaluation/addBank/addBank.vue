@@ -34,7 +34,7 @@
 						suffixIcon="/static/icon/my_phone.png"></u--input>
 				</u-form-item>
 
-				<u-form-item label="验证码" prop="code" ref="item6">
+				<u-form-item label="验证码">
 					<!-- <u--input  v-model="phone" border suffixIcon="/static/icon/my_phone.png"></u--input> -->
 					<!-- 注意：由于兼容性差异，如果需要使用前后插槽，nvue下需使用u--input，非nvue下需使用u-input -->
 					<!-- #ifndef APP-NVUE -->
@@ -64,7 +64,7 @@
 		</u-action-sheet>
 
 		<view class="btn">
-			<u-button type="primary" :plain="true" class="custom-style" @click="clickSubmit" :hairline="true" text="完成">
+			<u-button type="primary" :plain="true" class="custom-style" :disabled='!fomrSubmit'  @click="clickSubmit" :hairline="true" text="完成">
 			</u-button>
 		</view>
 		<u-toast ref="uToast"></u-toast>
@@ -90,6 +90,11 @@
 				tips: '获取验证码',
 				seconds: 60,
 				formContent: {
+					actual_name: '',
+					id_number: '',
+					bank_name: '',
+					bank_id: '',
+					reserve_phone:'',
 					code: '',
 				},
 				bind_card_id: '',
@@ -166,7 +171,7 @@
 							trigger: ['blur'],
 						}
 					],
-					smsCode: [{
+					code: [{
 							required: false,
 							message: '请输入手机验证码',
 							trigger: ['blur']
@@ -182,14 +187,28 @@
 							trigger: ['change', 'blur'],
 						}
 					]
-				}
+				},
+				handleSmsCodeStatus: false,
 
 			}
 		},
 		computed: {
-			handleSmsCodeStatus() {
-				// return uni.$u.test.mobile(this.formContent.reserve_phone);
-				return true;
+			// handleSmsCodeStatus() {
+			// 	if (this.formContent.actual_name  && this.formContent.id_number && this.formContent.bank_name && this.formContent.card_number && this.formContent.reserve_phone) {
+			// 		console.log('你好啊')
+			// 		uni.$u.test.chinese(this.formContent.actual_name);
+			// 		uni.$u.test.idCard(this.formContent.id_number);
+			// 		common.isBankCardNo(this.formContent.card_number);
+			// 		uni.$u.test.mobile(this.formContent.reserve_phone);
+			// 		return true;
+			// 	}
+			// 	return false
+			// }
+			fomrSubmit() {
+				if (this.handleSmsCodeStatus && this.formContent.code) {
+					return true
+				}
+				return false;
 			}
 		},
 		created() {
@@ -240,7 +259,7 @@
 
 							await this.$store.dispatch('setCurrentUserInfo')
 							let params = {
-								type: 'success',
+								// type: 'success',
 								message: "绑卡成功，请到下一步",
 								url: '/pages/product/evaluationFirtPay/evaluationFirtPay'
 							}
@@ -285,6 +304,7 @@
 
 							})
 							.catch((err) => {
+								this.formContent.code = ''
 								uni.hideLoading();
 								uni.showToast({
 									icon: "none",
@@ -306,6 +326,23 @@
 			},
 
 
+		},
+		watch: {
+			formContent: {
+				        handler() {
+							if (this.formContent.actual_name  && this.formContent.id_number && this.formContent.bank_name && this.formContent.card_number && this.formContent.reserve_phone) {
+					if (uni.$u.test.chinese(this.formContent.actual_name) && uni.$u.test.idCard(this.formContent.id_number) && common.isBankCardNo(this.formContent.card_number) && uni.$u.test.mobile(this.formContent.reserve_phone)) {
+						this.handleSmsCodeStatus = true
+						return;
+					}
+					this.handleSmsCodeStatus  = false
+				}else {
+					this.handleSmsCodeStatus  = false
+				}
+         
+        },
+        deep: true //true 深度监听
+			}
 		}
 	}
 </script>

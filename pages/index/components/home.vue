@@ -198,7 +198,7 @@
 					uni.$u.route('/pages/evaluation/addBank/addBank');
 				}
 				if (this.userStatus === 3) {
-					uni.$u.route('/pages/product/evaluationResults/evaluationResults');
+					uni.$u.route('/pages/product/evaluationFirtPay/evaluationFirtPay');
 				}
 				if (this.userStatus === 4) {
 					uni.$u.route('/pages/product/reflect/reflect');

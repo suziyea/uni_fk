@@ -54,9 +54,9 @@
 					tip: '请耐心等待哦'
 				}
 				if ((this.payType == 1 && status == 4) || (this.payType == 2 && status == 5)) {
-					resultObj.icon = 'result_processing';
+					resultObj.icon = 'result_success';
 					resultObj.title = '支付成功';
-					resultObj.tip = this.service_charge ? `¥${this.service_charge.toFixed(2)}` : '';
+					resultObj.tip = this.service_charge ? `¥${this.service_charge}` : '';
 				}
 				return resultObj
 			},
