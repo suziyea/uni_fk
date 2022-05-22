@@ -64,7 +64,8 @@
 		</u-action-sheet>
 
 		<view class="btn">
-			<u-button type="primary" :plain="true" class="custom-style" :disabled='!fomrSubmit'  @click="clickSubmit" :hairline="true" text="完成">
+			<u-button type="primary" :plain="true" class="custom-style" :disabled='!fomrSubmit' @click="clickSubmit"
+				:hairline="true" text="完成">
 			</u-button>
 		</view>
 		<u-toast ref="uToast"></u-toast>
@@ -94,7 +95,7 @@
 					id_number: '',
 					bank_name: '',
 					bank_id: '',
-					reserve_phone:'',
+					reserve_phone: '',
 					code: '',
 				},
 				bind_card_id: '',
@@ -329,19 +330,22 @@
 		},
 		watch: {
 			formContent: {
-				        handler() {
-							if (this.formContent.actual_name  && this.formContent.id_number && this.formContent.bank_name && this.formContent.card_number && this.formContent.reserve_phone) {
-					if (uni.$u.test.chinese(this.formContent.actual_name) && uni.$u.test.idCard(this.formContent.id_number) && common.isBankCardNo(this.formContent.card_number) && uni.$u.test.mobile(this.formContent.reserve_phone)) {
-						this.handleSmsCodeStatus = true
-						return;
+				handler() {
+					if (this.formContent.actual_name && this.formContent.id_number && this.formContent.bank_name && this
+						.formContent.card_number && this.formContent.reserve_phone) {
+						if (uni.$u.test.chinese(this.formContent.actual_name) && uni.$u.test.idCard(this.formContent
+								.id_number) && common.isBankCardNo(this.formContent.card_number) && uni.$u.test.mobile(this
+								.formContent.reserve_phone)) {
+							this.handleSmsCodeStatus = true
+							return;
+						}
+						this.handleSmsCodeStatus = false
+					} else {
+						this.handleSmsCodeStatus = false
 					}
-					this.handleSmsCodeStatus  = false
-				}else {
-					this.handleSmsCodeStatus  = false
-				}
-         
-        },
-        deep: true //true 深度监听
+
+				},
+				deep: true //true 深度监听
 			}
 		}
 	}
