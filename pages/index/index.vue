@@ -1,6 +1,5 @@
 <template>
 	<view class="container" v-if="showFlag">
-		{{getUserInfos.status}}---
 		<product v-if="+(inituserStatus) === 5"></product>
 		<template v-else>
 			<home :userStatus="+(inituserStatus) || 0"></home>
