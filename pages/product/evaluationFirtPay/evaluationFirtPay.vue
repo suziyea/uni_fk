@@ -337,6 +337,12 @@
 							title: err.msg,
 						});
 					});
+			},
+			jumpContent(val) {
+				if (val === 'assess') {
+					uni.$u.route('/subpages/assessAgreement/assessAgreement')
+					return;
+				}
 			}
 		},
 		onUnload() {

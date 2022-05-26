@@ -116,7 +116,6 @@
 			"path": "pages/mine/privilege/privilege",
 			"style": {
 				"navigationBarTitleText": "我的权益",
-				"navigationStyle": "custom",
 				"enablePullDownRefresh": false
 			}
 

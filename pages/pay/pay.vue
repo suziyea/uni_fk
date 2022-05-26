@@ -67,7 +67,7 @@
 					getUserInfo({}).then(async (res) => {
 						if (res.code === 100000) {
 							this.payDetails = res?.data || ''
-							if (res.data.status == 4 || res.data.status == 5) {
+							if ((this.payType == 1 && res.data.status == 4) || (this.payType == 2 && res.data.status == 5)) {
 								await this.$store.dispatch('setCurrentUserInfo')
 								clearInterval(this.timer)
 							}

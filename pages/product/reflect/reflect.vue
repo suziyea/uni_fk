@@ -136,7 +136,6 @@
 			clickSubmit() {
 				if (this.getInsufficientBalance) {
 					uni.$u.route({
-						type: 'reLaunch',
 						url: '/pages/evaluation/addBank/addBank'
 					});
 					return;
@@ -341,7 +340,7 @@
 			margin-top: 56rpx;
 			width: 646rpx;
 			height: 88rpx;
-
+			// box-sizing: border-box;
 			.custom-style {
 				background: #4579E6;
 				border-radius: 8rpx;

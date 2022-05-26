@@ -4,7 +4,7 @@
 			<u-empty mode="order" :text="emptyText" icon="http://cdn.uviewui.com/uview/empty/order.png">
 			</u-empty>
 		</view>
-		<view class="order_list">
+		<view v-else class="order_list">
 			<u-list @scrolltolower="scrolltolower">
 				<u-list-item v-for="(item, index) in orderList" :key="index">
 					<u-cell-group>
@@ -41,7 +41,6 @@
 		},
 		filters: {
 			formatOrderType(value) {
-				console.log(typeof value, '类型')
 				if (value == '1') {
 					return '第一笔付款'
 				}
@@ -103,7 +102,8 @@
 				return ''
 			},
 			emptyStatus() {
-				this.orderList?.length !== 0 ? false : true
+				if (this.orderList?.length !== 0) return false
+				return true
 			}
 		}
 	}

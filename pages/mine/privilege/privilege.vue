@@ -1,6 +1,9 @@
 <template>
 	<view class="container" :class="addClassName">
 		<view class="empty" v-if="emptyStatus">
+			<!-- <view class="status_bar">
+            	这里是状态栏
+        	</view> -->
 			<u-empty mode="order" :text="emptyText" icon="http://cdn.uviewui.com/uview/empty/order.png">
 			</u-empty>
 		</view>
@@ -34,5 +37,9 @@
 	.container {
 		width: 100%;
 		min-height: 100vh;
+		.status_bar {
+			height: var(--status-bar-height);
+			width: 100%;
+   		}
 	}
 </style>

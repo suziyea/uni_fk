@@ -194,17 +194,6 @@
 			}
 		},
 		computed: {
-			// handleSmsCodeStatus() {
-			// 	if (this.formContent.actual_name  && this.formContent.id_number && this.formContent.bank_name && this.formContent.card_number && this.formContent.reserve_phone) {
-			// 		console.log('你好啊')
-			// 		uni.$u.test.chinese(this.formContent.actual_name);
-			// 		uni.$u.test.idCard(this.formContent.id_number);
-			// 		common.isBankCardNo(this.formContent.card_number);
-			// 		uni.$u.test.mobile(this.formContent.reserve_phone);
-			// 		return true;
-			// 	}
-			// 	return false
-			// }
 			fomrSubmit() {
 				if (this.handleSmsCodeStatus && this.formContent.code) {
 					return true

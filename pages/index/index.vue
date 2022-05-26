@@ -1,5 +1,6 @@
 <template>
 	<view class="container" v-if="showFlag">
+		{{getUserInfos.status}}---
 		<product v-if="+(inituserStatus) === 5"></product>
 		<template v-else>
 			<home :userStatus="+(inituserStatus) || 0"></home>
@@ -26,32 +27,57 @@
 				showFlag: false,
 				userInfo:{
 					status: ''
-				}
+				},
+				timer: '', // 定时器
+				timerTotal: 0,
 			}
 		},
 		created() {
-			this.getUpdateUserInfos()
+			if (this.getUserInfos && this.getUserInfos.status) {
+				if (this.getUserInfos.status === 3 || this.getUserInfos.status === 4) {
+					this.getUpdateUserInfos()
+					return;
+				}
+			}
+			this.showFlag = true;
 		},
 		methods: {
 
 		getUpdateUserInfos() {
-				getUserInfo({}).then((res) => {
-					if (res.code === 100000) {
-						this.userInfo = res?.data || ''
+				this.timer = setInterval(() => {
+					getUserInfo({}).then(async (res) => {
+						if (res.code === 100000) {
+							this.timerTotal += 1
+							this.userInfo = res?.data || ''
+							if ((this.getUserInfos.status == 3 && res.data.status == 4) || (this.getUserInfos.status == 4 && res.data.status == 5)) {
+								await this.$store.dispatch('setCurrentUserInfo')
+								clearInterval(this.timer)
+							}
+						}
+					}).catch((err) => {
+						console.log(err, 'err');
+					}).finally(() => {
+						this.showFlag = true;
+					})
+				}, 1000)
 
-					}
-				}).catch((err) => {
-					console.log(err, 'err');
-				}).finally(() => {
-					this.showFlag = true;
-				})
 			},
+		},
+		watch: {
+			timerTotal(newVal,oldVal) {
+				if (newVal >= 3) {
+					clearInterval(this.timer)
+				}
+			}
 		},
 		computed: {
 			...mapGetters(['isLogin', 'getUserInfos']),
 			inituserStatus() {
-				return this.userInfo?.status 
+				return this.getUserInfos.status ? this.getUserInfos.status : this.userInfo?.status 
 			}
+		},
+		onUnload() {
+			clearInterval(this.timer)
 		}
 	}
 </script>
