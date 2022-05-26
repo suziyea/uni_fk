@@ -14,28 +14,31 @@
 						<image src="/static/icon/right.png" mode="aspectFill"></image>
 					</view>
 				</view>
-				<u-list-item v-for="(item,i) in productList" :key="i">
-					<navigator :url="'/pages/webview/webview?urlPath='+ encodeURIComponent(item.link)">
-						<view class="productList">
-							<view class="product-item">
-								<view class="left">
-									<text class="top_title u-line-1">{{item.name}}</text>
-									<text class="mid_title u-line-1">{{item.amount}}</text>
-									<text class="bottom_title u-line-1">额度（元）</text>
-								</view>
-								<view class="center">
-									<text class="top_title u-line-1">{{item.remark}}</text>
-									<text
-										class="u-line-1 centermid_title">{{`${item.term} (${item.fastest_term})`}}</text>
-								</view>
-								<view class="right">
-									<u-button :plain="true" class="custom-style" :hairline="true" text="一键申请">
-									</u-button>
+				<view v-if="productList.length > 0">
+					1
+					<u-list-item v-for="(item,i) in productList" :key="i">
+						<navigator :url="'/pages/webview/webview?urlPath='+ encodeURIComponent(item.link)">
+							<view class="productList">
+								<view class="product-item">
+									<view class="left">
+										<text class="top_title u-line-1">{{item.name}}</text>
+										<text class="mid_title u-line-1">{{item.amount}}</text>
+										<text class="bottom_title u-line-1">额度（元）</text>
+									</view>
+									<view class="center">
+										<text class="top_title u-line-1">{{item.remark}}</text>
+										<text
+											class="u-line-1 centermid_title">{{`${item.term} (${item.fastest_term})`}}</text>
+									</view>
+									<view class="right">
+										<u-button :plain="true" class="custom-style" :hairline="true" text="一键申请">
+										</u-button>
+									</view>
 								</view>
 							</view>
-						</view>
-					</navigator>
-				</u-list-item>
+						</navigator>
+					</u-list-item>
+				</view>
 			</view>
 		</u-list>
 
@@ -110,7 +113,7 @@
 <style lang="scss" scoped>
 	.container_prod {
 		width: 100%;
-		height: 100vh;
+		// min-height: 100vh;
 		background: #F7F7F7;
 		padding: 0 32rpx;
 		box-sizing: border-box;
