@@ -40,7 +40,7 @@
 		},
 		onLoad(props) {
 			this.payType = props.serviceType
-			this.service_charge = props.serviceType
+			this.service_charge = props.service_charge
 		},
 		created() {
 			this.getUpdateUserInfos()

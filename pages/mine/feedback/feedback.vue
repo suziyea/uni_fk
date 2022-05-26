@@ -31,6 +31,7 @@
 			<u-button type="primary" :plain="true" class="custom-style" @tap="clickSubmit" :hairline="true" text="下一步">
 			</u-button>
 		</view>
+		<u-toast ref="uToast"></u-toast>
 	</view>
 </template>
 
@@ -83,10 +84,22 @@
 					"content": this.content
 				}).then((res) => {
 					if (res.code === 100000) {
-						this.showNoneIconToast('我们已收到反馈内容，会尽快处理')
-						uni.switchTab({
-							url: '/pages/mine/mine'
-						})
+						let params = {
+								message: "我们已收到反馈内容，会尽快处理",
+								url: '/pages/mine/mine'
+							}
+							this.$refs.uToast.show({
+								...params,
+								complete() {
+									params.url && uni.switchTab({
+										url: params.url
+									})
+								}
+							})
+						// this.showNoneIconToast('我们已收到反馈内容，会尽快处理')
+						// uni.switchTab({
+						// 	url: '/pages/mine/mine'
+						// })
 					}
 
 				}).catch((err) => {
