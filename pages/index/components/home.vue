@@ -156,7 +156,6 @@ import store from "@/store"
 				this.setModalText('status')
 			},
 			setModalText(value='') {
-				console.log(this.userStatus,'呵嘿')
 				const storeToken = uni.getStorageSync('token');
 				const storeUserInfo = uni.getStorageSync('userInfo');
 				if (!(storeToken)&& !storeUserInfo) {

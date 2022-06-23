@@ -220,8 +220,6 @@
 							console.log(err, 'err');
 						})
 					}
-					console.log(this.formContent, '验证码')
-					// this.showPopup = false
 					return;
 				}
 				if (this.selectRadio) {
