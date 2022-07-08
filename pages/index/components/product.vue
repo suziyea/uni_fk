@@ -15,7 +15,6 @@
 					</view>
 				</view>
 				<view v-if="productList.length > 0">
-					1
 					<u-list-item v-for="(item,i) in productList" :key="i">
 						<navigator :url="'/pages/webview/webview?urlPath='+ encodeURIComponent(item.link)">
 							<view class="productList">
