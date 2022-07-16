@@ -26,8 +26,8 @@
 									</view>
 									<view class="center">
 										<text class="top_title u-line-1">{{item.remark}}</text>
-										<text
-											class="u-line-1 centermid_title">{{`${item.term} (${item.fastest_term})`}}</text>
+										<!-- <text
+											class="u-line-1 centermid_title">{{`${item.term} (${item.fastest_term})`}}</text> -->
 									</view>
 									<view class="right">
 										<u-button :plain="true" class="custom-style" :hairline="true" text="一键申请">
