@@ -1,5 +1,9 @@
 <template>
 	<view class="container">
+		<view class="hello">
+			<u-loading-page :loading="loadingStatus" loadingColor="#1B8DFF" loading-text="loading..."
+				bg-color="transparent"></u-loading-page>
+		</view>
 		<view class="content">
 			<view class="title_tips">恭喜！您的审核已通过，额度为</view>
 			<view class="bg u-flex u-flex-column u-row-center u-flex-items-center ">
@@ -76,6 +80,7 @@
 	} from 'vuex'
 	import {
 		getAssessResult,
+		getUserInfo
 	} from "@/config/api/user.js";
 	import {
 		sendSecondOrderSms,
@@ -97,6 +102,9 @@
 				closeable: true,
 				closeOnClickOverlay: false,
 				insufficient_balance: false,
+				timerStatus: '', // 定时器
+				loadingStatus: false,
+				isJump: false, // 为ture，跳转到首页
 			}
 		},
 
@@ -203,14 +211,25 @@
 							Promise.reject(res)
 							return;
 						}
+						// if (res.code === 100000) {
+						// 	this.showPopup = false;
+						// 	await this.$store.dispatch('setCurrentUserInfo')
+						// 	uni.$u.route('/pages/pay/pay', {
+						// 		serviceType: 2,
+						// 		service_charge: this.userAssessInfo.second_debit_amount
+						// 	});
+						// }
+
 						if (res.code === 100000) {
 							this.showPopup = false;
-							await this.$store.dispatch('setCurrentUserInfo')
-							uni.$u.route('/pages/pay/pay', {
-								serviceType: 2,
-								service_charge: this.userAssessInfo.second_debit_amount
-							});
+							this.loadingStatus = true
+							uni.$u.sleep(2000).then(() => {
+								this.getUpdateUserInfos()
+							})
 						}
+
+
+
 
 					})
 					.catch((err) => {
@@ -219,15 +238,62 @@
 							title: err.msg || "请稍后再试",
 						});
 					})
+			},
+			getUpdateUserInfos() {
+				this.timerStatus = setInterval(() => {
+					getUserInfo({}).then(async (res) => {
+						if (res.code === 100000) {
+							this.payDetails = res?.data || ''
+							if ((res.data.status === 5)) {
+								this.loadingStatus = false
+								this.isJump = true
+								await this.$store.dispatch('setCurrentUserInfo')
+								clearInterval(this.timerStatus)
+							}
+						}
+					}).catch((err) => {
+						console.log(err, 'err');
+					}).finally(() => {
+						this.showFlag = true;
+					})
+				}, 1000)
+
+
+			},
+		},
+		watch: {
+			isJump(newVal, oldVal) {
+				console.log(newVal, 'newVal', oldVal, 'oldVal')
+				if (newVal === true) {
+					clearInterval(this.timer)
+					clearInterval(this.timerStatus)
+					uni.$u.sleep(300).then(() => {
+						uni.$u.route({
+							type: 'switchTab',
+							url: '/pages/index/index',
+							params: {
+								page: 'home'
+							}
+						})
+					})
+					this.isJump = false
+
+				}
 			}
 		},
 		onUnload() {
 			clearInterval(this.timer)
+			clearInterval(this.timerStatus)
 		},
 	}
 </script>
 
 <style lang="scss" scoped>
+	.hello {
+		z-index: 2;
+		background: transparent;
+	}
+
 	.container {
 		width: 100%;
 		min-height: 100vh;
@@ -340,6 +406,7 @@
 			margin-top: 56rpx;
 			width: 646rpx;
 			height: 88rpx;
+
 			// box-sizing: border-box;
 			.custom-style {
 				background: #4579E6;

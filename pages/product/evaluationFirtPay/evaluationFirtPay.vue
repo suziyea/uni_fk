@@ -319,7 +319,7 @@
 						if (res.code === 100000) {
 							this.showPopup = false;
 							await this.$store.dispatch('setCurrentUserInfo')
-							uni.$u.route('/pages/pay/pay', {
+							uni.$u.route('/pages/payResult/payResult', {
 								serviceType: 1,
 								service_charge: this.service_charge
 							});

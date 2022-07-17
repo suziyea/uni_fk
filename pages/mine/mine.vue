@@ -92,13 +92,14 @@
 						name: '查看协议',
 						enName: 'look',
 						power: false
-					}, {
-						icon: '/static/icon/about_us.png',
-						path: '',
-						name: '关于我们',
-						enName: 'about',
-						power: false
 					},
+					// {
+					// 	icon: '/static/icon/about_us.png',
+					// 	path: '',
+					// 	name: '关于我们',
+					// 	enName: 'about',
+					// 	power: false
+					// },
 					//  {
 					// 	icon: '/static/icon/logoff.png',
 					// 	path: '',

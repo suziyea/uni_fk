@@ -145,6 +145,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/payResult/payResult",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "支付结果",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"subPackages": [{
 		"root": "subpages",
