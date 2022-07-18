@@ -62,7 +62,7 @@
 <style lang="scss" scoped>
 	.hello {
 		.hello_bg {
-			width: 100%;
+			width: 750rpx;
 			height: 100vh;
 			margin: 0;
 			padding: 0;
