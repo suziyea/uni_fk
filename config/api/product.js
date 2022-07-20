@@ -66,3 +66,11 @@ export const getMyOrderList = (params, config = {
 		auth: true
 	}
 }) => http.post('/api/fk/user-order/get', params, config)
+
+
+// 推荐产品访问
+export const clickProductItem = (params, config = {
+	custom: {
+		auth: true
+	}
+}) => http.post('/api/fk/product-recommend/click', params, config)

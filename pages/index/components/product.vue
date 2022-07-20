@@ -16,26 +16,26 @@
 				</view>
 				<view v-if="productList.length > 0">
 					<u-list-item v-for="(item,i) in productList" :key="i">
-						<navigator :url="'/pages/webview/webview?urlPath='+ encodeURIComponent(item.link)">
-							<view class="productList">
-								<view class="product-item">
-									<view class="left">
-										<text class="top_title u-line-1">{{item.name}}</text>
-										<text class="mid_title u-line-1">{{item.amount}}</text>
-										<text class="bottom_title u-line-1">额度（元）</text>
-									</view>
-									<view class="center">
-										<text class="top_title u-line-1">{{item.remark}}</text>
-										<!-- <text
+						<!-- <navigator :url="'/pages/webview/webview?urlPath='+ encodeURIComponent(item.link)"> -->
+						<view class="productList" @click="clickItem(item)">
+							<view class="product-item">
+								<view class="left">
+									<text class="top_title u-line-1">{{item.name}}</text>
+									<text class="mid_title u-line-1">{{item.amount}}</text>
+									<text class="bottom_title u-line-1">额度（元）</text>
+								</view>
+								<view class="center">
+									<text class="top_title u-line-1">{{item.remark}}</text>
+									<!-- <text
 											class="u-line-1 centermid_title">{{`${item.term} (${item.fastest_term})`}}</text> -->
-									</view>
-									<view class="right">
-										<u-button :plain="true" class="custom-style" :hairline="true" text="一键申请">
-										</u-button>
-									</view>
+								</view>
+								<view class="right">
+									<u-button :plain="true" class="custom-style" :hairline="true" text="一键申请">
+									</u-button>
 								</view>
 							</view>
-						</navigator>
+						</view>
+						<!-- </navigator> -->
 					</u-list-item>
 				</view>
 			</view>
@@ -47,16 +47,18 @@
 <script>
 	import {
 		getProducts,
-		getBanner
+		getBanner,
+		clickProductItem
 	} from "@/config/api/product.js";
 	export default {
+		props: {
+			randomNum: {
+				type: String,
+				default: ''
+			}
+		},
 		data() {
 			return {
-				list3: [
-					'https://cdn.uviewui.com/uview/swiper/swiper3.png',
-					'https://cdn.uviewui.com/uview/swiper/swiper2.png',
-					'https://cdn.uviewui.com/uview/swiper/swiper1.png',
-				],
 				productList: [],
 				pageSize: 10,
 				page: 1,
@@ -66,11 +68,36 @@
 		onLoad() {
 			this.loadmore()
 		},
+		watch: {
+			randomNum(newVal, oldVal) {
+				this.productList = []
+				this.init();
+			}
+		},
 		created() {
-			this.getEdus();
-			this.getBannerImg()
+			this.init();
 		},
 		methods: {
+			init() {
+				this.getEdus();
+				this.getBannerImg()
+			},
+			clickItem(item) {
+				uni.$u.debounce(() => this.handleClickProduct(item), 300)
+			},
+			handleClickProduct(item) {
+				clickProductItem({
+					id: item.id
+				}).then((res) => {
+					if (res.code === 100000) {
+						uni.navigateTo({
+							url: `/pages/webview/webview?urlPath=${encodeURIComponent(item.link)}`
+						});
+					}
+				}).catch((err) => {
+					console.log(err, 'err');
+				})
+			},
 			swiperClick(i) {
 				let url = this.bannerList[i]?.link || ''
 				uni.navigateTo({
@@ -105,7 +132,7 @@
 				this.page += 1
 				this.getEdus()
 			}
-		}
+		},
 	}
 </script>
 

@@ -1,6 +1,6 @@
 <template>
 	<view class="container" v-if="showFlag">
-		<product v-if="+(inituserStatus) === 5"></product>
+		<product v-if="+(inituserStatus) === 5" :randomNum='number'></product>
 		<template v-else>
 			<home :userStatus="+(inituserStatus) || 0"></home>
 		</template>
@@ -29,6 +29,7 @@
 				},
 				timer: '', // 定时器
 				timerTotal: 0,
+				number: 0,
 			}
 		},
 		created() {
@@ -39,6 +40,10 @@
 				}
 			}
 			this.showFlag = true;
+		},
+		onShow() {
+			// console.log('你好--')
+			this.number = new Date().valueOf()
 		},
 		methods: {
 
