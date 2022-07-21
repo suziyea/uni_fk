@@ -335,9 +335,11 @@
 						// 	return;
 						// }
 						if (res.code === 121000 || res.code === 123000) {
+							let closeStatus;
+							if (res.code === 123000) closeStatus = 'smserr'
 							this.showDialog = true
 							this.showPopup = false;
-
+retun;
 						}
 						if (res.code === 100000) {
 							this.showPopup = false;

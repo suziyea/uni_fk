@@ -229,23 +229,14 @@
 						// 	return;
 						// }
 						if (res.code === 121000 || res.code === 123000) {
-							// let closeStatus;
-							// if (res.code === 123000) closeStatus = 'smserr'
-							// this.close(closeStatus)
-							// Promise.reject(res)
-							// return;
+							let closeStatus;
+							if (res.code === 123000) closeStatus = 'smserr'
+							this.close(closeStatus)
 							this.showDialog = true
 							this.showPopup = false;
+							return;
 
 						}
-						// if (res.code === 100000) {
-						// 	this.showPopup = false;
-						// 	await this.$store.dispatch('setCurrentUserInfo')
-						// 	uni.$u.route('/pages/pay/pay', {
-						// 		serviceType: 2,
-						// 		service_charge: this.userAssessInfo.second_debit_amount
-						// 	});
-						// }
 
 						if (res.code === 100000) {
 							this.showPopup = false;
