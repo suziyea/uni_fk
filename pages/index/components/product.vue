@@ -79,6 +79,7 @@
 		},
 		methods: {
 			init() {
+				this.page = 1;
 				this.getEdus();
 				this.getBannerImg()
 			},

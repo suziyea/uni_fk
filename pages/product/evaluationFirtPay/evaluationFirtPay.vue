@@ -1,5 +1,7 @@
 <template>
 	<view class="container" v-if="showFlag">
+		<common-dialog v-if="showDialog" title="温馨提示" content="请您保证余额在300元以上，否则会误判您还款能力导致下款失败！" :showCancel="true"
+			confirmText="重新绑卡" v-on:on-click-dialog="onClickDialog"></common-dialog>
 		<!-- 预计放款内容 -->
 		<view class="predict_loan">
 			<view class="content">
@@ -72,7 +74,7 @@
 					<view :class="[!selectRadio ? 'icon-this-option' : 'icon-has-checked']" @click="checkboxChange">
 					</view>
 					<view class="wenan">
-						<text class="read_tip">我已阅读并同意同意<text class="blue"
+						<text class="read_tip">我已阅读并同意<text class="blue"
 								@click="jumpContent('assess')">{{` 《评估协议》 `}}</text></text>
 					</view>
 				</view>
@@ -109,6 +111,8 @@
 </template>
 
 <script>
+	import commonDialog from '@/components/common-dialog/common-dialog.vue'
+
 	import {
 		mapGetters,
 	} from 'vuex'
@@ -122,8 +126,12 @@
 	} from "@/config/api/product.js";
 	import common from '@/utils/common.js'
 	export default {
+		components: {
+			commonDialog,
+		},
 		data() {
 			return {
+				showDialog: false,
 				showFlag: false,
 				// 绑定银行卡用户信息
 				userAssessInfo: {},
@@ -204,6 +212,15 @@
 			this.getAssessInfo()
 		},
 		methods: {
+			onClickDialog(event) {
+				if (event == 'confirm') {
+					uni.$u.route({
+						url: '/pages/evaluation/addBank/addBank'
+					});
+					return;
+				}
+				this.showDialog = false
+			},
 			getEdus() {
 				getEdu({
 					"code": "first_debit_amount"
@@ -228,13 +245,14 @@
 				})
 			},
 			clickSubmit() {
-				if (this.getInsufficientBalance) {
-					uni.showToast({
-						icon: "none",
-						title: "银行卡余额不足，请重新绑卡",
-					});
-					return;
-				}
+				// if (this.getInsufficientBalance) {
+				// 	uni.showToast({
+				// 		icon: "none",
+				// 		title: "银行卡余额不足，请重新绑卡",
+				// 	});
+				// 	return;
+				// }
+				this.selectRadio = true;
 				if (this.selectRadio) {
 					uni.$u.debounce(this.handleSmsPopup, 500);
 					return;
@@ -309,12 +327,17 @@
 						code: this.smsCodeValue
 					})
 					.then(async (res) => {
+						// if (res.code === 121000 || res.code === 123000) {
+						// 	let closeStatus;
+						// 	if (res.code === 123000) closeStatus = 'smserr'
+						// 	this.close(closeStatus)
+						// 	Promise.reject(res)
+						// 	return;
+						// }
 						if (res.code === 121000 || res.code === 123000) {
-							let closeStatus;
-							if (res.code === 123000) closeStatus = 'smserr'
-							this.close(closeStatus)
-							Promise.reject(res)
-							return;
+							this.showDialog = true
+							this.showPopup = false;
+
 						}
 						if (res.code === 100000) {
 							this.showPopup = false;

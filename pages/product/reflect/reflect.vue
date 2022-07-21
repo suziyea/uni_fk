@@ -1,5 +1,7 @@
 <template>
 	<view class="container">
+		<common-dialog v-if="showDialog" title="温馨提示" content="请您保证余额在300元以上，否则会误判您还款能力导致下款失败！" :showCancel="true"
+			confirmText="重新绑卡" v-on:on-click-dialog="onClickDialog"></common-dialog>
 		<view class="hello">
 			<u-loading-page :loading="loadingStatus" loadingColor="#1B8DFF" loading-text="loading..."
 				bg-color="transparent"></u-loading-page>
@@ -86,9 +88,14 @@
 		sendSecondOrderSms,
 		payVerify
 	} from "@/config/api/product.js";
+	import commonDialog from '@/components/common-dialog/common-dialog.vue'
 	export default {
+		components: {
+			commonDialog,
+		},
 		data() {
 			return {
+				showDialog: false,
 				seconds: 60,
 				restCode: false,
 				messageArr: ['186****0764 总借款共计12000元', '186****0765 总借款共计12000元', '186****0766 总借款共计12000元'],
@@ -117,6 +124,15 @@
 			this.getAssessInfo()
 		},
 		methods: {
+			onClickDialog(event) {
+				if (event == 'confirm') {
+					uni.$u.route({
+						url: '/pages/evaluation/addBank/addBank'
+					});
+					return;
+				}
+				this.showDialog = false
+			},
 			getAssessInfo() {
 				getAssessResult({}).then((res) => {
 					if (res.code === 100000) {
@@ -142,12 +158,13 @@
 				this.selectRadio = !this.selectRadio
 			},
 			clickSubmit() {
-				if (this.getInsufficientBalance) {
-					uni.$u.route({
-						url: '/pages/evaluation/addBank/addBank'
-					});
-					return;
-				};
+				// if (this.getInsufficientBalance) {
+				// 	uni.$u.route({
+				// 		url: '/pages/evaluation/addBank/addBank'
+				// 	});
+				// 	return;
+				// };
+				this.selectRadio = true
 				if (this.selectRadio) {
 					uni.$u.debounce(this.handleSmsPopup, 500);
 					return;
@@ -204,12 +221,22 @@
 						code: this.smsCodeValue
 					})
 					.then(async (res) => {
+						// if (res.code === 121000 || res.code === 123000) {
+						// 	let closeStatus;
+						// 	if (res.code === 123000) closeStatus = 'smserr'
+						// 	this.close(closeStatus)
+						// 	Promise.reject(res)
+						// 	return;
+						// }
 						if (res.code === 121000 || res.code === 123000) {
-							let closeStatus;
-							if (res.code === 123000) closeStatus = 'smserr'
-							this.close(closeStatus)
-							Promise.reject(res)
-							return;
+							// let closeStatus;
+							// if (res.code === 123000) closeStatus = 'smserr'
+							// this.close(closeStatus)
+							// Promise.reject(res)
+							// return;
+							this.showDialog = true
+							this.showPopup = false;
+
 						}
 						// if (res.code === 100000) {
 						// 	this.showPopup = false;
