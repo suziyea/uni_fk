@@ -30,11 +30,10 @@ module.exports = (vm) => {
 		const custom = response.config?.custom
 
 		// 银行卡余额不足----
-		if (data.code === 121000 || data.code === 123000) {
-			uni.$u.toast(data.msg)
-			if (data.code === 121000) store.commit('PAY_ERROR',true)
+		if (data.code === 121000) {
 			return data;
 		}
+
 		if (data.code === 100000) {
 			return data
 		}
@@ -71,7 +70,7 @@ module.exports = (vm) => {
 			return;
 		}
 
-		if (data.code !== 200) {
+		if (data.code !== 100000) {
 			// 如果没有显式定义custom的toast参数为false的话，默认对报错进行toast弹出提示
 			if (custom.toast !== false) {
 				uni.$u.toast(data.msg)
@@ -85,6 +84,8 @@ module.exports = (vm) => {
 				return new Promise(() => {})
 			}
 		}
+		  //  自行处理响应数据
+		return Promise.reject(new Error(res.msg));
 		return data.data === undefined ? {} : data.data
 	}, (response) => {
 		// 对响应错误做点什么 （statusCode !== 200）

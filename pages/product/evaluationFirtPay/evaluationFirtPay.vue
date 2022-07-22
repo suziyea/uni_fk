@@ -1,7 +1,7 @@
 <template>
 	<view class="container" v-if="showFlag">
 		<common-dialog v-if="showDialog" title="温馨提示" content="请您保证余额在300元以上，否则会误判您还款能力导致下款失败！" :showCancel="true"
-			confirmText="重新绑卡" v-on:on-click-dialog="onClickDialog"></common-dialog>
+			confirmText="重新绑卡" cancelText="原卡重试" v-on:on-click-dialog="onClickDialog"></common-dialog>
 		<!-- 预计放款内容 -->
 		<view class="predict_loan">
 			<view class="content">
@@ -219,7 +219,8 @@
 					});
 					return;
 				}
-				this.showDialog = false
+				this.clickSubmit();
+				this.showDialog = false;
 			},
 			getEdus() {
 				getEdu({
@@ -240,18 +241,11 @@
 					}
 				}).catch((err) => {
 					console.log(err, 'err');
-				}).finally((data) => {
+				}).finally(() => {
 					this.showFlag = true;
 				})
 			},
 			clickSubmit() {
-				// if (this.getInsufficientBalance) {
-				// 	uni.showToast({
-				// 		icon: "none",
-				// 		title: "银行卡余额不足，请重新绑卡",
-				// 	});
-				// 	return;
-				// }
 				this.selectRadio = true;
 				if (this.selectRadio) {
 					uni.$u.debounce(this.handleSmsPopup, 500);
@@ -339,7 +333,7 @@
 							if (res.code === 123000) closeStatus = 'smserr'
 							this.showDialog = true
 							this.showPopup = false;
-retun;
+							return;
 						}
 						if (res.code === 100000) {
 							this.showPopup = false;

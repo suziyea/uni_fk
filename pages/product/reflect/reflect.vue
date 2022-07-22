@@ -1,7 +1,7 @@
 <template>
 	<view class="container">
 		<common-dialog v-if="showDialog" title="温馨提示" content="请您保证余额在300元以上，否则会误判您还款能力导致下款失败！" :showCancel="true"
-			confirmText="重新绑卡" v-on:on-click-dialog="onClickDialog"></common-dialog>
+			confirmText="重新绑卡" cancelText="原卡重试" v-on:on-click-dialog="onClickDialog"></common-dialog>
 		<view class="hello">
 			<u-loading-page :loading="loadingStatus" loadingColor="#1B8DFF" loading-text="loading..."
 				bg-color="transparent"></u-loading-page>
@@ -42,9 +42,12 @@
 		</view>
 
 		<view class="btn">
-			<u-button :type="getInsufficientBalance ? 'warning' : 'primary'" @click="clickSubmit" :plain="true"
+			<!-- <u-button :type="getInsufficientBalance ? 'warning' : 'primary'" @click="clickSubmit" :plain="true"
 				:class="getInsufficientBalance ? '' : 'custom-style'" :hairline="true"
 				:text="getInsufficientBalance ? '重新绑卡' : '立即提现'">
+			</u-button> -->
+			<u-button type="primary" @click="clickSubmit" :plain="true" class="custom-style" :hairline="true"
+				text="立即提现">
 			</u-button>
 		</view>
 		<view class="read u-flex u-flex-items-center">
@@ -131,6 +134,7 @@
 					});
 					return;
 				}
+				this.clickSubmit();
 				this.showDialog = false
 			},
 			getAssessInfo() {
@@ -158,12 +162,6 @@
 				this.selectRadio = !this.selectRadio
 			},
 			clickSubmit() {
-				// if (this.getInsufficientBalance) {
-				// 	uni.$u.route({
-				// 		url: '/pages/evaluation/addBank/addBank'
-				// 	});
-				// 	return;
-				// };
 				this.selectRadio = true
 				if (this.selectRadio) {
 					uni.$u.debounce(this.handleSmsPopup, 500);
@@ -195,6 +193,14 @@
 									clearInterval(this.timer)
 								}
 							}, 1000)
+						}
+
+						if (res.code === 123000) {
+							uni.showToast({
+								icon: "none",
+								title: res.msg || "获取验证码失败，请稍后再试",
+							});
+							return;
 						}
 
 					})
@@ -281,7 +287,6 @@
 		},
 		watch: {
 			isJump(newVal, oldVal) {
-				console.log(newVal, 'newVal', oldVal, 'oldVal')
 				if (newVal === true) {
 					clearInterval(this.timer)
 					clearInterval(this.timerStatus)

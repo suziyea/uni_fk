@@ -2,9 +2,9 @@
 	<view>
 		<view class="dialog">
 			<view class="title">{{title}}
-				<view class="close" @click.stop="close">
+				<!-- <view class="close" @click.stop="close">
 					<image src="/static/icon/close_icon.png" mode="aspectFill"></image>
-				</view>
+				</view> -->
 			</view>
 			<view class="content">
 				{{content}}

@@ -64,7 +64,7 @@
 		</u-action-sheet>
 
 		<view class="btn">
-			<u-button type="primary" :plain="true" class="custom-style" :disabled='!fomrSubmit' @click="clickSubmit"
+			<u-button type="primary" :plain="true" class="custom-style" :disabled='!(formContent)' @click="clickSubmit"
 				:hairline="true" text="完成">
 			</u-button>
 		</view>
@@ -79,7 +79,9 @@
 		addBankInfoSms
 	} from "@/config/api/product.js";
 	import store from "@/store"
-
+	import {
+		mapGetters,
+	} from 'vuex'
 	import common from '@/utils/validator.js'
 
 	export default {
@@ -194,7 +196,7 @@
 			}
 		},
 		computed: {
-			fomrSubmit() {
+			formSubmit() {
 				if (this.handleSmsCodeStatus && this.formContent.code) {
 					return true
 				}
@@ -252,8 +254,8 @@
 								message: "绑卡成功，请到下一步",
 								url: '/pages/product/evaluationFirtPay/evaluationFirtPay'
 							}
-							if (res.status === 4) {
-								params.url = 'pages/product/reflect/reflect'
+							if (this.getUserInfos.status === 4) {
+								params.url = '/pages/product/reflect/reflect'
 							}
 							this.$refs.uToast.show({
 								...params,
@@ -318,6 +320,9 @@
 			},
 
 
+		},
+		computed: {
+			...mapGetters(['getUserInfos']),
 		},
 		watch: {
 			formContent: {
