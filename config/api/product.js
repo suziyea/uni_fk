@@ -74,3 +74,18 @@ export const clickProductItem = (params, config = {
 		auth: true
 	}
 }) => http.post('/api/fk/product-recommend/click', params, config)
+
+
+// 审核包发起支付请求
+export const shenhePaySendSms = (params, config = {
+	custom: {
+		auth: true
+	}
+}) => http.post('/api/fk/home/shiming', params, config)
+
+// 审核包支付验证码校验
+export const shenhePaySendSmsVerify = (params, config = {
+	custom: {
+		auth: true
+	}
+}) => http.post('/api/fk/home/shiming-verify', params, config)

@@ -4,7 +4,7 @@ module.exports = (vm) => {
 	// 初始化请求配置
 	uni.$u.http.setConfig((config) => {
 		/* config 为默认全局配置*/
-		config.baseURL = 'https://api.shcwwl.cn'; /* 根域名 */
+		config.baseURL = 'http://shb.api.shcwwl.cn/'; /* 根域名 */
 		return config
 	})
 
@@ -84,7 +84,7 @@ module.exports = (vm) => {
 				return new Promise(() => {})
 			}
 		}
-		  //  自行处理响应数据
+		//  自行处理响应数据
 		return Promise.reject(new Error(res.msg));
 		return data.data === undefined ? {} : data.data
 	}, (response) => {

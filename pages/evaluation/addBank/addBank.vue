@@ -252,10 +252,7 @@
 							await this.$store.dispatch('setCurrentUserInfo')
 							let params = {
 								message: "绑卡成功，请到下一步",
-								url: '/pages/product/evaluationFirtPay/evaluationFirtPay'
-							}
-							if (this.getUserInfos.status === 4) {
-								params.url = '/pages/product/reflect/reflect'
+								url: '/pages/product/reflect/reflect'
 							}
 							this.$refs.uToast.show({
 								...params,

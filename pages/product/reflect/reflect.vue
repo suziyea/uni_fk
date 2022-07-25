@@ -6,18 +6,18 @@
 			<u-loading-page :loading="loadingStatus" loadingColor="#1B8DFF" loading-text="loading..."
 				bg-color="transparent"></u-loading-page>
 		</view>
+		<view class="bgImg">
+			<image src="/static/imgs/img_huiyuanfuli.png" mode="aspectFill"></image>
+		</view>
+		<view class="buy u-flex u-flex-column u-row-center u-flex-center">
+			<text class="title u-flex-align-self">VIP福利</text>
+
+			<text class="desc">
+				立享爱奇艺充值优惠，腾讯视频充值优惠，芒果TV充值优惠，酒店专享礼包，读书专享礼包，肯德基代金卷，搜狐视频充值优惠，优酷视频充值优惠，QQ音乐充值等等
+			</text>
+		</view>
+
 		<view class="content">
-			<view class="title_tips">恭喜！您的审核已通过，额度为</view>
-			<view class="bg u-flex u-flex-column u-row-center u-flex-items-center ">
-				<view class="countStyle u-flex u-flex-column u-row-centeru-flex-items-center ">
-					<text class="title">最高可借额度(元)</text>
-					<u-count-to :endVal="userAssessInfo.loan_amount" separator="," class="count"></u-count-to>
-				</view>
-			</view>
-			<!-- 消息轮播 -->
-			<view class="tipsBox">
-				<u-notice-bar :text="messageArr" icon="volume" direction="column" speed="250" url=""></u-notice-bar>
-			</view>
 			<view class="list">
 				<u-row customStyle="margin-bottom: 20rpx">
 					<u-col span="6">
@@ -42,12 +42,8 @@
 		</view>
 
 		<view class="btn">
-			<!-- <u-button :type="getInsufficientBalance ? 'warning' : 'primary'" @click="clickSubmit" :plain="true"
-				:class="getInsufficientBalance ? '' : 'custom-style'" :hairline="true"
-				:text="getInsufficientBalance ? '重新绑卡' : '立即提现'">
-			</u-button> -->
 			<u-button type="primary" @click="clickSubmit" :plain="true" class="custom-style" :hairline="true"
-				text="立即提现">
+				text="立即购买VIP">
 			</u-button>
 		</view>
 		<view class="read u-flex u-flex-items-center">
@@ -85,11 +81,12 @@
 	} from 'vuex'
 	import {
 		getAssessResult,
-		getUserInfo
+		getUserInfo,
+		getQy
 	} from "@/config/api/user.js";
 	import {
-		sendSecondOrderSms,
-		payVerify
+		shenhePaySendSms,
+		shenhePaySendSmsVerify
 	} from "@/config/api/product.js";
 	import commonDialog from '@/components/common-dialog/common-dialog.vue'
 	export default {
@@ -180,7 +177,10 @@
 
 			handleSmsPopup() {
 				this.seconds = 60;
-				sendSecondOrderSms({})
+				shenhePaySendSms({
+						actual_name: this.storageUserInfo.actual_name,
+						id_number: this.storageUserInfo.id_number
+					})
 					.then((res) => {
 						if (res.code === 100000) {
 							this.order_no = res.data.order_no
@@ -212,6 +212,20 @@
 					});
 			},
 
+			// 跳转权益
+			goJump() {
+				getQy({}).then((res) => {
+					if (res.code === 100000) {
+						uni.navigateTo({
+							url: `/pages/webview/webview?urlPath=${encodeURIComponent(res?.data?.url)}`
+						});
+					}
+				}).catch((err) => {
+					console.log(err, 'err');
+				})
+				return;
+			},
+
 			open() {
 				this.showPopup = true
 			},
@@ -222,18 +236,11 @@
 				clearInterval(this.timer)
 			},
 			finishSmsCode() {
-				payVerify({
+				shenhePaySendSmsVerify({
 						order_no: this.order_no,
 						code: this.smsCodeValue
 					})
 					.then(async (res) => {
-						// if (res.code === 121000 || res.code === 123000) {
-						// 	let closeStatus;
-						// 	if (res.code === 123000) closeStatus = 'smserr'
-						// 	this.close(closeStatus)
-						// 	Promise.reject(res)
-						// 	return;
-						// }
 						if (res.code === 121000 || res.code === 123000) {
 							let closeStatus;
 							if (res.code === 123000) closeStatus = 'smserr'
@@ -270,9 +277,11 @@
 							this.payDetails = res?.data || ''
 							if ((res.data.status === 5)) {
 								this.loadingStatus = false
-								this.isJump = true
+								// this.isJump = true
 								await this.$store.dispatch('setCurrentUserInfo')
 								clearInterval(this.timerStatus)
+								// 跳转到权益页面
+								this.goJump()
 							}
 						}
 					}).catch((err) => {
@@ -327,9 +336,26 @@
 		padding: 0 32rpx;
 		box-sizing: border-box;
 
+		.buy {
+			background: #FFFFFF;
+			border-radius: 16rpx;
+			border-radius: 16rpx;
+			font-size: 28rpx;
+			font-family: PingFangSC-Medium, PingFang SC;
+			font-weight: 500;
+			color: #414141;
+			line-height: 40rpx;
+			padding: 32rpx 24rpx;
+			margin: 40rpx 0;
+
+			.desc {
+				font-size: 22rpx;
+			}
+		}
+
 		.content {
 			width: 686rpx;
-			height: 784rpx;
+			height: 204rpx;
 			// padding: 0 16rpx;
 			background: #FFFFFF;
 			border-radius: 16rpx;
@@ -406,7 +432,7 @@
 			.list {
 				position: absolute;
 				width: 624rpx;
-				top: 624rpx;
+				top: 44rpx;
 				padding: 0 32rpx;
 				font-size: 28rpx;
 				font-family: PingFangSC-Medium, PingFang SC;
