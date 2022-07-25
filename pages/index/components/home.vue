@@ -1,15 +1,15 @@
 <template>
-	<view class="container_home">
+	<view class="content">
 		<view class="topBox">
 
 		</view>
 
 		<view class="quotaBox u-flex u-row-center">
 			<view class="circleimg">
-				<image src="/static/img/circle.png" mode="aspectFill" @click="setModalText"></image>
+				<image src="/static/img/circle.png" mode="aspectFill" @click="setModalText('status')"></image>
 				<view class="countStyle u-flex u-flex-column u-row-centeru-flex-items-center ">
-					<text class="title">最高可借额度(元)</text>
-					<u-count-to :endVal="loan_amount" separator="," class="count"></u-count-to>
+					<text class="title">会员权益带来多项生活便利</text>
+					<!-- <u-count-to :endVal="loan_amount" separator="," class="count"></u-count-to> -->
 				</view>
 			</view>
 
@@ -18,7 +18,7 @@
 					<u-col span="4" justify="center" v-for="(item,index) in productDelsNav" :key="index">
 						<view class="demo-layout bg-purple icontip">
 							<view class="productBox">
-								<image src="/static/icon/zan.png" mode="aspectFill" @click="setModalText"></image>
+								<image src="/static/icon/zan.png" mode="aspectFill" @click="setModalText('status')"></image>
 								<view class="tiptext">{{item.tips}}</view>
 							</view>
 							<view class="title">{{item.name}}</view>
@@ -28,13 +28,13 @@
 			</view>
 
 			<view class="btnBox">
-				<view class="btn" @click="borrowMoney">我要借钱</view>
+				<view class="btn" @click="borrowMoney">成为VIP</view>
 			</view>
 
 		</view>
 
 		<!-- 消息轮播 -->
-		<view class="tipsBox" @click="setModalText">
+		<view class="tipsBox" @click="setModalText('status')">
 			<u-notice-bar :text="messageArr" icon="volume" direction="column" speed="250" url=""></u-notice-bar>
 		</view>
 
@@ -42,7 +42,7 @@
 		<view class="listBox">
 			<u-row justify="space-between">
 				<u-col span="4" justify="center" v-for="(item,index) in memberNav" :key="index">
-					<view class="demo-layout bg-purple iconList" @click="setModalText">
+					<view class="demo-layout bg-purple iconList" @click="setModalText('status')">
 						<image :src="item.icon" mode="aspectFill"></image>
 						<view class="title">{{item.name}}</view>
 					</view>
@@ -50,11 +50,18 @@
 			</u-row>
 		</view>
 
-		<!-- 我要测评 -->
+		<!-- 我要成为 VIP -->
 		<view class="assessBox" @click="borrowMoney">
-			<view class="title">我要测评</view>
+			<view class="title">享受权益</view>
 			<view class="assessimg">
-				<image src="/static/img/evaluation.png" mode="aspectFill"></image>
+				<image src="/static/imgs/quanyi_home.jpeg" mode="aspectFill"></image>
+			</view>
+		</view>
+		
+		<view class="assessBox" @click="borrowMoney">
+			<view class="title">会员权益</view>
+			<view class="assessimg">
+				<image src="/static/imgs/img_huiyuanfuli.png" mode="aspectFill"></image>
 			</view>
 		</view>
 
@@ -68,9 +75,9 @@
 </template>
 
 <script>
-	import store from "@/store"
+import store from "@/store"
 	import {
-		getEdu
+		getEdu,getQy,changeStatus
 	} from "@/config/api/user.js";
 	import {
 		mapGetters,
@@ -90,42 +97,43 @@
 		data() {
 			return {
 				title: 'Hello',
-				messageArr: ['评估如实反映您的信用情况，最终结果以第三方审核为准', '评估如实反映您的信用情况，最终结果以第三方审核为准', '评估如实反映您的信用情况，最终结果以第三方审核为准'],
+				messageArr: ['不限新老客户每日限领一次','成为会员免费领取美团会员','天天优惠，通红红包'],
 				showModal: false,
 				title: '实名认证',
 				content: '您好，请先完成实名认证信息补全!',
 				confirmText: '去绑卡',
 				loan_amount: '',
 				memberNav: [{
-					icon: '/static/icon/money.png',
+					icon: '/static/imgs/redpacke.png',
 					path: '',
-					name: '随时可还'
+					name: '每日红包'
 				}, {
-					icon: '/static/icon/apply.png',
+					icon: '/static/imgs/gift.png',
 					path: '',
-					name: '极简申请'
+					name: '专属优惠'
 				}, {
-					icon: '/static/icon/organ.png',
+					icon: '/static/imgs/quan.png',
 					path: '',
-					name: '合法机构'
+					name: '限量好券'
 				}],
 				productDelsNav: [{
 					icon: '/static/icon/zan.png',
-					tips: '利息最低',
-					name: '0.02%'
+					tips: '优惠最高',
+					name: '通用红包'
 				}, {
 					icon: '/static/icon/zan.png',
-					tips: '分期灵活',
-					name: '12-36期'
+					tips: '超值福利',
+					name: '在线下单'
 				}, {
 					icon: '/static/icon/zan.png',
-					tips: '极速放款',
+					tips: '快速体验',
 					name: '10分钟'
 				}],
+				
 			}
 		},
 		onLoad(option) {
-			console.log(option);
+			console.log('option', option);
 
 		},
 		created() {
@@ -145,44 +153,64 @@
 				})
 			},
 			borrowMoney() {
-				this.setModalText()
+				this.setModalText('status')
 			},
-			setModalText() {
+			setModalText(value='') {
 				const storeToken = uni.getStorageSync('token');
 				const storeUserInfo = uni.getStorageSync('userInfo');
-				if (!(storeToken) && !storeUserInfo) {
-					this.showModal = true;
-					this.title = '登录';
-					this.content = '您好，请先完成登录！';
-					this.confirmText = '去登录'
+				if (!(storeToken)&& !storeUserInfo) {
+					// this.showModal = true;
+					// this.title = '登录';
+					// this.content = '您好，请先完成登录！';
+					// this.confirmText = '去登录'
+					uni.$u.route({
+						type: 'reLaunch',
+						url: 'pages/login/login',
+					})
 				}
 
 				if (this.userStatus === 1) {
 					this.showModal = true;
 					this.title = '实名认证';
-					this.content = '您好，请先完成实名认证信息补全!';
+					this.content = '您好，为了给您更好的服务，请先完成实名认证信息补全!';
 					this.confirmText = '去实名'
 				}
 
 				if (this.userStatus === 2) {
 					this.showModal = true;
 					this.title = '绑定银行卡';
-					this.content = '您好，为了方便的贷款，请绑定银行卡！';
+					this.content = '您好，为了体验专属优惠，请绑定银行卡！';
 					this.confirmText = '去绑卡'
 				}
 
 				if (this.userStatus === 3) {
-					this.showModal = true;
-					this.title = '评估';
-					this.content = '您好，为了方便的贷款，请完成评估！';
-					this.confirmText = '去评估'
-				}
+					let storeData = uni.getStorageSync('userInfo')
+					changeStatus({
+							"actual_name": storeData?.actual_name,
+							"id_number": storeData?.id_number
+						}).then((res) => {
+							if (res.code === 100000) {
+								this.$store.dispatch('setCurrentUserInfo')
+								console.log('===000')
+							}
 
-				if (this.userStatus === 4) {
-					this.showModal = true;
-					this.title = '评估结果';
-					this.content = '您好，为了方便的贷款，请完成二次评估！';
-					this.confirmText = '去评估'
+						}).catch((err) => {
+							console.log(err, 'err');
+						})
+				}
+				
+				if (this.userStatus === 5 && value) {
+					getQy({}).then((res) => {
+						if (res.code === 100000) {
+							uni.navigateTo({
+								url: `/pages/webview/webview?urlPath=${encodeURIComponent(res?.data?.url)}`
+							});
+						} else {
+							uni.$u.route(item.path);
+						}
+					}).catch((err) => {
+						console.log(err, 'err');
+					})
 				}
 			},
 			confirm() {
@@ -198,7 +226,7 @@
 					uni.$u.route('/pages/evaluation/addBank/addBank');
 				}
 				if (this.userStatus === 3) {
-					uni.$u.route('/pages/product/evaluationFirtPay/evaluationFirtPay');
+					uni.$u.route('/pages/product/evaluationResults/evaluationResults');
 				}
 				if (this.userStatus === 4) {
 					uni.$u.route('/pages/product/reflect/reflect');
@@ -212,7 +240,7 @@
 </script>
 
 <style lang="scss" scoped>
-	.container_home {
+	.content {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -252,10 +280,8 @@
 
 			.countStyle {
 				position: absolute;
-				top: 138rpx;
-				left: 120rpx;
-				width: 256rpx;
-				padding: 0 14rpx;
+				bottom: 54rpx;
+				left: 116rpx;
 				box-sizing: border-box;
 				align-items: center;
 
@@ -331,7 +357,8 @@
 				display: flex;
 				align-items: center;
 				justify-content: center;
-				background: #4579E6;
+				// background: #4579E6;
+				background: rgba(228,87,92, $alpha: 1.0);
 				border-radius: 8rpx;
 				font-size: 36rpx;
 				font-family: PingFangSC-Medium, PingFang SC;
@@ -382,7 +409,6 @@
 
 	.assessBox {
 		height: 100%;
-		margin-bottom: 26rpx;
 
 		.title {
 			width: 128rpx;
