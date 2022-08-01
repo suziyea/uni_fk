@@ -15,13 +15,13 @@
 				<u-form-item label="" prop="name">
 					<text class="form__title">真实姓名</text>
 
-					<u-input v-model="formContent.name" placeholder="请输入内容" border="bottom"
+					<u-input v-model="formContent.name" placeholder="请如实填写您的姓名" border="bottom"
 						placeholderStyle='font-size: 28rpx;font-family: PingFangSC-Regular, PingFang SC;font-weight: 400;color: #CBCBCB;line-height: 40rpx;'
 						clearable />
 				</u-form-item>
 				<u-form-item label="" prop="idcard">
 					<text class="form__title">身份证号</text>
-					<u--input v-model="formContent.idcard" type="idcard" placeholder="请输入内容" border="bottom"
+					<u--input v-model="formContent.idcard" type="idcard" placeholder="请输入身份证号" border="bottom"
 						placeholderStyle='font-size: 28rpx;font-family: PingFangSC-Regular, PingFang SC;font-weight: 400;color: #CBCBCB;line-height: 40rpx;'
 						clearable>
 					</u--input>
