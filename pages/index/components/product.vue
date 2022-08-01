@@ -19,7 +19,7 @@
 						<!-- <navigator :url="'/pages/webview/webview?urlPath='+ encodeURIComponent(item.link)"> -->
 						<view class="productList" @click="clickItem(item)">
 							<view class="product-item">
-								<view class="logoview">
+								<view class="logoview" v-if="item.logo">
 									<image :src="item.logo" mode="aspectFill"></image>
 								</view>
 								<view class="left">
@@ -165,7 +165,6 @@
 
 			.titlebox {
 				display: flex;
-				// justify-content: center;
 				align-items: center;
 
 				.title {
@@ -221,7 +220,6 @@
 						width: 144rpx;
 						flex-direction: column;
 						justify-content: center;
-						// align-items: center;
 						height: 100%;
 						margin: 0 20rpx;
 
@@ -262,7 +260,6 @@
 
 					.center {
 						width: 212rpx;
-						// height: 100%;
 						display: flex;
 						flex-direction: column;
 						justify-content: center;
@@ -310,7 +307,6 @@
 					}
 
 					.right {
-						// height: 100%;
 						margin-left: auto;
 						margin-right: 28rpx;
 
@@ -326,7 +322,11 @@
 							line-height: 34rpx;
 						}
 					}
+					
 				}
+			}
+			&:last-child {
+				margin-bottom: 24rpx;
 			}
 		}
 
