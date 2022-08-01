@@ -42,8 +42,7 @@
 			this.showFlag = true;
 		},
 		onShow() {
-			// console.log('你好--')
-			this.number = new Date().valueOf()
+			this.number = (new Date().valueOf()).toString()
 		},
 		methods: {
 

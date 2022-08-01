@@ -9,16 +9,19 @@
 			<view class="products">
 				<view class="titlebox">
 					<text class="title">产品</text>
-					<view class="icon">
+					<!-- <view class="icon">
 						<text class="right_title">更多</text>
 						<image src="/static/icon/right.png" mode="aspectFill"></image>
-					</view>
+					</view> -->
 				</view>
 				<view v-if="productList.length > 0">
 					<u-list-item v-for="(item,i) in productList" :key="i">
 						<!-- <navigator :url="'/pages/webview/webview?urlPath='+ encodeURIComponent(item.link)"> -->
 						<view class="productList" @click="clickItem(item)">
 							<view class="product-item">
+								<view class="logoview">
+									<image :src="item.logo" mode="aspectFill"></image>
+								</view>
 								<view class="left">
 									<text class="top_title u-line-1">{{item.name}}</text>
 									<text class="mid_title u-line-1">{{item.amount}}</text>
@@ -162,7 +165,7 @@
 
 			.titlebox {
 				display: flex;
-				justify-content: center;
+				// justify-content: center;
 				align-items: center;
 
 				.title {
@@ -205,6 +208,14 @@
 					align-items: center;
 					margin-top: 24rpx;
 
+					.logoview {
+						margin-left: 24rpx;
+						image {
+							width: 72rpx;
+							height: 72rpx;
+						}
+					}
+
 					.left {
 						display: flex;
 						width: 144rpx;
@@ -212,7 +223,7 @@
 						justify-content: center;
 						// align-items: center;
 						height: 100%;
-						margin: 0 32rpx;
+						margin: 0 20rpx;
 
 						.top_title {
 							font-size: 24rpx;
@@ -251,7 +262,7 @@
 
 					.center {
 						width: 212rpx;
-						height: 100%;
+						// height: 100%;
 						display: flex;
 						flex-direction: column;
 						justify-content: center;
@@ -301,7 +312,7 @@
 					.right {
 						// height: 100%;
 						margin-left: auto;
-						margin-right: 32rpx;
+						margin-right: 28rpx;
 
 						.custom-style {
 							width: 152rpx;
