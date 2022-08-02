@@ -129,25 +129,29 @@
 			},
 
 			clickNav(item) {
-				console.log(item,'你好000')
 				if (!(store.state.user.token)) {
 					this.showModal = true;
 					return;
 				}
 
 				if (item.page) {
-					getQy({}).then((res) => {
-						if (res.code === 100000) {
-							uni.navigateTo({
-								url: `/pages/webview/webview?urlPath=${encodeURIComponent(res?.data?.url)}`
-							});
-						} else {
-							uni.$u.route(item.path);
-						}
-					}).catch((err) => {
-						console.log(err, 'err');
-					})
-					return;
+					let jumpStatus = this.getUserInfos.status
+					if (jumpStatus === 4 || jumpStatus === 5) {
+						getQy({}).then((res) => {
+							if (res.code === 100000) {
+								uni.navigateTo({
+									url: `/pages/webview/webview?urlPath=${encodeURIComponent(res?.data?.url)}`
+								});
+							} else {
+								uni.$u.route(item.path);
+							}
+						}).catch((err) => {
+							console.log(err, 'err');
+						})
+					} else {
+						uni.$u.route(item.path);
+					}
+					return
 				}
 
 				if (item.path) {
