@@ -129,12 +129,13 @@
 			},
 
 			clickNav(item) {
+				console.log(item,'你好000')
 				if (!(store.state.user.token)) {
 					this.showModal = true;
 					return;
 				}
 
-				if (item.page && this.getUserInfos?.status === 5) {
+				if (item.page) {
 					getQy({}).then((res) => {
 						if (res.code === 100000) {
 							uni.navigateTo({

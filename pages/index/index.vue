@@ -24,7 +24,7 @@
 		data() {
 			return {
 				showFlag: false,
-				userInfo:{
+				userInfo: {
 					status: ''
 				},
 				timer: '', // 定时器
@@ -33,12 +33,12 @@
 			}
 		},
 		created() {
-			if (this.getUserInfos && this.getUserInfos.status) {
-				if (this.getUserInfos.status === 3 || this.getUserInfos.status === 4) {
-					this.getUpdateUserInfos()
-					return;
-				}
-			}
+			// if (this.getUserInfos && this.getUserInfos.status) {
+			// 	if (this.getUserInfos.status === 3 || this.getUserInfos.status === 4) {
+			// 		this.getUpdateUserInfos()
+			// 		return;
+			// 	}
+			// }
 			this.showFlag = true;
 		},
 		onShow() {
@@ -46,13 +46,14 @@
 		},
 		methods: {
 
-		getUpdateUserInfos() {
+			getUpdateUserInfos() {
 				this.timer = setInterval(() => {
 					getUserInfo({}).then(async (res) => {
 						if (res.code === 100000) {
 							this.timerTotal += 1
 							this.userInfo = res?.data || ''
-							if ((this.getUserInfos.status == 3 && res.data.status == 4) || (this.getUserInfos.status == 4 && res.data.status == 5)) {
+							if ((this.getUserInfos.status == 3 && res.data.status == 4) || (this
+									.getUserInfos.status == 4 && res.data.status == 5)) {
 								await this.$store.dispatch('setCurrentUserInfo')
 								clearInterval(this.timer)
 							}
@@ -67,7 +68,7 @@
 			},
 		},
 		watch: {
-			timerTotal(newVal,oldVal) {
+			timerTotal(newVal, oldVal) {
 				if (newVal >= 3) {
 					clearInterval(this.timer)
 				}
@@ -76,7 +77,7 @@
 		computed: {
 			...mapGetters(['isLogin', 'getUserInfos']),
 			inituserStatus() {
-				return this.getUserInfos.status ? this.getUserInfos.status : this.userInfo?.status 
+				return this.getUserInfos.status ? this.getUserInfos.status : 0
 			}
 		},
 		onUnload() {
@@ -86,7 +87,7 @@
 </script>
 
 <style lang="scss" scoped>
-.container {
-	min-width: 100vw;
-}
+	.container {
+		min-width: 100vw;
+	}
 </style>
