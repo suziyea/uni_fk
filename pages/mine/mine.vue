@@ -64,7 +64,8 @@
 	import store from "@/store"
 
 	import {
-		getQy
+		getQy,
+		getUserInfo
 	} from "@/config/api/user.js";
 
 	export default {
@@ -135,22 +136,29 @@
 				}
 
 				if (item.page) {
-					let jumpStatus = this.getUserInfos.status
-					if (jumpStatus === 4 || jumpStatus === 5) {
-						getQy({}).then((res) => {
-							if (res.code === 100000) {
-								uni.navigateTo({
-									url: `/pages/webview/webview?urlPath=${encodeURIComponent(res?.data?.url)}`
-								});
+					getUserInfo({}).then(async (res) => {
+						if (res.code === 100000) {
+							if ((res?.data && res?.data.status === 4) || (res?.data && res?.data.status ===
+								5)) {
+								getQy({}).then((res) => {
+									if (res.code === 100000) {
+										uni.navigateTo({
+											url: `/pages/webview/webview?urlPath=${encodeURIComponent(res?.data?.url)}`
+										});
+									} else {
+										uni.$u.route(item.path);
+									}
+								}).catch((err) => {
+									console.log(err, 'err');
+								})
 							} else {
 								uni.$u.route(item.path);
 							}
-						}).catch((err) => {
-							console.log(err, 'err');
-						})
-					} else {
-						uni.$u.route(item.path);
-					}
+
+						}
+					}).catch((err) => {
+						console.log(err, 'err');
+					})
 					return
 				}
 

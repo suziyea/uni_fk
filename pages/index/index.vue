@@ -1,8 +1,8 @@
 <template>
 	<view class="container" v-if="showFlag">
-		<product v-if="+(inituserStatus) === 5" :randomNum='number'></product>
+		<product v-if="showProduct" :randomNum='number'></product>
 		<template v-else>
-			<home :userStatus="+(inituserStatus) || 0"></home>
+			<home :userStatus="+(this.userInfo.status) || 0"></home>
 		</template>
 	</view>
 </template>
@@ -30,55 +30,52 @@
 				timer: '', // 定时器
 				timerTotal: 0,
 				number: 0,
+				showProduct: false
 			}
 		},
 		created() {
-			// if (this.getUserInfos && this.getUserInfos.status) {
-			// 	if (this.getUserInfos.status === 3 || this.getUserInfos.status === 4) {
-			// 		this.getUpdateUserInfos()
-			// 		return;
-			// 	}
-			// }
-			this.showFlag = true;
+			this.getUserInfoStatus()
 		},
 		onShow() {
 			this.number = (new Date().valueOf()).toString()
 		},
 		methods: {
-
-			getUpdateUserInfos() {
-				this.timer = setInterval(() => {
-					getUserInfo({}).then(async (res) => {
-						if (res.code === 100000) {
-							this.timerTotal += 1
-							this.userInfo = res?.data || ''
-							if ((this.getUserInfos.status == 3 && res.data.status == 4) || (this
-									.getUserInfos.status == 4 && res.data.status == 5)) {
-								await this.$store.dispatch('setCurrentUserInfo')
-								clearInterval(this.timer)
-							}
-						}
-					}).catch((err) => {
-						console.log(err, 'err');
-					}).finally(() => {
-						this.showFlag = true;
-					})
-				}, 1000)
-
-			},
+			getUserInfoStatus() {
+				getUserInfo({}).then(async (res) => {
+					if (res.code === 100000) {
+						this.userInfo = res?.data
+					}
+				}).catch((err) => {
+					console.log(err, 'err');
+				}).finally(() => {
+					this.showFlag = true;
+				})
+			}
 		},
 		watch: {
 			timerTotal(newVal, oldVal) {
 				if (newVal >= 3) {
 					clearInterval(this.timer)
 				}
+			},
+			number(newVal, oldVal) {
+				this.getUserInfoStatus()
+			},
+			userInfo: {
+				handler() {
+					if (this.userInfo.status === 5) {
+						this.showProduct = true
+						this.$forceUpdate()
+					}
+				},
+				deep: true //true 深度监听
 			}
 		},
 		computed: {
 			...mapGetters(['isLogin', 'getUserInfos']),
-			inituserStatus() {
-				return this.getUserInfos.status ? this.getUserInfos.status : 0
-			}
+			// inituserStatus() {
+			// 	return this.userInfo.status ? this.userInfo.status : 0
+			// }
 		},
 		onUnload() {
 			clearInterval(this.timer)
