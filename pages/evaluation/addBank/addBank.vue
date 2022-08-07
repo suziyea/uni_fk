@@ -38,10 +38,10 @@
 					<!-- <u--input  v-model="phone" border suffixIcon="/static/icon/my_phone.png"></u--input> -->
 					<!-- 注意：由于兼容性差异，如果需要使用前后插槽，nvue下需使用u--input，非nvue下需使用u-input -->
 					<!-- #ifndef APP-NVUE -->
-					<u-input v-model="formContent.code" inputAlign="right" type="number" border="none" placeholder="请输入验证码" placeholderClass="placeholderClass">
+					<u-input v-model="formContent.code" inputAlign="right" type="number" maxlength='4' border="none" placeholder="请输入验证码" placeholderClass="placeholderClass">
 						<!-- #endif -->
 						<!-- #ifdef APP-NVUE -->
-						<u--input v-model="formContent.code" inputAlign="right" border="none" placeholder="请输入验证码" placeholderClass="placeholderClass" type="number">
+						<u--input v-model="formContent.code" inputAlign="right" type="number" maxlength='4' border="none" placeholder="请输入验证码" placeholderClass="placeholderClass" type="number">
 							<!-- #endif -->
 							<template slot="suffix">
 								<u-code ref="uCode" @change="codeChange" seconds="60" changeText="X秒重新获取"></u-code>
