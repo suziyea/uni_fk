@@ -13,35 +13,38 @@
 		<view class="formList">
 			<u--form :model="formContent" :rules="rules" ref="uForm" labelWidth="auto" :errorType="errorType">
 				<u-form-item label="姓名" prop="actual_name" borderBottom ref="item1" style="margin-top: 12rpx;">
-					<u--input inputAlign="right" v-model="formContent.actual_name" border="none"
-						placeholder="请输入姓名" placeholderClass="placeholderClass" suffixIcon="/static/icon/my_name.png"></u--input>
+					<u--input inputAlign="right" v-model="formContent.actual_name" border="none" placeholder="请输入姓名"
+						placeholderClass="placeholderClass" suffixIcon="/static/icon/my_name.png"></u--input>
 				</u-form-item>
 				<u-form-item label="身份证号" prop="id_number" borderBottom ref="item2">
-					<u--input inputAlign="right" v-model="formContent.id_number" border="none" placeholder="请输入身份证号" placeholderClass="placeholderClass"
-						suffixIcon="/static/icon/my_idcard.png"></u--input>
+					<u--input inputAlign="right" v-model="formContent.id_number" border="none" placeholder="请输入身份证号"
+						placeholderClass="placeholderClass" suffixIcon="/static/icon/my_idcard.png"></u--input>
 				</u-form-item>
 				<u-form-item label="所属银行" @click="showBankListStatus = true;" prop="bank_name" borderBottom ref="item3">
-					<u--input readonly inputAlign="right" v-model="formContent.bank_name" border="none" placeholder="请选择银行卡所属银行" placeholderClass="placeholderClass"
+					<u--input readonly inputAlign="right" v-model="formContent.bank_name" border="none"
+						placeholder="请选择银行卡所属银行" placeholderClass="placeholderClass"
 						suffixIcon="/static/icon/right.png"></u--input>
 				</u-form-item>
 				<u-form-item label="银行卡号" prop="card_number" borderBottom ref="item4">
-					<u--input inputAlign="right" v-model="formContent.card_number" border="none" placeholder="请输入银行卡号" placeholderClass="placeholderClass"
-						suffixIcon="/static/icon/my_bank.png"></u--input>
+					<u--input inputAlign="right" v-model="formContent.card_number" border="none" placeholder="请输入银行卡号"
+						placeholderClass="placeholderClass" suffixIcon="/static/icon/my_bank.png"></u--input>
 				</u-form-item>
 
 				<u-form-item label="预留手机号" prop="reserve_phone" borderBottom ref="item5">
-					<u--input inputAlign="right" v-model="formContent.reserve_phone" border="none" placeholder="请输入手机号" placeholderClass="placeholderClass"
-						suffixIcon="/static/icon/my_phone.png"></u--input>
+					<u--input inputAlign="right" v-model="formContent.reserve_phone" border="none" placeholder="请输入手机号"
+						placeholderClass="placeholderClass" suffixIcon="/static/icon/my_phone.png"></u--input>
 				</u-form-item>
 
 				<u-form-item label="验证码">
 					<!-- <u--input  v-model="phone" border suffixIcon="/static/icon/my_phone.png"></u--input> -->
 					<!-- 注意：由于兼容性差异，如果需要使用前后插槽，nvue下需使用u--input，非nvue下需使用u-input -->
 					<!-- #ifndef APP-NVUE -->
-					<u-input v-model="formContent.code" inputAlign="right" type="number" maxlength='4' border="none" placeholder="请输入验证码" placeholderClass="placeholderClass">
+					<u-input v-model="formContent.code" inputAlign="right" type="number" maxlength='6' border="none"
+						placeholder="请输入验证码" placeholderClass="placeholderClass">
 						<!-- #endif -->
 						<!-- #ifdef APP-NVUE -->
-						<u--input v-model="formContent.code" inputAlign="right" type="number" maxlength='4' border="none" placeholder="请输入验证码" placeholderClass="placeholderClass" type="number">
+						<u--input v-model="formContent.code" inputAlign="right" type="number" maxlength='6'
+							border="none" placeholder="请输入验证码" placeholderClass="placeholderClass" type="number">
 							<!-- #endif -->
 							<template slot="suffix">
 								<u-code ref="uCode" @change="codeChange" seconds="60" changeText="X秒重新获取"></u-code>
