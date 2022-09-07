@@ -54,7 +54,7 @@
 
 		<view class="iconbox u-flex u-flex-column u-flex-items-center u-flex-center">
 			<image src="/static/img/login_guarantee.png" mode="aspectFill"></image>
-			<text class="company">小狗普惠，让您的每一次借款都有保障</text>
+			<text class="company">鑫顺花，让您的每一次借款都有保障</text>
 		</view>
 
 	</view>
