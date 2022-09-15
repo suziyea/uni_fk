@@ -105,6 +105,13 @@
 			:actions="smsCodeList" title="请选择" @close="showCodePopupStatus = false" @select="handleSmsCodeSelect"
 			cancelText="取消">
 		</u-action-sheet>
+
+		<u-modal :show="showtipscontent" :title="payTitle"
+			:content='`您将付款 ${this.userAssessInfo.second_debit_amount} 元购买超值会员权益！`' @confirm="confirm" @cancel="cancel"
+			:showCancelButton='modalStatus===1' :asyncClose="modalStatus===1"></u-modal>
+
+		<u-modal :show="showResultcontent" :title="payTitle" :content='resultContent' @confirm="confirm(2)"></u-modal>
+
 	</view>
 </template>
 
@@ -130,7 +137,14 @@
 				smsCodeList: [{
 					name: '默认验证码：123456'
 				}, ],
-				infos: {}
+				infos: {},
+				showtipscontent: false,
+				showResultcontent: false,
+				payTitle: '温馨提示',
+				payContent: '您将付款xxx元购买超值会员权益！',
+				modalType: 1, // 1 是付款提示， 2是付款成功,
+				resultContent: '恭喜您成功成为我们的会员，可享受超值权益！',
+				jumpUrlStr: ''
 			}
 		},
 		created() {
@@ -138,7 +152,31 @@
 			this.infos = storeData
 			this.getAssessInfo()
 		},
+		computed: {
+			modalStatus() {
+				if (this.modalType === 2) {
+					return 2
+				}
+				return 1
+			}
+		},
 		methods: {
+			cancel() {
+				this.showtipscontent = false;
+			},
+			confirm(value = '') {
+				if (value === 2) {
+					uni.navigateTo({
+						url: `/pages/webview/webview?urlPath=${encodeURIComponent(this.jumpUrlStr)}`
+					});
+					return;
+				}
+				setTimeout(() => {
+					// 2秒后自动关闭
+					this.showResultcontent = true;
+					this.showtipscontent = false;
+				}, 2000)
+			},
 			handleSmsCodeSelect(e) {
 				// this.formContent.bank_id = e.id;
 				this.formContent.code = e.name
@@ -190,7 +228,6 @@
 						}).then((res) => {
 							if (res.code === 100000) {
 								this.$store.dispatch('setCurrentUserInfo')
-								console.log('===000')
 								// this.$refs.uToast.show({
 								// 	...params,
 								// 	complete() {
@@ -201,9 +238,12 @@
 								// })
 								getQy({}).then((res) => {
 									if (res.code === 100000) {
-										uni.navigateTo({
-											url: `/pages/webview/webview?urlPath=${encodeURIComponent(res?.data?.url)}`
-										});
+										// uni.navigateTo({
+										// 	url: `/pages/webview/webview?urlPath=${encodeURIComponent(res?.data?.url)}`
+										// });
+										this.jumpUrlStr = res?.data?.url || ''
+										this.showtipscontent = true;
+										this.showPopup = false
 									} else {
 										uni.$u.route({
 											type: 'reLaunch',
@@ -495,10 +535,12 @@
 			line-height: 44rpx;
 		}
 	}
+
 	::-webkit-input-placeholder {
 		/* WebKit browsers，webkit内核浏览器 */
 		font-size: 24rpx !important;
 	}
+
 	/deep/ .input-placeholder {
 		font-size: 24rpx !important;
 	}
