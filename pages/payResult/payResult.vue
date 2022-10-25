@@ -79,7 +79,7 @@
 								...res,
 								recordStatus: this.payDetails.recordStatus
 							}
-							if (res.data.status === 4) {
+							if (uni.getStorageSync('analogV2Status') == 4) {
 								this.isJumpNext = true
 								await this.$store.dispatch('setCurrentUserInfo')
 								clearInterval(this.timer)

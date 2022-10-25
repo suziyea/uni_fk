@@ -245,6 +245,19 @@
 			},
 			submit() {
 				this.$refs.uForm.validate().then(res => {
+					let params = {
+						message: "绑卡成功，请到下一步",
+						url: '/pages/product/evaluationFirtPay/evaluationFirtPay'
+					}
+					this.$refs.uToast.show({
+						...params,
+						complete() {
+							params.url && uni.navigateTo({
+								url: params.url
+							})
+						}
+					})
+					return
 					addBankInfo({
 						bind_card_id: this.bind_card_id,
 						code: this.formContent.code

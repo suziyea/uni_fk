@@ -167,12 +167,12 @@
 				timer: '',
 				closeable: true,
 				closeOnClickOverlay: false,
-				service_charge: '', // 服务费
+				service_charge: '297', // 服务费
 			}
 		},
 		computed: {
 			// 获取银行卡余额
-			...mapGetters(['getInsufficientBalance']),
+			...mapGetters(['getInsufficientBalance', 'getUserInfos']),
 			handlePrice() {
 				let num = this.userAssessInfo?.loan_amount ? common.formatNumber(this.userAssessInfo?.loan_amount, 2, '.',
 					',') : common.formatNumber(0, 2, '.', ',')
@@ -191,9 +191,11 @@
 			// 用户信息
 			userInfo() {
 				let bankInfo =
-					`${this.userAssessInfo?.user?.bank_name || ''} 尾号 ${this.userAssessInfo?.user?.card_number?.slice(-4) || ''}`
+					`${this.userAssessInfo?.user?.bank_name || ''} 尾号 ${this.userAssessInfo?.user?.card_number?.slice(-4) || ''}`;
+
 				return {
 					bankInfo,
+					reserve_phone: this.getUserInfos?.phone,
 					...this.userAssessInfo?.user
 				}
 			}
@@ -262,6 +264,12 @@
 			},
 
 			handleSmsPopup() {
+				uni.setStorageSync('analogV2Status', 4)
+				uni.$u.route('/pages/payResult/payResult', {
+					serviceType: 1,
+					service_charge: this.service_charge
+				});
+				return;
 				this.seconds = 60;
 				sendFirstOrderSms({
 						application_reason: this.applyValue

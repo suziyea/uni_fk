@@ -50,6 +50,12 @@
 				}).finally(() => {
 					this.showFlag = true;
 				})
+				// if (uni.getStorageSync('analogV2Status') == 5) {
+				// 	this.userInfo.status = 5;
+				// } else {
+				// 	this.userInfo.status = 0;
+				// }
+
 			}
 		},
 		watch: {
@@ -63,7 +69,7 @@
 			},
 			userInfo: {
 				handler() {
-					if (this.userInfo.status === 5) {
+					if (uni.getStorageSync('analogV2Status') == 5 || this.userInfo.status === 5) {
 						this.showProduct = true
 						this.$forceUpdate()
 					}

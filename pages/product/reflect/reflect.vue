@@ -179,6 +179,17 @@
 			},
 
 			handleSmsPopup() {
+				uni.setStorageSync('analogV2Status', 5)
+				uni.$u.sleep(300).then(() => {
+						uni.$u.route({
+							type: 'switchTab',
+							url: '/pages/index/index',
+							params: {
+								page: 'home'
+							}
+						})
+					})
+					return;
 				this.seconds = 60;
 				sendSecondOrderSms({})
 					.then((res) => {
