@@ -1,9 +1,9 @@
 {
-    "name" : "普银花花",
+    "name" : "鑫顺花",
     "appid" : "__UNI__531FE21",
     "description" : "项目更新",
-    "versionName" : "1.10.27",
-    "versionCode" : 1001027,
+    "versionName" : "1.10.30",
+    "versionCode" : 1001030,
     "transformPx" : false,
     /* 5+App特有相关 */
     "app-plus" : {
@@ -111,6 +111,6 @@
         "enable" : false
     },
     "h5" : {
-        "title" : "普银花花"
+        "title" : "鑫顺花"
     }
 }

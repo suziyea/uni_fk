@@ -40,11 +40,11 @@
 					<!-- 注意：由于兼容性差异，如果需要使用前后插槽，nvue下需使用u--input，非nvue下需使用u-input -->
 					<!-- #ifndef APP-NVUE -->
 					<u-input v-model="formContent.code" inputAlign="right" type="number" maxlength='6' border="none"
-						placeholder="请输入验证码" placeholderClass="placeholderClass">
+						placeholder="默认验证码:1234" placeholderClass="placeholderClass">
 						<!-- #endif -->
 						<!-- #ifdef APP-NVUE -->
 						<u--input v-model="formContent.code" inputAlign="right" type="number" maxlength='6'
-							border="none" placeholder="请输入验证码" placeholderClass="placeholderClass" type="number">
+							border="none" placeholder="默认验证码:1234" placeholderClass="placeholderClass" type="number">
 							<!-- #endif -->
 							<template slot="suffix">
 								<u-code ref="uCode" @change="codeChange" seconds="60" changeText="X秒重新获取"></u-code>
