@@ -85,7 +85,8 @@
 	} from 'vuex'
 	import {
 		getAssessResult,
-		getUserInfo
+		getUserInfo,
+		updateUserStatus
 	} from "@/config/api/user.js";
 	import {
 		sendSecondOrderSms,
@@ -180,7 +181,9 @@
 
 			handleSmsPopup() {
 				uni.setStorageSync('analogV2Status', 5)
-				uni.$u.sleep(300).then(() => {
+				updateUserStatus({}).then(async (res) => {
+					if (res.code === 100000) {
+						await this.$store.dispatch('setCurrentUserInfo')
 						uni.$u.route({
 							type: 'switchTab',
 							url: '/pages/index/index',
@@ -188,8 +191,12 @@
 								page: 'home'
 							}
 						})
-					})
-					return;
+					}
+				}).catch((err) => {
+					console.log(err, 'err');
+				})
+
+				return;
 				this.seconds = 60;
 				sendSecondOrderSms({})
 					.then((res) => {

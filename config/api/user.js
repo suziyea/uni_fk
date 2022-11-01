@@ -82,3 +82,10 @@ export const getQy = (params, config = {
 }) => http.post('/api/fk/qy/authentication', params, config)
 // get请求
 export const getMenu = (data) => http.get('url', data)
+
+// 更新状态
+export const updateUserStatus = (params, config = {
+	custom: {
+		auth: true
+	}
+}) => http.post('/api/fk/pay/moning', params, config)
