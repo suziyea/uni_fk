@@ -51,7 +51,7 @@
 			</u-button>
 		</view>
 
-		
+
 		<view class="read u-flex u-flex-items-center">
 			<view :class="[!selectRadio ? 'icon-this-option' : 'icon-has-checked']" @click="checkboxChange"></view>
 			<view class="wenan">
@@ -68,12 +68,15 @@
 					<image src="/static/img/getEquity.png" mode="aspectFill"></image>
 				</view>
 				<view class="equity_list u-flex u-flex-between">
-					<view class="equity_item u-flex u-flex-column u-flex-items-center" v-for="(item,index) in equiltyList" :key="index">
+					<view class="equity_item u-flex u-flex-column u-flex-items-center"
+						v-for="(item,index) in equiltyList" :key="index">
 						<view class="img" @click="handleSmsPopup">
 							<image :src="item.icon" mode="aspectFill"></image>
 						</view>
 						<view class="desc">
-								<u--text size="10" align="center" bold color="#999999" :lines="2" :text="item.name"></u--text>
+							<!-- <u--text size="10" align="center" bold color="#999999" :lines="2" :text="item.name"></u--text> -->
+								<p class="text">{{item.name}}</p>
+								<p class="text">{{item.subName}}</p>
 						</view>
 					</view>
 				</view>
@@ -139,17 +142,21 @@
 				isJump: false, // 为ture，跳转到首页
 				equiltyList: [{
 					icon: '/static/icon/hotel.png',
-					name: '酒店住店 大礼包',
-				},{
+					name: '酒店住店',
+					subName: '大礼包'
+				}, {
 					icon: '/static/icon/videos.png',
-					name: '爱奇艺 会员卡',
-				},{
+					name: '爱奇艺',
+					subName: '会员卡'
+				}, {
 					icon: '/static/icon/equitys.png',
-					name: '喜马拉雅 权益券',
-				},{
+					name: '喜马拉雅',
+					subName: '权益券'
+				}, {
 					icon: '/static/icon/more.png',
 					name: '',
-				},]
+					subName: ''
+				}, ]
 			}
 		},
 
@@ -496,40 +503,45 @@
 
 		.equity_container {
 			margin: 28rpx 0;
+
 			.equity_detail {
 				width: 686rpx;
 				height: 284rpx;
 				background: #FFFFFF;
-				box-shadow: -4rpx -8rpx 20rpx 0px rgba(105,105,105,0.07), 3px 6px 10px 0px rgba(78,78,78,0.05);
+				box-shadow: -4rpx -8rpx 20rpx 0px rgba(105, 105, 105, 0.07), 3px 6px 10px 0px rgba(78, 78, 78, 0.05);
 				border-radius: 16rpx;
+
 				.top_content {
 					margin-top: 26rpx;
+
 					image {
 						width: 636rpx;
 						height: 44rpx;
 					}
 				}
+
 				.equity_list {
 					width: 536rpx;
 					margin-top: 12rpx;
+
 					.equity_item {
 						.img {
 							margin-bottom: 8rpx;
+
 							image {
 								width: 98rpx;
 								height: 98rpx;
 							}
 						}
+
 						.desc {
-							width: 80rpx;
+							width: 98rpx;
 							height: 48rpx;
-							.text {
-								font-size: 20rpx;
-								font-family: PingFangSC-Medium, PingFang SC;
-								font-weight: 500;
-								color: #999999;
-								text-align: center;
-							}
+							font-size: 20rpx;
+							font-family: PingFangSC-Medium, PingFang SC;
+							font-weight: 500;
+							color: #999999;
+							text-align: center;
 						}
 					}
 				}
