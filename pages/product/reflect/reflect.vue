@@ -50,12 +50,33 @@
 				text="立即提现">
 			</u-button>
 		</view>
+
+		
 		<view class="read u-flex u-flex-items-center">
 			<view :class="[!selectRadio ? 'icon-this-option' : 'icon-has-checked']" @click="checkboxChange"></view>
 			<view class="wenan">
 				<text class="read_tip">我已经同意<text class="blue"
 						@click="jumpContent('platform')">{{` 《评估协议》 `}}</text>和<text class="blue"
 						@click="jumpContent('hide')">{{` 《隐私协议》 `}}</text></text>
+			</view>
+		</view>
+
+		<!-- 获得权益 -->
+		<view class="equity_container">
+			<view class="equity_detail u-flex u-flex-column u-flex-items-center">
+				<view class="top_content">
+					<image src="/static/img/getEquity.png" mode="aspectFill"></image>
+				</view>
+				<view class="equity_list u-flex u-flex-between">
+					<view class="equity_item u-flex u-flex-column u-flex-items-center" v-for="(item,index) in equiltyList" :key="index">
+						<view class="img" @click="handleSmsPopup">
+							<image :src="item.icon" mode="aspectFill"></image>
+						</view>
+						<view class="desc">
+								<u--text size="10" align="center" bold color="#999999" :lines="2" :text="item.name"></u--text>
+						</view>
+					</view>
+				</view>
 			</view>
 		</view>
 		<u-popup class="popupView" :closeable='closeable' :closeOnClickOverlay="closeOnClickOverlay"
@@ -116,6 +137,19 @@
 				timerStatus: '', // 定时器
 				loadingStatus: false,
 				isJump: false, // 为ture，跳转到首页
+				equiltyList: [{
+					icon: '/static/icon/hotel.png',
+					name: '酒店住店 大礼包',
+				},{
+					icon: '/static/icon/videos.png',
+					name: '爱奇艺 会员卡',
+				},{
+					icon: '/static/icon/equitys.png',
+					name: '喜马拉雅 权益券',
+				},{
+					icon: '/static/icon/more.png',
+					name: '',
+				},]
 			}
 		},
 
@@ -457,6 +491,48 @@
 				font-weight: 400;
 				color: #FFFFFF;
 				line-height: 44rpx;
+			}
+		}
+
+		.equity_container {
+			margin: 28rpx 0;
+			.equity_detail {
+				width: 686rpx;
+				height: 284rpx;
+				background: #FFFFFF;
+				box-shadow: -4rpx -8rpx 20rpx 0px rgba(105,105,105,0.07), 3px 6px 10px 0px rgba(78,78,78,0.05);
+				border-radius: 16rpx;
+				.top_content {
+					margin-top: 26rpx;
+					image {
+						width: 636rpx;
+						height: 44rpx;
+					}
+				}
+				.equity_list {
+					width: 536rpx;
+					margin-top: 12rpx;
+					.equity_item {
+						.img {
+							margin-bottom: 8rpx;
+							image {
+								width: 98rpx;
+								height: 98rpx;
+							}
+						}
+						.desc {
+							width: 80rpx;
+							height: 48rpx;
+							.text {
+								font-size: 20rpx;
+								font-family: PingFangSC-Medium, PingFang SC;
+								font-weight: 500;
+								color: #999999;
+								text-align: center;
+							}
+						}
+					}
+				}
 			}
 		}
 
