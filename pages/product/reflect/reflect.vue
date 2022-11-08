@@ -10,7 +10,8 @@
 			<view class="title_tips">恭喜！您的审核已通过，额度为</view>
 			<view class="bg u-flex u-flex-column u-row-center u-flex-items-center ">
 				<view class="countStyle u-flex u-flex-column u-row-centeru-flex-items-center ">
-					<text class="title">最高可借额度(元)</text>
+					<!-- <text class="title">最高可借额度(元)</text> -->
+					<text class="title">预计额度(元)</text>
 					<u-count-to :endVal="userAssessInfo.loan_amount" separator="," class="count"></u-count-to>
 				</view>
 			</view>
@@ -21,7 +22,8 @@
 			<view class="list">
 				<u-row customStyle="margin-bottom: 20rpx">
 					<u-col span="6">
-						<view class="demo-layout title">预计服务费</view>
+						<!-- <view class="demo-layout title">预计服务费</view> -->
+						<view class="demo-layout title">会员费</view>
 					</u-col>
 					<u-col span="6">
 						<view class="demo-layout right_title">{{userAssessInfo.second_debit_amount}}元</view>
@@ -47,7 +49,7 @@
 				:text="getInsufficientBalance ? '重新绑卡' : '立即提现'">
 			</u-button> -->
 			<u-button type="primary" @click="clickSubmit" :plain="true" class="custom-style" :hairline="true"
-				text="立即提现">
+				text="购买会员">
 			</u-button>
 		</view>
 
@@ -126,7 +128,7 @@
 				showDialog: false,
 				seconds: 60,
 				restCode: false,
-				messageArr: ['186****0764 总借款共计12000元', '186****0765 总借款共计12000元', '186****0766 总借款共计12000元'],
+				messageArr: ['186****0764 已成为尊享会员', '186****0765 已成为尊享会员', '186****0766 已成为尊享会员'],
 				selectRadio: false,
 				userAssessInfo: {},
 				smsCodeValue: '',
