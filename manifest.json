@@ -1,9 +1,9 @@
 {
-    "name" : "鑫顺花",
+    "name" : "普银花花",
     "appid" : "__UNI__531FE21",
     "description" : "项目更新",
-    "versionName" : "1.0.1",
-    "versionCode" : "100",
+    "versionName" : "1.11.20",
+    "versionCode" : 100110120,
     "transformPx" : false,
     /* 5+App特有相关 */
     "app-plus" : {
@@ -44,7 +44,9 @@
                 "autoSdkPermissions" : false
             },
             /* ios打包配置 */
-            "ios" : {},
+            "ios" : {
+                "dSYMs" : false
+            },
             /* SDK配置 */
             "sdkConfigs" : {
                 "ad" : {}
@@ -107,5 +109,8 @@
     },
     "uniStatistics" : {
         "enable" : false
+    },
+    "h5" : {
+        "title" : "普银花花"
     }
 }
